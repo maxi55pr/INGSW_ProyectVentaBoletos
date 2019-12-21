@@ -84,6 +84,11 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        table_rutas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_rutasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(table_rutas);
 
         btn_r_salir.setText("Salir");
@@ -225,14 +230,14 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
             }
         });
 
-        btn_r_eliminar.setText("Editar");
+        btn_r_eliminar.setText("Elminar");
         btn_r_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_r_eliminarActionPerformed(evt);
             }
         });
 
-        btn_r_actializar.setText("Eliminar");
+        btn_r_actializar.setText("Actualizar");
         btn_r_actializar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_r_actializarActionPerformed(evt);
@@ -293,7 +298,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_r_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_guardarActionPerformed
-        // TODO add your handling code here:
+        // Guarda todos los datos en la tabla:
 
         mdlTablaR = new DefaultTableModel();
 
@@ -343,6 +348,10 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         // Carga los datos del archivo de texto con la base de datos de pasajeros:
         table_rutas.setModel(metodos.listaRutas());
     }//GEN-LAST:event_btn_r_actializarActionPerformed
+
+    private void table_rutasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_rutasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_table_rutasMouseClicked
 
     /**
      * @param args the command line arguments

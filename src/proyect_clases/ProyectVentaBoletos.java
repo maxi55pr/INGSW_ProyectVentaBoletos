@@ -10,5 +10,6 @@ public class ProyectVentaBoletos {
     
     GUIi_AccesoSistema f = new GUIi_AccesoSistema();
     f.setVisible (true); 
+    
        }
 }
