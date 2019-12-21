@@ -1,8 +1,11 @@
 package proyect_gui;
 
+import java.io.IOException;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import proyect_clases.Rutas;
 import proyect_metodos.MetodoRutas;
 
@@ -13,7 +16,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
     DefaultTableModel mdlTablaR;
     Vector vCabeceras = new Vector();
     
-    public GUI_RegistroRutas() {
+    public GUI_RegistroRutas() throws IOException {
         initComponents();
         
         vCabeceras.addElement("ID");
@@ -67,17 +70,17 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
 
         table_rutas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "NOMBRE", "APELLIDO", "TIPO", "CEDULA", "EDAD"
+                "ID", "RUTA", "COSTO RUTA", "ORIGEN", "DESTINO", "FECHA", "HORA"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -319,7 +322,11 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         ruta.setFecha_Ruta(fecha_r);
         metodos.guardarRutas(ruta);
         metodos.guardarArchivoRutas(ruta);
-        table_rutas.setModel(metodos.listaRutas());
+        try {
+            table_rutas.setModel(metodos.listaRutas());
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_r_guardarActionPerformed
 
     private void btn_r_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_salirActionPerformed
@@ -345,12 +352,29 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_r_eliminarActionPerformed
 
     private void btn_r_actializarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_actializarActionPerformed
-        // Carga los datos del archivo de texto con la base de datos de pasajeros:
-        table_rutas.setModel(metodos.listaRutas());
+        try {
+            // Carga los datos del archivo de texto con la base de datos de pasajeros:
+            table_rutas.setModel(metodos.listaRutas());
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_r_actializarActionPerformed
 
     private void table_rutasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_rutasMouseClicked
         // TODO add your handling code here:
+        
+        int fila = table_rutas.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
+
+        txt_r_id.setText(table_rutas.getValueAt(fila, 0).toString());
+        txt_r_nombre.setText(table_rutas.getValueAt(fila, 1).toString());
+        txt_r_origen.setText(table_rutas.getValueAt(fila, 2).toString());
+        txt_r_destino.setText(table_rutas.getValueAt(fila, 3).toString());
+        txt_r_costo.setText(table_rutas.getValueAt(fila, 4).toString());
+        txt_r_hora.setText(table_rutas.getValueAt(fila, 5).toString());
+        txt_r_fecha.setText(table_rutas.getValueAt(fila, 6).toString());
+   
+      
+        
     }//GEN-LAST:event_table_rutasMouseClicked
 
     /**
@@ -386,7 +410,11 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI_RegistroRutas().setVisible(true);
+                try {
+                    new GUI_RegistroRutas().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

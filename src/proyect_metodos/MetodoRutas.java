@@ -65,7 +65,6 @@ public class MetodoRutas {
                     x.addElement(dato.nextToken());
                 }
                 mdlTablaR.addRow(x);
-                JOptionPane.showMessageDialog(null, "Ruta añadida exitosamente");
             }
         }catch (IOException e){
         JOptionPane.showMessageDialog(null, "Estimado usuario: Al momento, no se registran rutas existentes.");

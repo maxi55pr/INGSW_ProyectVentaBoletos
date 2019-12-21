@@ -1,5 +1,9 @@
 package proyect_gui;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class GUI_Principal extends javax.swing.JFrame {
 
     public GUI_Principal() {
@@ -198,7 +202,12 @@ public class GUI_Principal extends javax.swing.JFrame {
 
     private void registroRutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroRutasActionPerformed
         // TODO add your handling code here:
-        GUI_RegistroRutas c = new GUI_RegistroRutas();
+        GUI_RegistroRutas c = null;
+        try {
+            c = new GUI_RegistroRutas();
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         c.setVisible(true);
         dispose();
     }//GEN-LAST:event_registroRutasActionPerformed

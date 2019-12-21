@@ -87,6 +87,11 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        table_pasajero.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_pasajeroMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(table_pasajero);
 
         btn_p_guardar.setText("Guardar");
@@ -287,6 +292,19 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         // Carga los datos del archivo de texto con la base de datos de pasajeros:
         table_pasajero.setModel(metodos.listaPasajero());
     }//GEN-LAST:event_btn_p_actializarActionPerformed
+
+    private void table_pasajeroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_pasajeroMouseClicked
+        // TODO add your handling code here:
+        
+        int fila = table_pasajero.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
+        
+        txt_p_nombre.setText(table_pasajero.getValueAt(fila, 0).toString());
+        txt_p_apellido.setText(table_pasajero.getValueAt(fila, 1).toString());
+        txt_p_edad.setText(table_pasajero.getValueAt(fila, 2).toString());
+        txt_p_cedula.setText(table_pasajero.getValueAt(fila, 3).toString());
+        txt_p_pasajero.setText(table_pasajero.getValueAt(fila, 4).toString());
+
+    }//GEN-LAST:event_table_pasajeroMouseClicked
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_p_actializar;

@@ -84,6 +84,11 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        table_usuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_usuarioMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(table_usuario);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -329,6 +334,20 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btn_u_editarActionPerformed
+
+    private void table_usuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_usuarioMouseClicked
+        // TODO add your handling code here:
+        
+         
+        int fila = table_usuario.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
+        
+        txt_u_id.setText(table_usuario.getValueAt(fila, 0).toString());
+        txt_u_nombre.setText(table_usuario.getValueAt(fila, 1).toString());
+        txt_u_apellido.setText(table_usuario.getValueAt(fila, 2).toString());
+        txt_u_user.setText(table_usuario.getValueAt(fila, 3).toString());
+        txt_u_password.setText(table_usuario.getValueAt(fila, 4).toString());
+    
+    }//GEN-LAST:event_table_usuarioMouseClicked
 
     /**
      * @param args the command line arguments
