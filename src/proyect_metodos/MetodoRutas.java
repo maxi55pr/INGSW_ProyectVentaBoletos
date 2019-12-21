@@ -2,6 +2,7 @@ package proyect_metodos;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,25 +23,27 @@ public class MetodoRutas {
         vPrincipal.addElement(unaRuta);
     }
     //guardar archivo txt
-    public void guardarArchivoRutas(Rutas rutas){
+    public void guardarArchivoRutas(Rutas ruta){
         try {
-            FileWriter fw = new FileWriter ("C:\\Rutas.txt", true);
+            FileWriter fw = new FileWriter (".\\Rutas.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            pw.print(rutas.getId_Ruta());
-            pw.print("|"+rutas.getNombre_Ruta());
-            pw.print("|"+rutas.getOrigen_Ruta());
-            pw.print("|"+rutas.getDestino_Ruta());
-            pw.print("|"+rutas.getCosto_Ruta());
-            pw.print("|"+rutas.getHora_Ruta());
-            pw.println("|"+rutas.getFecha_Ruta());
+            pw.print(ruta.getId_Ruta());
+            pw.print("|"+ruta.getNombre_Ruta());
+            pw.print("|"+ruta.getOrigen_Ruta());
+            pw.print("|"+ruta.getDestino_Ruta());
+            pw.print("|"+ruta.getCosto_Ruta());
+            pw.print("|"+ruta.getHora_Ruta());
+            pw.println("|"+ruta.getFecha_Ruta());
             pw.close();
         } catch (IOException e){
             JOptionPane.showMessageDialog(null, e);
         }
     }
     //mostrar los datos en el jtable
-    public DefaultTableModel listaRutas(){
+    
+    
+    public DefaultTableModel listaRutas() throws FileNotFoundException, IOException{   
         Vector cabeceras = new Vector();
         cabeceras.addElement("ID");
         cabeceras.addElement("RUTA");
@@ -52,7 +55,7 @@ public class MetodoRutas {
         //Crear vector con nombre apellido pasajero cedula edad
         DefaultTableModel mdlTablaR = new DefaultTableModel(cabeceras,0);
         try {
-            FileReader fr = new FileReader("C:\\Rutas.txt");
+            FileReader fr = new FileReader(".\\Rutas.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
@@ -62,16 +65,18 @@ public class MetodoRutas {
                     x.addElement(dato.nextToken());
                 }
                 mdlTablaR.addRow(x);
+                JOptionPane.showMessageDialog(null, "Ruta añadida exitosamente");
             }
-        }catch (Exception e){
-        JOptionPane.showMessageDialog(null, e);
+        }catch (IOException e){
+        JOptionPane.showMessageDialog(null, "Estimado usuario: Al momento, no se registran rutas existentes.");
         }
         return mdlTablaR;
+       
     }
    
     public Vector BuscarRuta(String unaRuta){
         try {
-            FileReader fr = new FileReader("C:\\Rutas.txt");
+            FileReader fr = new FileReader(".\\Rutas.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
