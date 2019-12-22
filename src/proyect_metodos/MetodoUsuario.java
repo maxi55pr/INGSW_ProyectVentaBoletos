@@ -3,6 +3,7 @@ package proyect_metodos;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,9 +12,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Usuario;
+import proyect_gui.GUI_RegistroUsuarios;
 
 public class MetodoUsuario {
     
@@ -22,9 +26,8 @@ public class MetodoUsuario {
     
     Vector vUsuario = new Vector();
     Vector v1 = new Vector();
-    DefaultTableModel TablaU;
-    
-    
+   
+
 
     public void guardarUsuario(Usuario unUsuario) {
         vUsuario.addElement(unUsuario);
@@ -46,6 +49,7 @@ public class MetodoUsuario {
         }
     }
     
+    
     public DefaultTableModel listaUsuario(){
         Vector cabeceras = new Vector();
         
@@ -59,7 +63,7 @@ public class MetodoUsuario {
         //Crear vector con nombre apellido pasajero cedula edad
         DefaultTableModel mdlTablaU = new DefaultTableModel(cabeceras,0);
         try {
-            FileReader fr = new FileReader(".\\Usuario.txt");
+            FileReader fr = new FileReader(".\\usuario.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
@@ -78,7 +82,7 @@ public class MetodoUsuario {
    
     public Vector BuscarUsuario(String unIdUser){
         try {
-            FileReader fr = new FileReader(".\\Usuario.txt");
+            FileReader fr = new FileReader(".\\usuario.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
@@ -117,7 +121,7 @@ public class MetodoUsuario {
         ArrayList<String> tempArray = new ArrayList<>();
         
         try {
-            try (FileReader fr = new FileReader(ruta+"//Usuario.txt"))
+            try (FileReader fr = new FileReader(ruta+"//usuario.txt"))
             {
                 Scanner reader = new Scanner(fr);
                 String linea;
@@ -144,23 +148,19 @@ public class MetodoUsuario {
                 }
             }
                 fr.close();
-    
+  
             } catch (Exception e) {
             }
         } catch (Exception e) {
         }
         try {
-            try(PrintWriter pr = new PrintWriter(ruta+"//Usuario.txt"))
+            try(PrintWriter pr = new PrintWriter(ruta+"//usuario.txt"))
                 
             {
                 for(String str:tempArray) {
                     pr.println(str);
                 }
                 pr.close();
-                
-                // llenar tabla
-                listaUsuario();
-                
             } catch (Exception e) {
             }
         } catch (Exception e) {

@@ -1,8 +1,12 @@
 package proyect_gui;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,8 +17,6 @@ import javax.swing.table.DefaultTableModel;
 import proyect_clases.Usuario;
 import proyect_metodos.MetodoUsuario;
 import proyect_metodos.MetodoBoleto;
-
-
 
 public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     
@@ -30,18 +32,19 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     Vector v = new Vector();
     
     public GUI_RegistroUsuarios() {
-        initComponents();
         
+        initComponents();
         vCabeceras.addElement("ID");
         vCabeceras.addElement("NOMBRE");
         vCabeceras.addElement("APELLIDO");
-        vCabeceras.addElement("USER");
-        vCabeceras.addElement("PASSWORD");
+        vCabeceras.addElement("USERNAME");
+        vCabeceras.addElement("CLAVE");
         mdlTablaU = new DefaultTableModel(vCabeceras,0);
         table_usuario.setModel(mdlTablaU);
         table_usuario.setModel(metodos.listaUsuario());
 
     }
+    
 
       @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -384,6 +387,18 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         
         //Pasamos al metodo los valores de las variables para procesar en el metodo
         metodos.EliminarUsuario(IdUsuario, Nombre, Apellido, Usuario, Password);
+        
+        // limipiamos los text
+        
+        txt_u_id.setText("");
+        txt_u_nombre.setText("");
+        txt_u_apellido.setText("");
+        txt_u_password.setText("");
+        txt_u_user.setText("");
+
+        // volvemos a leer los datos de la tabla
+        table_usuario.setModel(metodos.listaUsuario());
+         
         }
     }//GEN-LAST:event_btn_u_eliminarActionPerformed
 
