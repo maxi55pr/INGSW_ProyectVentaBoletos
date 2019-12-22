@@ -20,7 +20,7 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
     DefaultTableModel mdlTablaP;
     Vector vCabeceras = new Vector();
     
-    public GUI_RegistroPasajeros() {
+    public GUI_RegistroPasajeros() throws IOException {
         initComponents();
         
         vCabeceras.addElement("NOMBRE");
@@ -241,12 +241,45 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         //</editor-fold>
      
         java.awt.EventQueue.invokeLater(() -> {
-            new GUI_RegistroPasajeros().setVisible(true);
+            try {
+                new GUI_RegistroPasajeros().setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
     
     private void btn_p_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_guardarActionPerformed
         // TODO add your handling code here:
+
+            // Primero validamos cada una de la entradas
+
+                        if (txt_p_nombre.getText().length() == 0) {
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Nombre");
+                        txt_p_nombre.requestFocus();
+                        return;
+                    }
+                       if (txt_p_apellido.getText().length() == 0) {
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Apellido");
+                        txt_p_apellido.requestFocus();
+                        return;
+                    }
+                       if (txt_p_edad.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una Edad");
+                        txt_p_edad.requestFocus();
+                        return;
+                    } 
+                        if (txt_p_cedula.getText().length() == 0) {
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un número de Cédula");
+                        txt_p_cedula.requestFocus();
+                        return;
+                    }
+                         if (txt_p_pasajero.getText().length() == 0) {
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar tipo de Pasajero");
+                        txt_p_pasajero.requestFocus();
+                        return;
+                    } 
         
         mdlTablaP = new DefaultTableModel();
       
@@ -265,7 +298,11 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         pasajero.setEdad_pasajero(edad_p);
         metodos.guardarPasajero(pasajero);
         metodos.guardarArchivoPasajero(pasajero);
-        table_pasajero.setModel(metodos.listaPasajero());
+        try {
+            table_pasajero.setModel(metodos.listaPasajero());
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_p_guardarActionPerformed
 
     private void btn_p_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_salirActionPerformed
@@ -289,8 +326,12 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_p_nuevoActionPerformed
 
     private void btn_p_actializarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_actializarActionPerformed
-        // Carga los datos del archivo de texto con la base de datos de pasajeros:
-        table_pasajero.setModel(metodos.listaPasajero());
+        try {
+            // Carga los datos del archivo de texto con la base de datos de pasajeros:
+            table_pasajero.setModel(metodos.listaPasajero());
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_p_actializarActionPerformed
 
     private void table_pasajeroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_pasajeroMouseClicked

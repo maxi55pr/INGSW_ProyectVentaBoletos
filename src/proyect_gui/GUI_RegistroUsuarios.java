@@ -288,7 +288,43 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_u_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_guardarActionPerformed
-        // TODO add your handling code here:
+
+                  // Primero validamos cada una de la sentradas
+
+                    if (txt_u_id.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un número de ID");
+                        txt_u_id.requestFocus();
+                        return;
+                    }
+                    
+                      if (txt_u_nombre.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un nombre");
+                        txt_u_nombre.requestFocus();
+                        return;
+                    }
+                      
+                        if (txt_u_apellido.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Apellido");
+                        txt_u_apellido.requestFocus();
+                        return;
+                    }
+                        
+                          if (txt_u_user.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Username");
+                        txt_u_user.requestFocus();
+                        return;
+                    }
+                          
+                            if (txt_u_password.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Password");
+                        txt_u_password.requestFocus();
+                        return;
+                    }
 
         mdlTablaU = new DefaultTableModel();
         

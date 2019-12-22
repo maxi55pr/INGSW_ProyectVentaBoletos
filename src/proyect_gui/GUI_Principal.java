@@ -214,7 +214,12 @@ public class GUI_Principal extends javax.swing.JFrame {
 
     private void registroPasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroPasajeroActionPerformed
         // TODO add your handling code here:
-        GUI_RegistroPasajeros b = new GUI_RegistroPasajeros();
+        GUI_RegistroPasajeros b = null;
+        try {
+            b = new GUI_RegistroPasajeros();
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         b.setVisible(true);
         dispose();
     }//GEN-LAST:event_registroPasajeroActionPerformed

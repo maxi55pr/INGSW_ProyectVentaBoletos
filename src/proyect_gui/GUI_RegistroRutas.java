@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import proyect_clases.Rutas;
 import proyect_metodos.MetodoRutas;
 
@@ -301,6 +302,59 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_r_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_guardarActionPerformed
+        
+                // Primero validamos cada una de la entradas
+
+                        if (txt_r_id.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un número de ID");
+                        txt_r_id.requestFocus();
+                        return;
+                    }
+                    
+                       if (txt_r_nombre.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un nombre");
+                        txt_r_nombre.requestFocus();
+                        return;
+                    }
+                      
+                        if (txt_r_costo.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Costo");
+                        txt_r_costo.requestFocus();
+                        return;
+                    }
+                        
+                         if (txt_r_origen.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Origen");
+                        txt_r_origen.requestFocus();
+                        return;
+                    }
+                          
+                         if (txt_r_destino.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Destino");
+                        txt_r_destino.requestFocus();
+                        return;
+                    }
+                            
+                        if (txt_r_fecha.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una Fecha");
+                        txt_r_fecha.requestFocus();
+                        return;
+                    }
+                           
+                        if (txt_r_hora.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una hora");
+                        txt_r_hora.requestFocus();
+                        return;
+                    }
+                     
+
         // Guarda todos los datos en la tabla:
 
         mdlTablaR = new DefaultTableModel();
