@@ -1,7 +1,11 @@
 package proyect_gui;
 
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -10,8 +14,13 @@ import proyect_clases.Usuario;
 import proyect_metodos.MetodoUsuario;
 import proyect_metodos.MetodoBoleto;
 
-public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
+
+public class GUI_RegistroUsuarios extends javax.swing.JFrame {
+    
+   // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
+    private final String ruta = System.getProperties().getProperty("user.dir");
+    
     Usuario usuario = new Usuario();
     MetodoUsuario metodos = new MetodoUsuario ();
     MetodoUsuario buscar = new MetodoUsuario ();
@@ -73,11 +82,11 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "NOMBRE", "APELLIDO", "TIPO", "CEDULA", "EDAD"
+                "ID", "NOMBRE", "APELLIDO", "USERNAME", "CLAVE"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -351,7 +360,9 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_u_salirActionPerformed
 
     private void btn_u_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_nuevoActionPerformed
+       
         // Limpia los Jtext:
+        
         txt_u_id.setText("");
         txt_u_nombre.setText("");
         txt_u_apellido.setText("");
@@ -360,9 +371,17 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_u_nuevoActionPerformed
 
     private void btn_u_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_eliminarActionPerformed
-       
-
+   
+        String IdUsuario = txt_u_id.getText();
+        String Nombre = txt_u_nombre.getText();
+        String Apellido = txt_u_apellido.getText();
+        String Usuario = txt_u_user.getText();
+        int Password = Integer.parseInt(txt_u_password.getText());
         
+        //Pasamos al metodo los valores de las variables para procesar en el metodo
+        
+        metodos.EliminarUsuario(IdUsuario, Nombre, Apellido, Usuario, Password);
+ 
     }//GEN-LAST:event_btn_u_eliminarActionPerformed
 
     private void btn_u_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_editarActionPerformed

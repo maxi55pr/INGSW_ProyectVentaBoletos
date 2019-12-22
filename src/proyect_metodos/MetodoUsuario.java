@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import javax.swing.JOptionPane;
@@ -14,6 +16,9 @@ import javax.swing.table.DefaultTableModel;
 import proyect_clases.Usuario;
 
 public class MetodoUsuario {
+    
+    // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
+    private final String ruta = System.getProperties().getProperty("user.dir");
     
     Vector vUsuario = new Vector();
     Vector v1 = new Vector();
@@ -60,7 +65,7 @@ public class MetodoUsuario {
                 mdlTablaU.addRow(x);
             }
         }catch (Exception e){
-        JOptionPane.showMessageDialog(null, e);
+        JOptionPane.showMessageDialog(null, "Estimado usuario: Al momento, no se registran Usuarios existentes.");
         }
         return mdlTablaU;
     }
@@ -89,15 +94,65 @@ public class MetodoUsuario {
         return v1;
     }
     
-      public void EditarRutas() {
+      public void EditarUsuario() {
            
         //FALTA
     }
     
     
-    public void EliminarRutas() {
+    public void EliminarUsuario(String Id, String Nombre, String Apellido, String Usuario, int Password) {
            
-        //FALTA
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el USUARIO del sistema?");
+        if(opcion == JOptionPane.YES_OPTION){        
+             
+        
+        ArrayList<String> tempArray = new ArrayList<>();
+        
+        try {
+            try (FileReader fr = new FileReader(ruta+"//Usuario.txt"))
+            {
+                Scanner reader = new Scanner(fr);
+                String linea;
+                String [] lineaArray;
+        // Si al recorrer el arreglo, encuentra el ID seleccionado al hacer click
+        // se borra toda la linea que contiene ese ID único  
+        
+                while((linea=reader.nextLine())!=null){
+            
+                lineaArray = linea.split(",");
+                if(lineaArray[1].equals(Id)){
+                
+                    tempArray.remove(
+                   
+                            Id + ", " +
+                            Nombre + ", " +
+                            Apellido + ", " +
+                            Usuario + ", " +
+                            Password);
+                }else{
+                    tempArray.add(linea);
+                }
+            }
+                fr.close();
+              
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+        }
+        try {
+            try(PrintWriter pr = new PrintWriter(ruta+"//Usuario.txt"))
+                
+            {
+                for(String str:tempArray) {
+                    pr.println(str);
+                }
+                pr.close();
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+        }
+        }else if(opcion == JOptionPane.NO_OPTION) {
+       }
     }
   
 }
