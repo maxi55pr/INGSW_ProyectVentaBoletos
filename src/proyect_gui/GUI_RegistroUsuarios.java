@@ -76,23 +76,15 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
         table_usuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "ID", "NOMBRE", "APELLIDO", "USERNAME", "CLAVE"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         table_usuario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 table_usuarioMouseClicked(evt);
@@ -350,6 +342,14 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         metodos.guardarUsuario(usuario);
         metodos.guardarArchivoUsuario(usuario);
         table_usuario.setModel(metodos.listaUsuario());
+        
+         // Limpia los Jtext:
+        
+        txt_u_id.setText("");
+        txt_u_nombre.setText("");
+        txt_u_apellido.setText("");
+        txt_u_password.setText("");
+        txt_u_user.setText("");
     }//GEN-LAST:event_btn_u_guardarActionPerformed
 
     private void btn_u_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_salirActionPerformed
@@ -372,16 +372,19 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
     private void btn_u_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_eliminarActionPerformed
    
+        //Confirmamos si deseamos eliminar o no, por seguridad
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el USUARIO del sistema?");
+        if(opcion == JOptionPane.YES_OPTION){  
+        
         String IdUsuario = txt_u_id.getText();
         String Nombre = txt_u_nombre.getText();
         String Apellido = txt_u_apellido.getText();
         String Usuario = txt_u_user.getText();
-        int Password = Integer.parseInt(txt_u_password.getText());
+        String Password = txt_u_password.getText();
         
         //Pasamos al metodo los valores de las variables para procesar en el metodo
-        
         metodos.EliminarUsuario(IdUsuario, Nombre, Apellido, Usuario, Password);
- 
+        }
     }//GEN-LAST:event_btn_u_eliminarActionPerformed
 
     private void btn_u_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_editarActionPerformed

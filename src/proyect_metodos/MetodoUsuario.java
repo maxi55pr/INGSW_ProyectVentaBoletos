@@ -22,6 +22,9 @@ public class MetodoUsuario {
     
     Vector vUsuario = new Vector();
     Vector v1 = new Vector();
+    DefaultTableModel TablaU;
+    
+    
 
     public void guardarUsuario(Usuario unUsuario) {
         vUsuario.addElement(unUsuario);
@@ -33,10 +36,10 @@ public class MetodoUsuario {
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             pw.print(usuario.getId_usuario());
-            pw.print("|"+usuario.getNombre_usuario());
-            pw.print("|"+usuario.getApellido_usuario());
-            pw.print("|"+usuario.getUsarname());
-            pw.println("|"+usuario.getPassword());
+            pw.print(","+usuario.getNombre_usuario());
+            pw.print(","+usuario.getApellido_usuario());
+            pw.print(","+usuario.getUsarname());
+            pw.println(","+usuario.getPassword());
             pw.close();
         } catch (IOException e){
             JOptionPane.showMessageDialog(null, e);
@@ -45,11 +48,14 @@ public class MetodoUsuario {
     
     public DefaultTableModel listaUsuario(){
         Vector cabeceras = new Vector();
+        
+        //nombres de la tabla
         cabeceras.addElement("ID");
         cabeceras.addElement("NOMBRE");
         cabeceras.addElement("APELLIDO");
-        cabeceras.addElement("USER");
-        cabeceras.addElement("PASSWORD");
+        cabeceras.addElement("USERNAME");
+        cabeceras.addElement("CLAVE");
+        
         //Crear vector con nombre apellido pasajero cedula edad
         DefaultTableModel mdlTablaU = new DefaultTableModel(cabeceras,0);
         try {
@@ -57,7 +63,7 @@ public class MetodoUsuario {
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
-                StringTokenizer dato = new StringTokenizer (d,"|");
+                StringTokenizer dato = new StringTokenizer (d,",");
                 Vector x = new Vector();
                 while (dato.hasMoreTokens()){
                     x.addElement(dato.nextToken());
@@ -76,7 +82,7 @@ public class MetodoUsuario {
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
-                StringTokenizer dato = new StringTokenizer (d,"|");
+                StringTokenizer dato = new StringTokenizer (d,",");
                 Vector x = new Vector();
                 while (dato.hasMoreTokens()){
                     x.addElement(dato.nextToken());
@@ -100,11 +106,13 @@ public class MetodoUsuario {
     }
     
     
-    public void EliminarUsuario(String Id, String Nombre, String Apellido, String Usuario, int Password) {
-           
-        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el USUARIO del sistema?");
-        if(opcion == JOptionPane.YES_OPTION){        
-             
+    public void EliminarUsuario(String Id, String Nombre, String Apellido, String Usuario, String Password) {
+
+        String id = Id;
+        String nombre = Nombre;
+        String apellido = Apellido;
+        String usuario = Usuario;
+        String password = Password;
         
         ArrayList<String> tempArray = new ArrayList<>();
         
@@ -120,21 +128,23 @@ public class MetodoUsuario {
                 while((linea=reader.nextLine())!=null){
             
                 lineaArray = linea.split(",");
-                if(lineaArray[1].equals(Id)){
+                if(lineaArray[0].equals(id)){
                 
+                // Se toma el ID, que siempre estarán el la posición [0] hacer la modificacion dado
+                // y el sistema sólo borra la linea seleccionada.
                     tempArray.remove(
                    
-                            Id + ", " +
-                            Nombre + ", " +
-                            Apellido + ", " +
-                            Usuario + ", " +
-                            Password);
+                            id + "," +
+                            nombre + "," +
+                            apellido + "," +
+                            usuario + "," +
+                            password);
                 }else{
                     tempArray.add(linea);
                 }
             }
                 fr.close();
-              
+    
             } catch (Exception e) {
             }
         } catch (Exception e) {
@@ -147,14 +157,17 @@ public class MetodoUsuario {
                     pr.println(str);
                 }
                 pr.close();
+                
+                // llenar tabla
+                listaUsuario();
+                
             } catch (Exception e) {
             }
         } catch (Exception e) {
         }
-        }else if(opcion == JOptionPane.NO_OPTION) {
-       }
+        }
     }
   
-}
+
 
 
