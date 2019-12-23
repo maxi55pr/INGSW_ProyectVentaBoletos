@@ -1,2 +1,1 @@
-Maximiliano|Frias|Ejecutivo|151450657|40
-mm|mm|Premier|121212|10
+Maximiliano,Frias,Vip,44444,40

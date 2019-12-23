@@ -70,23 +70,15 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
 
         table_pasajero.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "NOMBRE", "APELLIDO", "TIPO", "CEDULA", "EDAD"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         table_pasajero.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 table_pasajeroMouseClicked(evt);
@@ -115,7 +107,7 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
             }
         });
 
-        btn_p_eliminar.setText("Editar");
+        btn_p_eliminar.setText("Eliminar");
         btn_p_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_p_eliminarActionPerformed(evt);
@@ -298,6 +290,13 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         pasajero.setEdad_pasajero(edad_p);
         metodos.guardarPasajero(pasajero);
         metodos.guardarArchivoPasajero(pasajero);
+        
+        txt_p_nombre.setText("");
+        txt_p_apellido.setText("");
+        txt_p_pasajero.setText("");
+        txt_p_cedula.setText("");
+        txt_p_edad.setText("");
+        
         try {
             table_pasajero.setModel(metodos.listaPasajero());
         } catch (IOException ex) {
@@ -314,9 +313,39 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
 
     private void btn_p_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_eliminarActionPerformed
               // Boton eliminar pasajeros en tabla:
+              
+       //Confirmamos si deseamos eliminar o no, por seguridad
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el PASAJERO del sistema?");
+        if(opcion == JOptionPane.YES_OPTION){  
+        
+        String Nombre = txt_p_nombre.getText();
+        String Apellido = txt_p_apellido.getText();
+        String Edad = txt_p_edad.getText();
+        String Cedula = txt_p_cedula.getText();
+        String tipoPasajero = txt_p_pasajero.getText();
+
+        //Pasamos al metodo los valores de las variables para procesar en el metodo
+        metodos.EliminarPasajero(Nombre, Apellido, Edad, Cedula, tipoPasajero);
+        
+        // limipiamos los text
+        
+       txt_p_nombre.setText("");
+        txt_p_apellido.setText("");
+        txt_p_pasajero.setText("");
+        txt_p_cedula.setText("");
+        txt_p_edad.setText("");
+        
+            try {
+                // volvemos a leer los datos de la tabla
+                table_pasajero.setModel(metodos.listaPasajero());
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }   
     }//GEN-LAST:event_btn_p_eliminarActionPerformed
    
     private void btn_p_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_nuevoActionPerformed
+        
         // Limpia los Jtext:
         txt_p_nombre.setText("");
         txt_p_apellido.setText("");
