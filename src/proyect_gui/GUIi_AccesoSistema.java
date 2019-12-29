@@ -1,12 +1,22 @@
 package proyect_gui;
 
 import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class GUIi_AccesoSistema extends javax.swing.JFrame {
     
-    public static String user = "admin";
-    public static String pass = "1234";
+  //   public static String user = "admin";
+  //    public static String pass = "1234";
+    
+    // Variable de control para controlar el acceso al sistema
+    boolean control = false;
     
     public GUIi_AccesoSistema() {
         initComponents();
@@ -109,7 +119,7 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
 
     private void cj_passKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cj_passKeyTyped
         // TODO add your handling code here:
-
+/*
         int c = evt.getKeyChar();
         if( c==10 )
         {
@@ -139,6 +149,8 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Contraseña Incorrecta", "Contraseña Mal Escrita", JOptionPane.ERROR_MESSAGE);
             }
         }
+        
+        */
     }//GEN-LAST:event_cj_passKeyTyped
 
     private void cj_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cj_usuarioActionPerformed
@@ -155,7 +167,64 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_cj_usuarioKeyTyped
 
     private void btn_entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entrarActionPerformed
-        // TODO add your handling code here:
+        
+         //Comprobamos si las credenciales de usuario y password estan correctas contral el archivo usuario.txt
+        
+        String Usuario = cj_usuario.getText().trim();
+        String Password = new String(cj_pass.getPassword());
+
+           try {
+            
+            FileReader fr = new FileReader(".\\usuario.txt");
+            BufferedReader br = new BufferedReader(fr);
+
+           Object [] tablas = br.lines().toArray();
+           
+           // Recorremos mediante un for el archivo usuario.txt para ver cada datos y validar
+               for (int i = 0; i < tablas.length; i++) 
+               
+              {
+                   String line = tablas[i].toString().trim();
+                   String [] datosFilas = line.split(",");
+               
+            // En la posicion 3 del array esta el usuario y en la pos 4 el password
+                   if(datosFilas[3].equals(Usuario) && datosFilas[4].equals(Password) )
+              {
+            // Si enncuetra un Usuario existente y coinciden las credenciales, da acceso a las ventas.
+                   GUI_Principal formulario = new GUI_Principal();
+                   formulario.setVisible(true);
+            // cambiamos el valor del control para indicar que el usuario fue encontrado
+                   control = true;
+                   this.dispose();
+               }
+              } // fin bucle for
+               
+            // Si control sigue en estado FALSE, termina el bucle e indica que el usuario no se encuentra
+                if(control == false){
+                          JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecta. Intente nuevamente.");
+                          
+                          cj_usuario.setText("");
+                          cj_pass.setText("");
+               } 
+               
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+          } catch (FileNotFoundException e) {
+              
+          } catch (IOException ex) {
+            Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+      /**  
         String usuario = cj_usuario.getText().trim();
         String contraseña = new String(cj_pass.getPassword());
 
@@ -181,6 +250,8 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Contraseña Incorrecta", "Contraseña Mal Escrita", JOptionPane.ERROR_MESSAGE);
         }
+        */
+
     }//GEN-LAST:event_btn_entrarActionPerformed
 
     /**

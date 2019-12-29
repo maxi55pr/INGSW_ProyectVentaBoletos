@@ -364,7 +364,20 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
     private void btn_u_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_nuevoActionPerformed
        
-        // Limpia los Jtext:
+        
+       // Activamos el boton de guardar
+        
+        btn_u_guardar.setEnabled(true);
+        
+        // Desactivamos el boton Editar mientras estamos en modo NUEVO
+        
+        btn_u_editar.setEnabled(false);
+        
+         // Desactivamos el boton Eliminar mientras estamos en modo NUEVO
+        
+        btn_u_eliminar.setEnabled(false);
+
+       // Limpia los Jtext:
         
         txt_u_id.setText("");
         txt_u_nombre.setText("");
@@ -404,16 +417,91 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
     private void btn_u_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_editarActionPerformed
        
+         // Primero validamos cada una de la sentradas
+
+                    if (txt_u_id.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un número de ID");
+                        txt_u_id.requestFocus();
+                        return;
+                    }
+                    
+                      if (txt_u_nombre.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un nombre");
+                        txt_u_nombre.requestFocus();
+                        return;
+                    }
+                      
+                        if (txt_u_apellido.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Apellido");
+                        txt_u_apellido.requestFocus();
+                        return;
+                    }
+                        
+                          if (txt_u_user.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Username");
+                        txt_u_user.requestFocus();
+                        return;
+                    }
+                          
+                            if (txt_u_password.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un Password");
+                        txt_u_password.requestFocus();
+                        return;
+                    }
+
+        mdlTablaU = new DefaultTableModel();
+        
+        int id_u = Integer.parseInt(txt_u_id.getText());
+        String nombre_u = txt_u_nombre.getText();
+        String apellido_u = txt_u_apellido.getText();
+        String user_u = txt_u_user.getText();
+        String password_u = txt_u_password.getText();
+        usuario.setId_usuario(id_u);
+        usuario.setNombre_usuario(nombre_u);
+        usuario.setApellido_usuario(apellido_u);
+        usuario.setUsarname(user_u);
+        usuario.setPassword(password_u);
+        metodos.guardarUsuario(usuario);
+        metodos.guardarArchivoUsuario(usuario);
+        table_usuario.setModel(metodos.listaUsuario());
+        
+         // Limpia los Jtext:
+        
+        txt_u_id.setText("");
+        txt_u_nombre.setText("");
+        txt_u_apellido.setText("");
+        txt_u_password.setText("");
+        txt_u_user.setText("");
         
         
     }//GEN-LAST:event_btn_u_editarActionPerformed
 
     private void table_usuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_usuarioMouseClicked
-        // TODO add your handling code here:
         
+        // Desactivamos el boton de guardar para habilitar solo la opcion EDITAR
+        
+        btn_u_guardar.setEnabled(false);
+        
+        // Activamos el boton de eliminar 
+        
+        btn_u_eliminar.setEnabled(true);
+        
+        // Activamos el boton de guardar cambios 
+        
+        btn_u_editar.setEnabled(true);
+        
+        // Cambiamos el valor del boton Editar a texto "Guardar Cambios" para aceptar todo cambio en la tabla
+        
+        btn_u_editar.setText("Guardar cambios");
          
-        int fila = table_usuario.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
+        // guardamos en fila el valor que hacemos click en la fila seleccionada
         
+        int fila = table_usuario.rowAtPoint(evt.getPoint()); 
         txt_u_id.setText(table_usuario.getValueAt(fila, 0).toString());
         txt_u_nombre.setText(table_usuario.getValueAt(fila, 1).toString());
         txt_u_apellido.setText(table_usuario.getValueAt(fila, 2).toString());
