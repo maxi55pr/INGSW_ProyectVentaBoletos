@@ -17,11 +17,12 @@ import proyect_clases.Boleto;
 import proyect_clases.Rutas;
 
 public class MetodoRutas {
+ 
+    // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
+    private final String rutaArchivo = System.getProperties().getProperty("user.dir");
     
     Vector vPrincipal = new Vector();
-    // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
-    private final String ruta = System.getProperties().getProperty("user.dir");
-    
+
     //guarda datos en el vector
     public void guardarRutas(Rutas unaRuta) {
         vPrincipal.addElement(unaRuta);
@@ -107,20 +108,20 @@ public class MetodoRutas {
     }
     
     
-    public void EliminarRuta(String Id, String Costo,String Ruta, String Origen, String Destino, String Fecha,String Hora) {
+    public void EliminarRuta(String Id, String Ruta,String Origen, String Destino, String Costo, String Hora,String Fecha) {
            
         String id = Id;
-        String costo = Costo;
         String ruta = Ruta;
         String origen = Origen;
         String destino = Destino;
-         String fecha = Fecha;
+        String costo = Costo;
         String hora = Hora;
+        String fecha = Fecha;
 
         ArrayList<String> tempArray = new ArrayList<>();
         
         try {
-            try (FileReader fr = new FileReader(ruta+"//ruta.txt"))
+            try (FileReader fr = new FileReader(rutaArchivo+"//ruta.txt"))
             {
                 Scanner reader = new Scanner(fr);
                 String linea;
@@ -138,12 +139,12 @@ public class MetodoRutas {
                     tempArray.remove(
  
                             id + "," +
-                            costo + "," +
                             ruta + "," +
                             origen + "," +
                             destino + "," +
-                            fecha + "," +
-                            hora);
+                            costo + "," +
+                            hora + "," +
+                            fecha);
                 }else{
                     tempArray.add(linea);
                 }
@@ -155,7 +156,7 @@ public class MetodoRutas {
         } catch (Exception e) {
         }
         try {
-            try(PrintWriter pr = new PrintWriter(ruta+"//ruta.txt"))
+            try(PrintWriter pr = new PrintWriter(rutaArchivo+"//ruta.txt"))
                 
             {
                 for(String str:tempArray) {

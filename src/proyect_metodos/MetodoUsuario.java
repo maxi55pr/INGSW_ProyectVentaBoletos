@@ -26,9 +26,7 @@ public class MetodoUsuario {
     
     Vector vUsuario = new Vector();
     Vector v1 = new Vector();
-   
-
-
+ 
     public void guardarUsuario(Usuario unUsuario) {
         vUsuario.addElement(unUsuario);
     }

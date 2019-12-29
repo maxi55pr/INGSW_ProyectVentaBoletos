@@ -84,6 +84,9 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 table_rutasMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                table_rutasMouseEntered(evt);
+            }
         });
         jScrollPane1.setViewportView(table_rutas);
 
@@ -440,18 +443,33 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         if(opcion == JOptionPane.YES_OPTION){  
         
         String Id = txt_r_id.getText();
-        String Costo = txt_r_costo.getText();
         String Ruta = txt_r_nombre.getText();
         String Origen = txt_r_origen.getText();
         String Destino = txt_r_destino.getText();
-        String Fecha = txt_r_fecha.getText();
+        String Costo = txt_r_costo.getText();
         String Hora = txt_r_hora.getText();
+        String Fecha = txt_r_fecha.getText();
         
+         //Pasamos al metodo los valores de las variables para procesar en el metodo
+        metodos.EliminarRuta(Id, Ruta, Origen, Destino, Costo, Hora, Fecha);
+        
+         // limipiamos los text
+        
+        txt_r_id.setText("");
+        txt_r_nombre.setText("");
+        txt_r_origen.setText("");
+        txt_r_destino.setText("");
+        txt_r_costo.setText("");
+        txt_r_hora.setText("");
+        txt_r_fecha.setText("");
+ 
             try {
+                // volvemos a leer los datos de la tabla
                 table_rutas.setModel(metodos.listaRutas());
             } catch (IOException ex) {
                 Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
             }
+          
     }//GEN-LAST:event_btn_r_actializarActionPerformed
    }
     private void table_rutasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_rutasMouseClicked
@@ -469,6 +487,10 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         txt_r_fecha.setText(table_rutas.getValueAt(fila, 6).toString());
  
     }//GEN-LAST:event_table_rutasMouseClicked
+
+    private void table_rutasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_rutasMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_table_rutasMouseEntered
 
     /**
      * @param args the command line arguments
