@@ -71,23 +71,15 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
 
         table_rutas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "ID", "RUTA", "COSTO RUTA", "ORIGEN", "DESTINO", "FECHA", "HORA"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         table_rutas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 table_rutasMouseClicked(evt);
@@ -402,19 +394,68 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_r_nuevoActionPerformed
 
     private void btn_r_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_eliminarActionPerformed
-        // Boton eliminar pasajeros en tabla:
+        // Boton eliminar rutas en tabla:
+    
+       //Confirmamos si deseamos eliminar o no, por seguridad
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la RUTA del sistema?");
+        if(opcion == JOptionPane.YES_OPTION){  
+        
+        String Id = txt_r_id.getText();
+        String Costo = txt_r_costo.getText();
+        String Ruta = txt_r_nombre.getText();
+        String Origen = txt_r_origen.getText();
+        String Destino = txt_r_destino.getText();
+        String Fecha = txt_r_fecha.getText();
+        String Hora = txt_r_hora.getText();
+        
+        //Pasamos al metodo los valores de las variables para procesar en el metodo
+        metodos.EliminarRuta(Id, Costo, Ruta, Origen, Destino, Fecha, Hora);
+        
+        // limipiamos los text
+        
+        txt_r_id.setText("");
+        txt_r_costo.setText("");
+        txt_r_nombre.setText("");
+        txt_r_origen.setText("");
+        txt_r_destino.setText("");
+        txt_r_fecha.setText("");
+        txt_r_hora.setText("");
+        
+            try {
+                // volvemos a leer los datos de la tabla
+                table_rutas.setModel(metodos.listaRutas());
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }   
+        
+        
     }//GEN-LAST:event_btn_r_eliminarActionPerformed
 
     private void btn_r_actializarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_actializarActionPerformed
-        try {
-            // Carga los datos del archivo de texto con la base de datos de pasajeros:
-            table_rutas.setModel(metodos.listaRutas());
-        } catch (IOException ex) {
-            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // Carga los datos del archivo de texto con la base de datos de pasajeros:
+        
+         //Confirmamos si deseamos eliminar o no, por seguridad
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la RUTA del sistema?");
+        if(opcion == JOptionPane.YES_OPTION){  
+        
+        String Id = txt_r_id.getText();
+        String Costo = txt_r_costo.getText();
+        String Ruta = txt_r_nombre.getText();
+        String Origen = txt_r_origen.getText();
+        String Destino = txt_r_destino.getText();
+        String Fecha = txt_r_fecha.getText();
+        String Hora = txt_r_hora.getText();
+        
+            try {
+                table_rutas.setModel(metodos.listaRutas());
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }//GEN-LAST:event_btn_r_actializarActionPerformed
-
+   }
     private void table_rutasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_rutasMouseClicked
+        
         // TODO add your handling code here:
         
         int fila = table_rutas.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
@@ -426,9 +467,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         txt_r_costo.setText(table_rutas.getValueAt(fila, 4).toString());
         txt_r_hora.setText(table_rutas.getValueAt(fila, 5).toString());
         txt_r_fecha.setText(table_rutas.getValueAt(fila, 6).toString());
-   
-      
-        
+ 
     }//GEN-LAST:event_table_rutasMouseClicked
 
     /**

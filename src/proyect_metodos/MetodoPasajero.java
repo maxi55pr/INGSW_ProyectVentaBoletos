@@ -102,7 +102,6 @@ public class MetodoPasajero {
     
     public void EliminarPasajero(String Nombre, String Apellido, String Edad, String Cedula, String Tipo){
     
-
         String nombre = Nombre;
         String apellido = Apellido;
         String edad = Edad;
