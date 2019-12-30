@@ -28,6 +28,7 @@ public class MetodoBoleto {
             //pasajero
             pw.print(pasajero.getNombre_pasajero());
             pw.print(","+pasajero.getApellido_pasajero());
+            pw.print(","+pasajero.getCedula_pasajero());
             pw.print(","+pasajero.getEdad_pasajero());
             pw.print(","+pasajero.getTipo_pasajero());
             //ruta
@@ -51,6 +52,7 @@ public class MetodoBoleto {
         
         cabeceras.addElement("NOMBRE");
         cabeceras.addElement("APELLIDO");
+        cabeceras.addElement("CEDULA");
         cabeceras.addElement("EDAD");
         cabeceras.addElement("CATEGORIA");
         cabeceras.addElement("RUTA");
@@ -85,7 +87,7 @@ public class MetodoBoleto {
 
     public void BuscarBoleto(Usuario unUsuario){
       
-        //
+        
         
     }
 
