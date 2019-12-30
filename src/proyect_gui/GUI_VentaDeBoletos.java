@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import proyect_clases.Boleto;
 import proyect_clases.Pasajero;
 import proyect_clases.Rutas;
 import proyect_metodos.MetodoBoleto;
@@ -15,10 +16,12 @@ import proyect_metodos.MetodoRutas;
 
 public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     
+    Boleto boleto = new Boleto();
     MetodoPasajero buscarP = new MetodoPasajero();
     MetodoRutas buscarR = new MetodoRutas();
-    MetodoBoleto boleto = new MetodoBoleto();
+    MetodoBoleto metodos = new MetodoBoleto();
     Pasajero pasajero = new Pasajero();
+    
     
     DefaultTableModel mdlTablaBoletos;
     Vector vCabeceras = new Vector();
@@ -44,7 +47,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         
         mdlTablaBoletos = new DefaultTableModel(vCabeceras,0);
         table_ventas_boletos.setModel(mdlTablaBoletos);
-        table_ventas_boletos.setModel(boleto.listaBoleto());
+        table_ventas_boletos.setModel(metodos.listaBoleto());
          
     }
     @SuppressWarnings("unchecked")
@@ -470,11 +473,14 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         String cedula = txt_venta_busca_cedula.getText();
         
         try {
+            
         v = buscarP.BuscarPasajero(cedula);
+        
         txt_venta_nombre.setText((String) v.elementAt(0));
         txt_venta_apellido.setText((String) v.elementAt(1));
         txt_venta_edad.setText((String) v.elementAt(2));
         txt_venta_tipoPasajero.setText((String) v.elementAt(4)); 
+        
         } catch (Exception e) {
            JOptionPane.showMessageDialog(null, "No existe ningún pasajero registrado con el numero de cédula ingresado. Intente con otro número.");
            txt_venta_busca_cedula.setText("");
@@ -485,25 +491,70 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
 
     private void btn_p_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_guardarActionPerformed
         // TODO add your handling code here:
+        
+        // Primero validamos cada una de la entradas
 
-        String cedulaP_b = txt_venta_busca_cedula.getText();
-        String nombreP_b = txt_venta_nombre.getText();
-        String apellidoP_b = txt_venta_apellido.getText();
-        String edadP_b = txt_venta_edad.getText();
-        String tipoP_b = txt_venta_tipoPasajero.getText();
-        
-        String rutaR_b = txt_busca_ruta.getText();
-        String costoR_b = txt_venta_costo.getText();
-        String fechaR_b = txt_venta_fecha.getText();
-        String horaR_b = txt_venta_hora.getText();
-        
-        int numBoletosB = Integer.parseInt(txt_venta_numboleto.getText());
-        int descuentoB = Integer.parseInt(txt_venta_descuento.getText());
-        int totalB = Integer.parseInt(txt_venta_total.getText());
+                        if (txt_venta_busca_cedula.getText().length() == 0) {
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una Cedula de Pasajero");
+                        txt_venta_busca_cedula.requestFocus();
+                        return;
+                    }
+                       if (txt_busca_ruta.getText().length() == 0) {
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una Ruta para su compra");
+                        txt_busca_ruta.requestFocus();
+                        return;
+                    }
+                       
+            mdlTablaBoletos = new DefaultTableModel();
+                      
+            int ventaCantidadBoleto = Integer.parseInt(txt_venta_numboleto.getText());
+            String ventaFecha = txt_venta_fecha.getText();
+            String ventaHora = txt_venta_hora.getText();
+            Double ventaCosto = Double.parseDouble(txt_venta_costo.getText());
+            Double ventaDescuento = Double.parseDouble(txt_venta_descuento.getText());
+            Double ventaTotal = Double.parseDouble(txt_venta_total.getText());
+
+     /*Datos del pasajero
             
-        // FALTA CREAR BOLETOS E GENERAR ARCHIVO TXT
-        //boleto.setNombre_pasajero(nombreP_b);
+        pasajero.setNombre_pasajero(ventaNombre);
+        pasajero.setApellido_pasajero(ventaApellido);
+        pasajero.setEdad_pasajero(ventaEdad);
+        pasajero.setTipo_pasajero(tipoPasajero);
+       */
+
+     //Datos de venta del boleto
+     
+        boleto.setNumero_boleto(ventaCantidadBoleto);
+        boleto.setFecha_boleto(ventaFecha);
+        boleto.setHora_boleto(ventaHora);
+        boleto.setCosto_boleto(ventaCosto);
+        boleto.setDescuento(ventaDescuento);
+        boleto.setCosto_total(ventaTotal);
+
+        metodos.guardarBoleto(boleto);
+        metodos.guardarArchivoBoleto(boleto);
         
+         // Limpia los Jtext:
+        txt_venta_busca_cedula.setText("");
+        txt_venta_nombre.setText("");
+        txt_venta_apellido.setText("");
+        txt_venta_edad.setText("");
+        txt_venta_tipoPasajero.setText("");
+        txt_busca_ruta.setText("");
+        txt_venta_costo.setText("");
+        txt_venta_fecha.setText("");
+        txt_venta_hora.setText("");
+        txt_venta_numboleto.setText("");
+        txt_venta_descuento.setText("");
+        txt_venta_total.setText("");
+
+        
+        try {
+            table_ventas_boletos.setModel(metodos.listaBoleto());
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btn_p_guardarActionPerformed
 
     private void txt_venta_apellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_venta_apellidoActionPerformed

@@ -26,12 +26,14 @@ public class MetodoPasajero {
             FileWriter fw = new FileWriter (".\\pasajero.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            pw.print(pasajero.getNombre_pasajero());
+            pw.print(pasajero.getId_pasajero());
+            pw.print(","+pasajero.getNombre_pasajero());
             pw.print(","+pasajero.getApellido_pasajero());
-            pw.print(","+pasajero.getTipo_pasajero());
             pw.print(","+pasajero.getCedula_pasajero());
-            pw.println(","+pasajero.getEdad_pasajero());
+            pw.print(","+pasajero.getEdad_pasajero());
+            pw.println(","+pasajero.getTipo_pasajero());
             pw.close();
+
         } catch (IOException e){
             JOptionPane.showMessageDialog(null, e);
         }
@@ -41,10 +43,12 @@ public class MetodoPasajero {
     public DefaultTableModel listaPasajero() throws FileNotFoundException, IOException{
         
         Vector cabeceras = new Vector();
+        
+        cabeceras.addElement("ID");
         cabeceras.addElement("NOMBRE");
         cabeceras.addElement("APELLIDO");
-        cabeceras.addElement("EDAD");
         cabeceras.addElement("CEDULA");
+        cabeceras.addElement("EDAD");
         cabeceras.addElement("TIPO");
         
         //Crear vector con nombre apellido pasajero cedula edad
@@ -63,7 +67,7 @@ public class MetodoPasajero {
                 }
                 mdlTablaP.addRow(x);
             }
-        }catch (Exception e){
+        }catch (IOException e){
         JOptionPane.showMessageDialog(null, "Estimado usuario: Al momento, no se registran pasajeros existentes.");
         }
         return mdlTablaP;
@@ -101,12 +105,13 @@ public class MetodoPasajero {
         //FALTA
     }
     
-    public void EliminarPasajero(String Nombre, String Apellido, String Edad, String Cedula, String Tipo){
+    public void EliminarPasajero(int Id, String Nombre, String Apellido, String Cedula, String Edad, String Tipo){
     
+        int id = Id;
         String nombre = Nombre;
         String apellido = Apellido;
-        String edad = Edad;
         String cedula = Cedula;
+        String edad = Edad;
         String tipo = Tipo;
         
         ArrayList<String> tempArray = new ArrayList<>();
@@ -117,8 +122,8 @@ public class MetodoPasajero {
                 Scanner reader = new Scanner(fr);
                 String linea;
                 String [] lineaArray;
-        // Si al recorrer el arreglo, encuentra el ID seleccionado al hacer click
-        // se borra toda la linea que contiene ese ID único  
+        // Si al recorrer el arreglo, encuentra la cedula del seleccionado al hacer click
+        // se borra toda la linea que contiene esa cedula único  
         
                 while((linea=reader.nextLine())!=null){
             
@@ -130,10 +135,11 @@ public class MetodoPasajero {
                     tempArray.remove(
                    
                             
+                            id + "," +
                             nombre + "," +
                             apellido + "," +
-                            edad + "," +
                             cedula + "," +
+                            edad + "," +
                             tipo);
                 }else{
                     tempArray.add(linea);
@@ -149,9 +155,9 @@ public class MetodoPasajero {
             try(PrintWriter pr = new PrintWriter(ruta+"//pasajero.txt"))
                 
             {
-                for(String str:tempArray) {
+                tempArray.forEach((str) -> {
                     pr.println(str);
-                }
+                });
                 pr.close();
             } catch (Exception e) {
             }
