@@ -2,6 +2,7 @@ package proyect_metodos;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -16,9 +17,14 @@ import proyect_clases.Pasajero;
 import proyect_clases.Rutas;
 import proyect_clases.Usuario;
 import proyect_gui.GUI_Principal;
+import proyect_gui.GUI_VentaDeBoletos;
 
 public class MetodoBoleto {
 
+    
+    public static String busqueda;
+    GUI_VentaDeBoletos ventaBoletos;
+    
     public void guardarArchivoBoleto(Pasajero pasajero, Rutas ruta, Boleto boleto){
         
       try {
@@ -85,7 +91,9 @@ public class MetodoBoleto {
         return mdlTablaP;
     }
 
-    public void BuscarBoleto(Usuario unUsuario){
+ 
+    
+      public void EditarBoleto(Usuario unUsuario){
       
         
         

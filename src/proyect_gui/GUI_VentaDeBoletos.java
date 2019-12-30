@@ -1,5 +1,9 @@
 package proyect_gui;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -22,9 +26,9 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     MetodoPasajero buscarP = new MetodoPasajero();
     MetodoRutas buscarR = new MetodoRutas();
     MetodoBoleto metodos = new MetodoBoleto();
+    public static String busqueda;
     
-    
-    
+
     DefaultTableModel mdlTablaBoletos;
     Vector vCabeceras = new Vector();
 
@@ -48,6 +52,47 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         table_ventas_boletos.setModel(mdlTablaBoletos);
         table_ventas_boletos.setModel(metodos.listaBoleto());
          
+    }
+    
+       // Este metodo utiliza la CEDULA
+    
+    public DefaultTableModel BuscarBoleto (String buscar) throws IOException{
+
+        if(buscar.length() == 00){
+            JOptionPane.showMessageDialog(null, "Debe ingresar una CEDULA de Pasajero para su búsqueda.");
+        }else{
+            
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+        mdlTablaBoletos = new DefaultTableModel(vCabeceras,0);
+        table_ventas_boletos.setModel(mdlTablaBoletos);
+
+           try {
+            archivo = new File(".\\boletos.txt");
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+           Object [] tablas = br.lines().toArray();
+           
+               for (int i = 0; i < tablas.length; i++) {
+                   String line = tablas[i].toString().trim();
+                   String [] datosFilas = line.split(",");
+                   if(datosFilas[2].equalsIgnoreCase(buscar))
+                   {
+                       
+                mdlTablaBoletos.addRow(datosFilas);
+   
+                   }
+               }
+              fr.close();
+              br.close();
+             } catch (FileNotFoundException e) {
+                 JOptionPane.showMessageDialog(null, "Error. Intente nuevamente");
+                 
+           }
+         }
+        return null;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -95,6 +140,9 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         btn_p_salir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_ventas_boletos = new javax.swing.JTable();
+        txt_buscarBoleto = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        btn_buscarBoleto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -376,7 +424,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                     .addComponent(btn_p_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_p_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_ventas_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,6 +458,21 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(table_ventas_boletos);
 
+        txt_buscarBoleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_buscarBoletoActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setText("BUSCAR BOLETO POR CEDULA DE PASAJERO");
+
+        btn_buscarBoleto.setText("BUSCAR");
+        btn_buscarBoleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscarBoletoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -417,7 +480,14 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_buscarBoleto))
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_buscarBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 967, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -437,11 +507,21 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 11, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 11, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel17)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txt_buscarBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_buscarBoleto))
+                                .addGap(268, 268, 268))))))
         );
 
         pack();
@@ -688,6 +768,40 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         txt_venta_total.setText(table_ventas_boletos.getValueAt(fila, 11).toString());
     }//GEN-LAST:event_table_ventas_boletosMouseClicked
 
+    private void txt_buscarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscarBoletoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_buscarBoletoActionPerformed
+
+    private void btn_buscarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarBoletoActionPerformed
+
+        //Limpiamos los Jtext
+        txt_venta_busca_cedula.setText("");
+        txt_venta_nombre.setText("");
+        txt_venta_apellido.setText("");
+        txt_venta_cedula.setText("");
+        txt_venta_edad.setText("");
+        txt_venta_tipoPasajero.setText("");
+        txt_busca_ruta.setText("");
+        txt_venta_costo.setText("");
+        txt_venta_fecha.setText("");
+        txt_venta_hora.setText("");
+        txt_venta_numboleto.setText("");
+        txt_venta_descuento.setText("");
+        txt_venta_total.setText("");           
+
+        // Se utiliza como parámetro de búsqueda el cammpo CEDULA de un pasajero 
+           
+        busqueda = txt_buscarBoleto.getText();
+
+                try {
+                     BuscarBoleto(busqueda);
+                     
+                 } catch (IOException ex) {
+                     JOptionPane.showMessageDialog(rootPane, "Error. Intente nuevamente");
+                     Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }//GEN-LAST:event_btn_buscarBoletoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -728,6 +842,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_buscarBoleto;
     private javax.swing.JButton btn_buscar_ruta;
     private javax.swing.JButton btn_buscarr_pasajero;
     private javax.swing.JButton btn_calcular_ruta;
@@ -743,6 +858,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -756,8 +872,9 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable table_ventas_boletos;
+    public javax.swing.JTable table_ventas_boletos;
     private javax.swing.JTextField txt_busca_ruta;
+    private javax.swing.JTextField txt_buscarBoleto;
     private javax.swing.JTextField txt_venta_apellido;
     private javax.swing.JTextField txt_venta_busca_cedula;
     private javax.swing.JTextField txt_venta_cedula;
