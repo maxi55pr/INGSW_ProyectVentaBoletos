@@ -159,9 +159,19 @@ public class GUI_Principal extends javax.swing.JFrame {
         jMenu2.add(menu_registroUsuario);
 
         menu_registroRutas.setText("Registro de Rutas");
+        menu_registroRutas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_registroRutasActionPerformed(evt);
+            }
+        });
         jMenu2.add(menu_registroRutas);
 
         menu_ventaBoletos.setText("Venta de Boletos");
+        menu_ventaBoletos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_ventaBoletosActionPerformed(evt);
+            }
+        });
         jMenu2.add(menu_ventaBoletos);
 
         menu_reporteVenta.setText("Reporte Ventas");
@@ -227,7 +237,12 @@ public class GUI_Principal extends javax.swing.JFrame {
 
     private void ventaBoletosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventaBoletosActionPerformed
         // TODO add your handling code here:
-        GUI_VentaDeBoletos b = new GUI_VentaDeBoletos();
+        GUI_VentaDeBoletos b = null;
+        try {
+            b = new GUI_VentaDeBoletos();
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         b.setVisible(true);
         dispose();
     }//GEN-LAST:event_ventaBoletosActionPerformed
@@ -245,6 +260,23 @@ public class GUI_Principal extends javax.swing.JFrame {
         b.setVisible(true);
         dispose();
     }//GEN-LAST:event_reporteAccesoActionPerformed
+
+    private void menu_registroRutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_registroRutasActionPerformed
+        // TODO add your handling code here:
+        
+         GUI_RegistroRutas b = null;
+        try {
+            b = new GUI_RegistroRutas();
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        b.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_menu_registroRutasActionPerformed
+
+    private void menu_ventaBoletosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ventaBoletosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menu_ventaBoletosActionPerformed
 
     /**
      * @param args the command line arguments

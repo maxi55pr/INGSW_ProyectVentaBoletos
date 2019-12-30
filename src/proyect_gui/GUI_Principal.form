@@ -76,11 +76,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Registro de Rutas"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_registroRutasActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menu_ventaBoletos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Venta de Boletos"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_ventaBoletosActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menu_reporteVenta">
               <Properties>

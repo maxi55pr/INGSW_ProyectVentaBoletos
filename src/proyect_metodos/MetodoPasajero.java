@@ -89,8 +89,9 @@ public class MetodoPasajero {
                 }
             }br.close();
             fr.close();
-        }catch (Exception e){
+        }catch (IOException e){
         JOptionPane.showMessageDialog(null, e);
+        
         }       
         return vPrincipal;
     }

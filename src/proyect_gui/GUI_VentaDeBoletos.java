@@ -1,6 +1,9 @@
 package proyect_gui;
 
+import java.io.IOException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Pasajero;
@@ -11,14 +14,37 @@ import proyect_metodos.MetodoRutas;
 
 
 public class GUI_VentaDeBoletos extends javax.swing.JFrame {
-    MetodoPasajero buscarP = new MetodoPasajero ();
-    MetodoRutas buscarR = new MetodoRutas ();
+    
+    MetodoPasajero buscarP = new MetodoPasajero();
+    MetodoRutas buscarR = new MetodoRutas();
     MetodoBoleto boleto = new MetodoBoleto();
     Pasajero pasajero = new Pasajero();
-    DefaultTableModel mdlTablaP;
     
-    public GUI_VentaDeBoletos() {
+    DefaultTableModel mdlTablaBoletos;
+    Vector vCabeceras = new Vector();
+
+    public GUI_VentaDeBoletos() throws IOException {
         initComponents();
+        
+       vCabeceras.addElement("NOMBRE");
+        vCabeceras.addElement("APELLIDO");
+        vCabeceras.addElement("EDAD");
+        vCabeceras.addElement("CATEGORIA");
+        
+        vCabeceras.addElement("RUTA");
+        vCabeceras.addElement("COSTO");
+        vCabeceras.addElement("FECHA");
+        vCabeceras.addElement("HORA");
+        
+        vCabeceras.addElement("CATEGORIA");
+        vCabeceras.addElement("RUTA");
+        vCabeceras.addElement("CANTIDAD");
+        vCabeceras.addElement("DESCUENTO");
+        vCabeceras.addElement("TOTAL");
+        
+        mdlTablaBoletos = new DefaultTableModel(vCabeceras,0);
+        table_ventas_boletos.setModel(mdlTablaBoletos);
+        table_ventas_boletos.setModel(boleto.listaBoleto());
          
     }
     @SuppressWarnings("unchecked")
@@ -63,6 +89,8 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         btn_p_guardar = new javax.swing.JButton();
         btn_p_eliminar = new javax.swing.JButton();
         btn_p_salir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_ventas_boletos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -273,7 +301,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                     .addComponent(txt_venta_descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_calcular_ruta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(208, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,33 +378,56 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                 .addContainerGap(255, Short.MAX_VALUE))
         );
 
+        table_ventas_boletos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        table_ventas_boletos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_ventas_boletosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table_ventas_boletos);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(95, 95, 95)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 11, Short.MAX_VALUE))))
         );
 
         pack();
@@ -390,12 +441,21 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_p_salirActionPerformed
 
     private void btn_ventas_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ventas_nuevoActionPerformed
+        
         // Limpia los Jtext:
+        
         txt_venta_busca_cedula.setText("");
         txt_venta_nombre.setText("");
         txt_venta_apellido.setText("");
         txt_venta_edad.setText("");
         txt_venta_tipoPasajero.setText("");
+        txt_busca_ruta.setText("");
+        txt_venta_costo.setText("");
+        txt_venta_fecha.setText("");
+        txt_venta_hora.setText("");
+        txt_venta_numboleto.setText("");
+        txt_venta_descuento.setText("");
+        txt_venta_total.setText("");
 
     }//GEN-LAST:event_btn_ventas_nuevoActionPerformed
 
@@ -405,13 +465,22 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_p_eliminarActionPerformed
 
     private void btn_buscarr_pasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarr_pasajeroActionPerformed
+        
         Vector v = new Vector();
         String cedula = txt_venta_busca_cedula.getText();
+        
+        try {
         v = buscarP.BuscarPasajero(cedula);
         txt_venta_nombre.setText((String) v.elementAt(0));
         txt_venta_apellido.setText((String) v.elementAt(1));
         txt_venta_edad.setText((String) v.elementAt(2));
-        txt_venta_tipoPasajero.setText((String) v.elementAt(4));
+        txt_venta_tipoPasajero.setText((String) v.elementAt(4)); 
+        } catch (Exception e) {
+           JOptionPane.showMessageDialog(null, "No existe ningún pasajero registrado con el numero de cédula ingresado. Intente con otro número.");
+           txt_venta_busca_cedula.setText("");
+           txt_venta_busca_cedula.requestFocus();
+        }
+       
     }//GEN-LAST:event_btn_buscarr_pasajeroActionPerformed
 
     private void btn_p_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_guardarActionPerformed
@@ -445,12 +514,20 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
 
     private void btn_buscar_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscar_rutaActionPerformed
         // TODO add your handling code here:
+        
         Vector v = new Vector();
         String ruta = txt_busca_ruta.getText();
+        try {
         v = buscarR.BuscarRuta(ruta);
         txt_venta_fecha.setText((String) v.elementAt(6));
         txt_venta_costo.setText((String) v.elementAt(4));
         txt_venta_hora.setText((String) v.elementAt (5));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No existe ninguna RUTA registrado con el nombre ingresado. Intente con otro nombre de RUTA del tipo CUE-ORO");
+           txt_busca_ruta.setText("");
+           txt_busca_ruta.requestFocus();
+        }
+        
         
     }//GEN-LAST:event_btn_buscar_rutaActionPerformed
 
@@ -461,13 +538,85 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     private void btn_calcular_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_calcular_rutaActionPerformed
         // TODO add your handling code here:
         
-        int numBoletos = Integer.parseInt(txt_venta_numboleto.getText());
-        int costoRuta = Integer.parseInt(txt_venta_costo.getText());
-        int descuento = Integer.parseInt(txt_venta_descuento.getText());
-        int total = (numBoletos*costoRuta)-descuento;
-        String str = Integer.toString(total);
-        txt_venta_total.setText(str);
+        // Primero validamos cada una de las entradas
+        
+                     if (txt_venta_busca_cedula.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una cédula de PASAJERO para poder comprar");
+                        txt_venta_busca_cedula.requestFocus();
+                        return;
+                    }
+                    
+                      if (txt_busca_ruta.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una RUTA para poder calcular costos de Boletos y Ruta.");
+                        txt_busca_ruta.requestFocus();
+                        return;
+                    }
+
+                    if (txt_venta_numboleto.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una CANTIDAD de BOLETOS a comprar");
+                        txt_venta_numboleto.requestFocus();
+                        return;
+                    }
+                    
+                      if (txt_venta_descuento.getText().length() == 0) {
+
+                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una cantidad de DESCUENTO.");
+                        txt_venta_descuento.requestFocus();
+                        return;
+                    }
+                      
+                    try {
+                        
+                    int numBoletos = Integer.parseInt(txt_venta_numboleto.getText());
+                    int costoRuta = Integer.parseInt(txt_venta_costo.getText());
+                    int descuento = Integer.parseInt(txt_venta_descuento.getText());
+                    int total = (numBoletos*costoRuta)-descuento;
+                    String str = Integer.toString(total);
+                    txt_venta_total.setText(str);
+                    JOptionPane.showMessageDialog(rootPane, "SU COSTO TOTAL DEL PASAJE ES DE "+str +" dólares.");
+                    } catch (NumberFormatException e) {
+
+                    JOptionPane.showMessageDialog(rootPane, "No es posible su compra. Intente nuevamente");
+                        
+                        txt_venta_busca_cedula.setText("");
+                        txt_venta_nombre.setText("");
+                        txt_venta_apellido.setText("");
+                        txt_venta_edad.setText("");
+                        txt_venta_tipoPasajero.setText("");
+                        txt_busca_ruta.setText("");
+                        txt_venta_costo.setText("");
+                        txt_venta_fecha.setText("");
+                        txt_venta_hora.setText("");
+                        txt_venta_numboleto.setText("");
+                        txt_venta_descuento.setText("");
+                        txt_venta_total.setText("");
+
+                    }
+        
     }//GEN-LAST:event_btn_calcular_rutaActionPerformed
+
+    private void table_ventas_boletosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_ventas_boletosMouseClicked
+        // TODO add your handling code here:
+
+        int fila = table_ventas_boletos.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
+
+        txt_venta_nombre.setText(table_ventas_boletos.getValueAt(fila, 0).toString());
+        txt_venta_apellido.setText(table_ventas_boletos.getValueAt(fila, 1).toString());
+        txt_venta_edad.setText(table_ventas_boletos.getValueAt(fila, 2).toString());
+        txt_venta_tipoPasajero.setText(table_ventas_boletos.getValueAt(fila, 3).toString());
+        txt_busca_ruta.setText(table_ventas_boletos.getValueAt(fila, 4).toString());
+        
+        txt_venta_costo.setText(table_ventas_boletos.getValueAt(fila, 5).toString());
+        txt_venta_fecha.setText(table_ventas_boletos.getValueAt(fila, 6).toString());
+        txt_venta_hora.setText(table_ventas_boletos.getValueAt(fila, 7).toString());
+        
+        txt_venta_numboleto.setText(table_ventas_boletos.getValueAt(fila, 8).toString());
+        txt_venta_descuento.setText(table_ventas_boletos.getValueAt(fila, 9).toString());
+        txt_venta_total.setText(table_ventas_boletos.getValueAt(fila, 10).toString());
+    }//GEN-LAST:event_table_ventas_boletosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -499,7 +648,11 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI_VentaDeBoletos().setVisible(true);
+                try {
+                    new GUI_VentaDeBoletos().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -531,6 +684,8 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table_ventas_boletos;
     private javax.swing.JTextField txt_busca_ruta;
     private javax.swing.JTextField txt_venta_apellido;
     private javax.swing.JTextField txt_venta_busca_cedula;
