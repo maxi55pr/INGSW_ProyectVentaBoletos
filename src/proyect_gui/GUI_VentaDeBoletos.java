@@ -17,10 +17,12 @@ import proyect_metodos.MetodoRutas;
 public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     
     Boleto boleto = new Boleto();
+    Pasajero pasajero = new Pasajero();
+    Rutas ruta = new Rutas ();
     MetodoPasajero buscarP = new MetodoPasajero();
     MetodoRutas buscarR = new MetodoRutas();
     MetodoBoleto metodos = new MetodoBoleto();
-    Pasajero pasajero = new Pasajero();
+    
     
     
     DefaultTableModel mdlTablaBoletos;
@@ -29,19 +31,15 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     public GUI_VentaDeBoletos() throws IOException {
         initComponents();
         
-       vCabeceras.addElement("NOMBRE");
+        vCabeceras.addElement("NOMBRE");
         vCabeceras.addElement("APELLIDO");
         vCabeceras.addElement("EDAD");
         vCabeceras.addElement("CATEGORIA");
-        
         vCabeceras.addElement("RUTA");
-        vCabeceras.addElement("COSTO");
         vCabeceras.addElement("FECHA");
         vCabeceras.addElement("HORA");
-        
-        vCabeceras.addElement("CATEGORIA");
-        vCabeceras.addElement("RUTA");
         vCabeceras.addElement("CANTIDAD");
+        vCabeceras.addElement("COSTO");
         vCabeceras.addElement("DESCUENTO");
         vCabeceras.addElement("TOTAL");
         
@@ -409,8 +407,8 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(95, 95, 95)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 912, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -476,10 +474,10 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
             
         v = buscarP.BuscarPasajero(cedula);
         
-        txt_venta_nombre.setText((String) v.elementAt(0));
-        txt_venta_apellido.setText((String) v.elementAt(1));
-        txt_venta_edad.setText((String) v.elementAt(2));
-        txt_venta_tipoPasajero.setText((String) v.elementAt(4)); 
+        txt_venta_nombre.setText((String) v.elementAt(1));
+        txt_venta_apellido.setText((String) v.elementAt(2));
+        txt_venta_edad.setText((String) v.elementAt(4));
+        txt_venta_tipoPasajero.setText((String) v.elementAt(5)); 
         
         } catch (Exception e) {
            JOptionPane.showMessageDialog(null, "No existe ningún pasajero registrado con el numero de cédula ingresado. Intente con otro número.");
@@ -506,33 +504,38 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                     }
                        
             mdlTablaBoletos = new DefaultTableModel();
-                      
-            int ventaCantidadBoleto = Integer.parseInt(txt_venta_numboleto.getText());
+            
+            String Nombre = txt_venta_nombre.getText();
+            String Apellido = txt_venta_apellido.getText();
+            int Edad = Integer.parseInt(txt_venta_edad.getText());
+            String Categoria = txt_venta_tipoPasajero.getText();
+            String Ruta = txt_busca_ruta.getText();
             String ventaFecha = txt_venta_fecha.getText();
             String ventaHora = txt_venta_hora.getText();
+            int ventaCantidadBoleto = Integer.parseInt(txt_venta_numboleto.getText());
             Double ventaCosto = Double.parseDouble(txt_venta_costo.getText());
             Double ventaDescuento = Double.parseDouble(txt_venta_descuento.getText());
             Double ventaTotal = Double.parseDouble(txt_venta_total.getText());
 
-     /*Datos del pasajero
-            
-        pasajero.setNombre_pasajero(ventaNombre);
-        pasajero.setApellido_pasajero(ventaApellido);
-        pasajero.setEdad_pasajero(ventaEdad);
-        pasajero.setTipo_pasajero(tipoPasajero);
-       */
-
-     //Datos de venta del boleto
-     
+     // Datos del pasajero
+        pasajero.setNombre_pasajero(Nombre);
+        pasajero.setApellido_pasajero(Apellido);
+        pasajero.setEdad_pasajero(Edad);
+        pasajero.setTipo_pasajero(Categoria);
+        
+     // Datos de la ruta
+        ruta.setNombre_Ruta(Ruta);
+       
+     // Datos de venta del boleto
         boleto.setNumero_boleto(ventaCantidadBoleto);
         boleto.setFecha_boleto(ventaFecha);
         boleto.setHora_boleto(ventaHora);
         boleto.setCosto_boleto(ventaCosto);
         boleto.setDescuento(ventaDescuento);
         boleto.setCosto_total(ventaTotal);
-
-        metodos.guardarBoleto(boleto);
-        metodos.guardarArchivoBoleto(boleto);
+        
+     // Guardamos los datos de la compra del boleto
+        metodos.guardarArchivoBoleto(pasajero, ruta, boleto);
         
          // Limpia los Jtext:
         txt_venta_busca_cedula.setText("");
@@ -650,7 +653,6 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_calcular_rutaActionPerformed
 
     private void table_ventas_boletosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_ventas_boletosMouseClicked
-        // TODO add your handling code here:
 
         int fila = table_ventas_boletos.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
 
@@ -659,12 +661,10 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         txt_venta_edad.setText(table_ventas_boletos.getValueAt(fila, 2).toString());
         txt_venta_tipoPasajero.setText(table_ventas_boletos.getValueAt(fila, 3).toString());
         txt_busca_ruta.setText(table_ventas_boletos.getValueAt(fila, 4).toString());
-        
-        txt_venta_costo.setText(table_ventas_boletos.getValueAt(fila, 5).toString());
-        txt_venta_fecha.setText(table_ventas_boletos.getValueAt(fila, 6).toString());
-        txt_venta_hora.setText(table_ventas_boletos.getValueAt(fila, 7).toString());
-        
-        txt_venta_numboleto.setText(table_ventas_boletos.getValueAt(fila, 8).toString());
+        txt_venta_fecha.setText(table_ventas_boletos.getValueAt(fila, 5).toString());
+        txt_venta_hora.setText(table_ventas_boletos.getValueAt(fila, 6).toString());
+        txt_venta_numboleto.setText(table_ventas_boletos.getValueAt(fila, 7).toString());
+        txt_venta_costo.setText(table_ventas_boletos.getValueAt(fila, 8).toString());
         txt_venta_descuento.setText(table_ventas_boletos.getValueAt(fila, 9).toString());
         txt_venta_total.setText(table_ventas_boletos.getValueAt(fila, 10).toString());
     }//GEN-LAST:event_table_ventas_boletosMouseClicked

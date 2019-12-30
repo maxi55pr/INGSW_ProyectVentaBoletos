@@ -13,53 +13,53 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Boleto;
 import proyect_clases.Pasajero;
+import proyect_clases.Rutas;
 import proyect_clases.Usuario;
 import proyect_gui.GUI_Principal;
 
 public class MetodoBoleto {
-    
-    Vector vPrincipal = new Vector();
-    
-    public void crearBoleto(Boleto unBoleto) {
-        
-        //
-        
-    }
-    
-    public void guardarBoleto(Boleto unBoleto) {
-        vPrincipal.addElement(unBoleto);
-    }
-    
-   
-    public void guardarArchivoBoleto(Boleto boleto){
+
+    public void guardarArchivoBoleto(Pasajero pasajero, Rutas ruta, Boleto boleto){
         
       try {
-            FileWriter fw = new FileWriter (".\\Boleto.txt", true);
+            FileWriter fw = new FileWriter (".\\boletos.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            pw.print(boleto.getNumero_boleto());
+            //pasajero
+            pw.print(pasajero.getNombre_pasajero());
+            pw.print(","+pasajero.getApellido_pasajero());
+            pw.print(","+pasajero.getEdad_pasajero());
+            pw.print(","+pasajero.getTipo_pasajero());
+            //ruta
+            pw.print(","+ruta.getNombre_Ruta());
+            //boleto
             pw.print(","+boleto.getFecha_boleto());
             pw.print(","+boleto.getHora_boleto());
+            pw.print(","+boleto.getNumero_boleto());
             pw.print(","+boleto.getCosto_boleto());
             pw.print(","+boleto.getDescuento());
             pw.println(","+boleto.getCosto_total());
             pw.close();
         } catch (IOException e){
             JOptionPane.showMessageDialog(null, e);
-        }
-        
+        } 
     }
     
     public DefaultTableModel listaBoleto() throws FileNotFoundException, IOException{
         
         Vector cabeceras = new Vector();
         
-        cabeceras.addElement("NUMERO");
-        cabeceras.addElement("COSTO");
-        cabeceras.addElement("DESCUENTO");
-        cabeceras.addElement("COSTO TOTAL");
+        cabeceras.addElement("NOMBRE");
+        cabeceras.addElement("APELLIDO");
+        cabeceras.addElement("EDAD");
+        cabeceras.addElement("CATEGORIA");
+        cabeceras.addElement("RUTA");
         cabeceras.addElement("FECHA");
         cabeceras.addElement("HORA");
+        cabeceras.addElement("CANTIDAD");
+        cabeceras.addElement("COSTO");
+        cabeceras.addElement("DESCUENTO");
+        cabeceras.addElement("TOTAL");
         
         //Crear vector
         DefaultTableModel mdlTablaP = new DefaultTableModel(cabeceras,0);
@@ -88,5 +88,7 @@ public class MetodoBoleto {
         //
         
     }
+
+  
     
 }

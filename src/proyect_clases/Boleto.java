@@ -1,6 +1,6 @@
 package proyect_clases;
 
-public class Boleto {
+public class Boleto{
     
     private int     numero_boleto;
     private String  fecha_boleto;
@@ -69,5 +69,7 @@ public class Boleto {
     public void setCosto_total(Double costo_total) {
         this.costo_total = costo_total;
     }
+    
+    
  
 }
