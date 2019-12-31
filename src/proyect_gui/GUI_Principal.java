@@ -175,6 +175,11 @@ public class GUI_Principal extends javax.swing.JFrame {
         jMenu2.add(menu_ventaBoletos);
 
         menu_reporteVenta.setText("Reporte Ventas");
+        menu_reporteVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_reporteVentaActionPerformed(evt);
+            }
+        });
         jMenu2.add(menu_reporteVenta);
 
         jMenuBar1.add(jMenu2);
@@ -249,7 +254,12 @@ public class GUI_Principal extends javax.swing.JFrame {
 
     private void reporteVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteVentasActionPerformed
         // TODO add your handling code here:
-        GUI_ReporteVentas b = new GUI_ReporteVentas();
+        GUI_ReporteVentas b = null;
+        try {
+            b = new GUI_ReporteVentas();
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         b.setVisible(true);
         dispose();
     }//GEN-LAST:event_reporteVentasActionPerformed
@@ -275,8 +285,30 @@ public class GUI_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menu_registroRutasActionPerformed
 
     private void menu_ventaBoletosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_ventaBoletosActionPerformed
-        // TODO add your handling code here:
+        
+           GUI_VentaDeBoletos ventas = null;
+        try {
+            ventas = new GUI_VentaDeBoletos();
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ventas.setVisible(true);
+        dispose();
+        
     }//GEN-LAST:event_menu_ventaBoletosActionPerformed
+
+    private void menu_reporteVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_reporteVentaActionPerformed
+        
+        GUI_ReporteVentas reporte = null;
+        try {
+            reporte = new GUI_ReporteVentas();
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        reporte.setVisible(true);
+        dispose();
+ 
+    }//GEN-LAST:event_menu_reporteVentaActionPerformed
 
     /**
      * @param args the command line arguments
