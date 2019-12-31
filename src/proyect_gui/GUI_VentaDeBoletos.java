@@ -1,10 +1,14 @@
 package proyect_gui;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,14 +31,19 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     MetodoRutas buscarR = new MetodoRutas();
     MetodoBoleto metodos = new MetodoBoleto();
     public static String busqueda;
-    
-
-    DefaultTableModel mdlTablaBoletos;
+    public DefaultTableModel mdlTablaBoletos;
     Vector vCabeceras = new Vector();
 
     public GUI_VentaDeBoletos() throws IOException {
         initComponents();
         
+        GenerarCodigoReserva();
+        txt_venta_total.setEditable(false);
+        txt_IdCompra.setEditable(false);
+        txt_IdCompra.setBackground(Color.ORANGE);
+        txt_venta_total.setBackground(Color.YELLOW);
+        
+        vCabeceras.addElement("ID BOLETO");
         vCabeceras.addElement("NOMBRE");
         vCabeceras.addElement("APELLIDO");
         vCabeceras.addElement("CEDULA");
@@ -53,9 +62,49 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         table_ventas_boletos.setModel(metodos.listaBoleto());
          
     }
-    
+    // Este metodo genera en forma automatica un Id diferente y consecuitivo para cada venta de boleto.
+    // Cada Id nuevo generado sera el numero siguiente al ultimo Id generado en la venta anterior.
+    // Los ID son únicos, irrepetibles y no pueden ser editados. Son los identificadores de cada venta
+    public final void GenerarCodigoReserva() throws FileNotFoundException{
+
+        txt_IdCompra.setText("1");
+        String ultimoCodigo="0";
+        int nuevoCodigo=0;
+        
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+           try {
+            archivo = new File(".\\boletos.txt");
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+            
+           Object [] tableLines = br.lines().toArray();
+         // Recorro mediante un Array todo el archivo Boletos.txt y verifico la posicion [0] para ver el codigo de venta de cada pasaje
+               for (int i = 0; i < tableLines.length; i++) {
+                   String line = tableLines[i].toString().trim();
+                   String [] dataRow = line.split(",");
+                   ultimoCodigo = (dataRow[0]);
+                   }
+                // Si ya existen ventas, el código de la próxima venta será el útltimo código + 1
+                    nuevoCodigo = Integer.parseInt(ultimoCodigo);
+                    txt_IdCompra.setText(String.valueOf(nuevoCodigo+1));
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          } catch (FileNotFoundException e) {
+        }
+    }
+
        // Este metodo utiliza la CEDULA
-    
     public DefaultTableModel BuscarBoleto (String buscar) throws IOException{
 
         if(buscar.length() == 00){
@@ -78,7 +127,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                for (int i = 0; i < tablas.length; i++) {
                    String line = tablas[i].toString().trim();
                    String [] datosFilas = line.split(",");
-                   if(datosFilas[2].equalsIgnoreCase(buscar))
+                   if(datosFilas[3].equalsIgnoreCase(buscar))
                    {
                        
                 mdlTablaBoletos.addRow(datosFilas);
@@ -113,6 +162,8 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         btn_buscarr_pasajero = new javax.swing.JButton();
         txt_venta_cedula = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        txt_IdCompra = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         txt_busca_ruta = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -134,15 +185,16 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         btn_calcular_ruta = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        btn_ventas_nuevo = new javax.swing.JButton();
-        btn_p_guardar = new javax.swing.JButton();
-        btn_p_eliminar = new javax.swing.JButton();
-        btn_p_salir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_ventas_boletos = new javax.swing.JTable();
         txt_buscarBoleto = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         btn_buscarBoleto = new javax.swing.JButton();
+        btn_ventas_nuevo = new javax.swing.JButton();
+        btn_p_guardar = new javax.swing.JButton();
+        btn_p_editar = new javax.swing.JButton();
+        btn_p_eliminar = new javax.swing.JButton();
+        btn_p_salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,6 +226,8 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
 
         jLabel16.setText("Cédula Pasajero:");
 
+        jLabel18.setText("ID COMPRA");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -183,11 +237,6 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_venta_busca_cedula, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
@@ -207,21 +256,35 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
-                                    .addComponent(txt_venta_tipoPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(txt_venta_tipoPasajero, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(txt_venta_busca_cedula, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_IdCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(181, 181, 181)
                         .addComponent(btn_buscarr_pasajero, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(58, 58, 58))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel18))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txt_venta_busca_cedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_venta_busca_cedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_IdCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -385,59 +448,15 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        btn_ventas_nuevo.setText("Nuevo");
-        btn_ventas_nuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_ventas_nuevoActionPerformed(evt);
-            }
-        });
-
-        btn_p_guardar.setText("Guardar");
-        btn_p_guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_p_guardarActionPerformed(evt);
-            }
-        });
-
-        btn_p_eliminar.setText("Editar");
-        btn_p_eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_p_eliminarActionPerformed(evt);
-            }
-        });
-
-        btn_p_salir.setText("Salir");
-        btn_p_salir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_p_salirActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_p_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_p_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_p_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_ventas_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+            .addGap(0, 9, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(btn_ventas_nuevo)
-                .addGap(18, 18, 18)
-                .addComponent(btn_p_guardar)
-                .addGap(29, 29, 29)
-                .addComponent(btn_p_eliminar)
-                .addGap(27, 27, 27)
-                .addComponent(btn_p_salir)
-                .addContainerGap(255, Short.MAX_VALUE))
+            .addGap(0, 463, Short.MAX_VALUE)
         );
 
         table_ventas_boletos.setModel(new javax.swing.table.DefaultTableModel(
@@ -454,6 +473,9 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         table_ventas_boletos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 table_ventas_boletosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                table_ventas_boletosMouseEntered(evt);
             }
         });
         jScrollPane1.setViewportView(table_ventas_boletos);
@@ -473,6 +495,41 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
             }
         });
 
+        btn_ventas_nuevo.setText("Nuevo");
+        btn_ventas_nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ventas_nuevoActionPerformed(evt);
+            }
+        });
+
+        btn_p_guardar.setText("Guardar");
+        btn_p_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_p_guardarActionPerformed(evt);
+            }
+        });
+
+        btn_p_editar.setText("Editar");
+        btn_p_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_p_editarActionPerformed(evt);
+            }
+        });
+
+        btn_p_eliminar.setText("Eliminar");
+        btn_p_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_p_eliminarActionPerformed(evt);
+            }
+        });
+
+        btn_p_salir.setText("Salir");
+        btn_p_salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_p_salirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -480,48 +537,66 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 967, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_buscarBoleto))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(71, 71, 71)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txt_buscarBoleto)))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(26, 26, 26)
-                        .addComponent(btn_buscarBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 967, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_p_salir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_ventas_nuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_buscarBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(btn_p_editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_p_eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_p_guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 256, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 11, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel17)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txt_buscarBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btn_buscarBoleto))
-                                .addGap(268, 268, 268))))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 11, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel17)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_buscarBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_buscarBoleto))
+                        .addGap(268, 268, 268))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(btn_ventas_nuevo)
+                .addGap(18, 18, 18)
+                .addComponent(btn_p_guardar)
+                .addGap(34, 34, 34)
+                .addComponent(btn_p_editar)
+                .addGap(18, 18, 18)
+                .addComponent(btn_p_eliminar)
+                .addGap(18, 18, 18)
+                .addComponent(btn_p_salir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -535,6 +610,19 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_p_salirActionPerformed
 
     private void btn_ventas_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ventas_nuevoActionPerformed
+      
+      // Activamos el boton de guardar
+        
+        btn_p_guardar.setEnabled(true);
+        
+        // Desactivamos el boton Editar mientras estamos en modo NUEVO
+        
+        btn_p_editar.setEnabled(false);
+        
+         // Desactivamos el boton Eliminar mientras estamos en modo NUEVO
+        
+        btn_p_eliminar.setEnabled(false);        
+       
         
         // Limpia los Jtext:
         
@@ -551,13 +639,96 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         txt_venta_numboleto.setText("");
         txt_venta_descuento.setText("");
         txt_venta_total.setText("");
+        txt_buscarBoleto.setText("");
 
     }//GEN-LAST:event_btn_ventas_nuevoActionPerformed
 
-    private void btn_p_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_eliminarActionPerformed
-        // Boton eliminar pasajeros en tabla:
+    private void btn_p_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_editarActionPerformed
+        // Boton editar boletos de compra en tabla:
+        
+         // Mediante variables y lectura de arreglos, tomamos los valores
+        // de los TextField los ingresamos en el archivo TXT en la posicion 
+        // que la logica siguiente entiende que es la correcta y actualiza el txt en el momento.
+        
+        //  Este algoritmo utilza un array temporal para escribir los datos
+            String IdCompra = txt_IdCompra.getText();
+            String Nombre = txt_venta_nombre.getText();
+            String Apellido = txt_venta_apellido.getText();
+            int Cedula = Integer.parseInt(txt_venta_cedula.getText());
+            int Edad = Integer.parseInt(txt_venta_edad.getText());
+            String Categoria = txt_venta_tipoPasajero.getText();
+            String Ruta = txt_busca_ruta.getText();
+            String ventaFecha = txt_venta_fecha.getText();
+            String ventaHora = txt_venta_hora.getText();
+            int ventaCantidadBoleto = Integer.parseInt(txt_venta_numboleto.getText());
+            Double ventaCosto = Double.parseDouble(txt_venta_costo.getText());
+            Double ventaDescuento = Double.parseDouble(txt_venta_descuento.getText());
+            Double ventaTotal = Double.parseDouble(txt_venta_total.getText());
+
+        ArrayList<String> tempArray = new ArrayList<>();
+        
+        try {
+            try (FileReader fr = new FileReader(".\\boletos.txt"))
+            {
+                Scanner reader = new Scanner(fr);
+                String linea;
+                String [] lineaArray;
+                
+                while((linea=reader.nextLine())!=null){
+                    
+            // Se toma el ID para lograr validar dado que al hacer clicik 
+            // ese Empleado será el que entienda el sistema que debe actualizar
+            
+                lineaArray = linea.split(",");
+                if(lineaArray[0].equals(IdCompra)){
+                    
+           // Recorro y agrego en la fila que el sistema entiende que existe el ID
+                    tempArray.add(
+                            
+                            IdCompra + "," +
+                            Nombre + "," +
+                            Apellido + "," +
+                            Cedula + "," +
+                            Edad + "," +
+                            Categoria+ "," +
+                            Ruta + "," +
+                            ventaFecha + "," +
+                            ventaHora + "," +
+                            ventaCantidadBoleto + "," +
+                            ventaCosto + "," +
+                            ventaDescuento + "," +
+                            ventaTotal);
+                }else{
+            // Si no encuentra cambios, el array temporal será el mismo que el original
+                    tempArray.add(linea);
+                }
+            }
+                fr.close();
+
+              } catch (Exception e) {
+            }
+          } catch (Exception e) {
+        }
+        // Aqui se guardan los datos del array temporal, ya modificados, en el array original
+        try {
+            try(PrintWriter pr = new PrintWriter(".\\boletos.txt"))
+                
+            {
+                for(String str:tempArray) {
+                    pr.println(str);
+                }
+                pr.close();
+                metodos.listaBoleto();
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+        }
+ 
+       
+        
+
       
-    }//GEN-LAST:event_btn_p_eliminarActionPerformed
+    }//GEN-LAST:event_btn_p_editarActionPerformed
 
     private void btn_buscarr_pasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarr_pasajeroActionPerformed
         
@@ -600,6 +771,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                        
             mdlTablaBoletos = new DefaultTableModel();
             
+            int IdCompra = Integer.parseInt(txt_IdCompra.getText());
             String Nombre = txt_venta_nombre.getText();
             String Apellido = txt_venta_apellido.getText();
             int Cedula = Integer.parseInt(txt_venta_cedula.getText());
@@ -612,7 +784,11 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
             Double ventaCosto = Double.parseDouble(txt_venta_costo.getText());
             Double ventaDescuento = Double.parseDouble(txt_venta_descuento.getText());
             Double ventaTotal = Double.parseDouble(txt_venta_total.getText());
-
+            
+            
+      // Id de COMPRA
+        boleto.setId_boleto(IdCompra);
+        
      // Datos del pasajero
         pasajero.setNombre_pasajero(Nombre);
         pasajero.setApellido_pasajero(Apellido);
@@ -624,6 +800,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         ruta.setNombre_Ruta(Ruta);
        
      // Datos de venta del boleto
+        
         boleto.setNumero_boleto(ventaCantidadBoleto);
         boleto.setFecha_boleto(ventaFecha);
         boleto.setHora_boleto(ventaHora);
@@ -633,8 +810,15 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         
      // Guardamos los datos de la compra del boleto
         metodos.guardarArchivoBoleto(pasajero, ruta, boleto);
+     // Generamos el nuevo codigo de reserva unico para la siguiente compra
+        try {
+            GenerarCodigoReserva();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
          // Limpia los Jtext:
+         
         txt_venta_busca_cedula.setText("");
         txt_venta_nombre.setText("");
         txt_venta_apellido.setText("");
@@ -690,6 +874,8 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     private void btn_calcular_rutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_calcular_rutaActionPerformed
         // TODO add your handling code here:
         
+        Double str = 0.00;
+        
         // Primero validamos cada una de las entradas
         
                      if (txt_venta_busca_cedula.getText().length() == 0) {
@@ -723,12 +909,14 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                     try {
                         
                     int numBoletos = Integer.parseInt(txt_venta_numboleto.getText());
-                    int costoRuta = Integer.parseInt(txt_venta_costo.getText());
-                    int descuento = Integer.parseInt(txt_venta_descuento.getText());
-                    int total = (numBoletos*costoRuta)-descuento;
-                    String str = Integer.toString(total);
-                    txt_venta_total.setText(str);
+                    Double costoRuta = Double.parseDouble(txt_venta_costo.getText());
+                    Double descuento = Double.parseDouble(txt_venta_descuento.getText());
+                    Double total = (numBoletos*costoRuta)-descuento;
+                    str = total;
+                    txt_venta_total.setText(Double.toString(str));
+                    
                     JOptionPane.showMessageDialog(rootPane, "SU COSTO TOTAL DEL PASAJE ES DE "+str +" dólares.");
+                    
                     } catch (NumberFormatException e) {
 
                     JOptionPane.showMessageDialog(rootPane, "No es posible su compra. Intente nuevamente");
@@ -745,6 +933,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                         txt_venta_numboleto.setText("");
                         txt_venta_descuento.setText("");
                         txt_venta_total.setText("");
+                        txt_venta_cedula.setText("");
 
                     }
         
@@ -752,20 +941,49 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
 
     private void table_ventas_boletosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_ventas_boletosMouseClicked
 
-        int fila = table_ventas_boletos.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
+        // Desactivamos el boton de guardar para habilitar solo la opcion EDITAR
+        btn_p_guardar.setEnabled(false);
+        // Activamos el boton de eliminar 
+        btn_p_eliminar.setEnabled(true);
+        // Activamos el boton de guardar cambios 
+        btn_p_editar.setEnabled(true);
+   
+        // Cambiamos el valor del boton Editar a texto "Guardar Cambios" para aceptar todo cambio en la tabla
+        btn_p_editar.setText("Guardar cambios");
 
-        txt_venta_nombre.setText(table_ventas_boletos.getValueAt(fila, 0).toString());
-        txt_venta_apellido.setText(table_ventas_boletos.getValueAt(fila, 1).toString());
-        txt_venta_cedula.setText(table_ventas_boletos.getValueAt(fila, 2).toString());
-        txt_venta_edad.setText(table_ventas_boletos.getValueAt(fila, 3).toString());
-        txt_venta_tipoPasajero.setText(table_ventas_boletos.getValueAt(fila, 4).toString());
-        txt_busca_ruta.setText(table_ventas_boletos.getValueAt(fila, 5).toString());
-        txt_venta_fecha.setText(table_ventas_boletos.getValueAt(fila, 6).toString());
-        txt_venta_hora.setText(table_ventas_boletos.getValueAt(fila, 7).toString());
-        txt_venta_numboleto.setText(table_ventas_boletos.getValueAt(fila, 8).toString());
-        txt_venta_costo.setText(table_ventas_boletos.getValueAt(fila, 9).toString());
-        txt_venta_descuento.setText(table_ventas_boletos.getValueAt(fila, 10).toString());
-        txt_venta_total.setText(table_ventas_boletos.getValueAt(fila, 11).toString());
+        // guardamos en fila el valor que hacemos click en la fila seleccionada
+        int fila = table_ventas_boletos.rowAtPoint(evt.getPoint());
+
+        // Cargamos cada valor de la tabla en los JtextField
+        
+        vCabeceras.addElement("ID BOLETO");
+        vCabeceras.addElement("NOMBRE");
+        vCabeceras.addElement("APELLIDO");
+        vCabeceras.addElement("CEDULA");
+        vCabeceras.addElement("EDAD");
+        vCabeceras.addElement("CATEGORIA");
+        vCabeceras.addElement("RUTA");
+        vCabeceras.addElement("FECHA");
+        vCabeceras.addElement("HORA");
+        vCabeceras.addElement("CANTIDAD");
+        vCabeceras.addElement("COSTO");
+        vCabeceras.addElement("DESCUENTO");
+        vCabeceras.addElement("TOTAL");
+        
+        txt_IdCompra.setText(table_ventas_boletos.getValueAt(fila, 0).toString());
+        txt_venta_nombre.setText(table_ventas_boletos.getValueAt(fila, 1).toString());
+        txt_venta_apellido.setText(table_ventas_boletos.getValueAt(fila, 2).toString());
+        txt_venta_cedula.setText(table_ventas_boletos.getValueAt(fila, 3).toString());
+        txt_venta_busca_cedula.setText(table_ventas_boletos.getValueAt(fila, 3).toString());
+        txt_venta_edad.setText(table_ventas_boletos.getValueAt(fila, 4).toString());
+        txt_venta_tipoPasajero.setText(table_ventas_boletos.getValueAt(fila, 5).toString());
+        txt_busca_ruta.setText(table_ventas_boletos.getValueAt(fila, 6).toString());
+        txt_venta_fecha.setText(table_ventas_boletos.getValueAt(fila, 7).toString());
+        txt_venta_hora.setText(table_ventas_boletos.getValueAt(fila, 8).toString());
+        txt_venta_numboleto.setText(table_ventas_boletos.getValueAt(fila, 9).toString());
+        txt_venta_costo.setText(table_ventas_boletos.getValueAt(fila, 10).toString());
+        txt_venta_descuento.setText(table_ventas_boletos.getValueAt(fila, 11).toString());
+        txt_venta_total.setText(table_ventas_boletos.getValueAt(fila, 12).toString());
     }//GEN-LAST:event_table_ventas_boletosMouseClicked
 
     private void txt_buscarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscarBoletoActionPerformed
@@ -801,6 +1019,14 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                      Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }//GEN-LAST:event_btn_buscarBoletoActionPerformed
+
+    private void btn_p_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_eliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_p_eliminarActionPerformed
+
+    private void table_ventas_boletosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_ventas_boletosMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_table_ventas_boletosMouseEntered
 
     /**
      * @param args the command line arguments
@@ -846,6 +1072,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     private javax.swing.JButton btn_buscar_ruta;
     private javax.swing.JButton btn_buscarr_pasajero;
     private javax.swing.JButton btn_calcular_ruta;
+    private javax.swing.JButton btn_p_editar;
     private javax.swing.JButton btn_p_eliminar;
     private javax.swing.JButton btn_p_guardar;
     private javax.swing.JButton btn_p_salir;
@@ -859,6 +1086,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -873,6 +1101,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable table_ventas_boletos;
+    private javax.swing.JTextField txt_IdCompra;
     private javax.swing.JTextField txt_busca_ruta;
     private javax.swing.JTextField txt_buscarBoleto;
     private javax.swing.JTextField txt_venta_apellido;

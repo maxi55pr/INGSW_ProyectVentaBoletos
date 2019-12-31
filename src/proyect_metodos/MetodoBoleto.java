@@ -21,7 +21,6 @@ import proyect_gui.GUI_VentaDeBoletos;
 
 public class MetodoBoleto {
 
-    
     public static String busqueda;
     GUI_VentaDeBoletos ventaBoletos;
     
@@ -31,8 +30,11 @@ public class MetodoBoleto {
             FileWriter fw = new FileWriter (".\\boletos.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
+            
+            //Id boleto
+            pw.print(boleto.getId_boleto());
             //pasajero
-            pw.print(pasajero.getNombre_pasajero());
+            pw.print(","+pasajero.getNombre_pasajero());
             pw.print(","+pasajero.getApellido_pasajero());
             pw.print(","+pasajero.getCedula_pasajero());
             pw.print(","+pasajero.getEdad_pasajero());
@@ -56,6 +58,7 @@ public class MetodoBoleto {
         
         Vector cabeceras = new Vector();
         
+        cabeceras.addElement("ID BOLETO");
         cabeceras.addElement("NOMBRE");
         cabeceras.addElement("APELLIDO");
         cabeceras.addElement("CEDULA");
@@ -90,15 +93,5 @@ public class MetodoBoleto {
         }
         return mdlTablaP;
     }
-
- 
-    
-      public void EditarBoleto(Usuario unUsuario){
-      
-        
-        
-    }
-
-  
     
 }

@@ -2,6 +2,7 @@ package proyect_clases;
 
 public class Boleto{
     
+    private int id_boleto;
     private int     numero_boleto;
     private String  fecha_boleto;
     private String  hora_boleto;
@@ -13,7 +14,8 @@ public class Boleto{
     
     }
 
-    public Boleto(int numero_boleto, String fecha_boleto, String hora_boleto, Double costo_boleto, Double descuento, Double costo_total) {
+    public Boleto(int id_boleto, int numero_boleto, String fecha_boleto, String hora_boleto, Double costo_boleto, Double descuento, Double costo_total) {
+        this.id_boleto = id_boleto;
         this.numero_boleto = numero_boleto;
         this.fecha_boleto = fecha_boleto;
         this.hora_boleto = hora_boleto;
@@ -69,7 +71,13 @@ public class Boleto{
     public void setCosto_total(Double costo_total) {
         this.costo_total = costo_total;
     }
-    
-    
- 
+
+    public int getId_boleto() {
+        return id_boleto;
+    }
+
+    public void setId_boleto(int id_boleto) {
+        this.id_boleto = id_boleto;
+    }
+
 }
