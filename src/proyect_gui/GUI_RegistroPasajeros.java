@@ -419,6 +419,10 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
    
     private void btn_p_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_nuevoActionPerformed
         
+        btn_p_guardar.setEnabled(true);
+        btn_p_actializar.setEnabled(false);
+        
+        
         //nuevo codigo de pasajero se genera
         try {
             GenerarCodigoPasajero();
@@ -506,6 +510,9 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
 
     private void table_pasajeroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_pasajeroMouseClicked
         // TODO add your handling code here:
+        
+       btn_p_guardar.setEnabled(false);
+       btn_p_actializar.setText("Guardar Cambios");
         
         int fila = table_pasajero.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
         

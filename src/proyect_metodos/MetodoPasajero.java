@@ -2,15 +2,13 @@ package proyect_metodos;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Pasajero;
+import proyect_gui.GUI_RegistroPasajeros;
 
 public class MetodoPasajero {
-    
+
     Vector vPrincipal = new Vector();
-        
     // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
     private final String ruta = System.getProperties().getProperty("user.dir");
         
@@ -137,6 +135,7 @@ public class MetodoPasajero {
                             tipo);
                     
                     JOptionPane.showMessageDialog(null, "Pasajero modificado correctamente."); 
+                    
                 }else{
             // Si no encuentra cambios, el array temporal será el mismo que el original
                     tempArray.add(linea);
