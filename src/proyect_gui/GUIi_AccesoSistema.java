@@ -223,7 +223,91 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_entrarActionPerformed
 
     private void btn_entrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entrar1ActionPerformed
-        // TODO add your handling code here:
+        
+     //Comprobamos si las credenciales de usuario y password estan correctas contral el archivo usuario.txt
+        
+        String Usuario = cj_usuario.getText().trim();
+        String Password = new String(cj_pass.getPassword());
+
+           try {
+            
+            FileReader fr = new FileReader(".\\usuario.txt");
+            BufferedReader br = new BufferedReader(fr);
+
+           Object [] tablas = br.lines().toArray();
+           
+           // Recorremos mediante un for el archivo usuario.txt para ver cada datos y validar
+               for (int i = 0; i < tablas.length; i++) 
+               
+              {
+                   String line = tablas[i].toString().trim();
+                   String [] datosFilas = line.split(",");
+               
+            // En la posicion 3 del array esta el usuario y en la pos 4 el password
+                   if(datosFilas[3].equals(Usuario) && datosFilas[4].equals(Password) )
+              {
+            // Si enncuetra un Usuario existente y coinciden las credenciales, da acceso a las ventas.
+                   GUI_Principal formulario = new GUI_Principal();
+                   formulario.setVisible(true);
+            // cambiamos el valor del control para indicar que el usuario fue encontrado
+                   control = true;
+                   this.dispose();
+               }
+              } // fin bucle for
+               
+            // Si control sigue en estado FALSE, termina el bucle e indica que el usuario no se encuentra
+                if(control == false){
+                          JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecta. Intente nuevamente.");
+                          
+                          cj_usuario.setText("");
+                          cj_pass.setText("");
+               } 
+               
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+          } catch (FileNotFoundException e) {
+              
+          } catch (IOException ex) {
+            Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+      /**  
+        String usuario = cj_usuario.getText().trim();
+        String contraseña = new String(cj_pass.getPassword());
+        if( usuario.equalsIgnoreCase(user) && contraseña.equalsIgnoreCase(pass) )
+        {
+            GUI_Principal b = new GUI_Principal();
+            b.setVisible(true);
+            dispose();
+        }
+        else if( usuario.isEmpty() && contraseña.isEmpty() )
+        {
+            JOptionPane.showMessageDialog(null, "Ingrese Usuario y Contraseña");
+        }
+        else if( usuario != user && contraseña != pass )
+        {
+            JOptionPane.showMessageDialog(null, "Usuario y Contraseña Incorrectos", "Error Al Ingresar", JOptionPane.ERROR_MESSAGE);
+        }
+        else if( usuario != user )
+        {
+            JOptionPane.showMessageDialog(null, "Usuario Incorrecto", "Usuario No Existe", JOptionPane.ERROR_MESSAGE);
+        }
+        else if( contraseña != pass )
+        {
+            JOptionPane.showMessageDialog(null, "Contraseña Incorrecta", "Contraseña Mal Escrita", JOptionPane.ERROR_MESSAGE);
+        }
+        */
+        
+        
     }//GEN-LAST:event_btn_entrar1ActionPerformed
 
     /**
