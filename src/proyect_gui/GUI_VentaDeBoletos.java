@@ -129,16 +129,13 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                    String [] datosFilas = line.split(",");
                    if(datosFilas[3].equalsIgnoreCase(buscar))
                    {
-                       
                 mdlTablaBoletos.addRow(datosFilas);
-   
                    }
                }
               fr.close();
               br.close();
              } catch (FileNotFoundException e) {
-                 JOptionPane.showMessageDialog(null, "Error. Intente nuevamente");
-                 
+                 JOptionPane.showMessageDialog(null, "Error. Intente nuevamente"); 
            }
          }
         return null;
@@ -611,21 +608,22 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
 
     private void btn_ventas_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ventas_nuevoActionPerformed
       
-      // Activamos el boton de guardar
+        // Generamos un nuevo codigo de reserva automatica para la siguiente compra de boleto
+        try {
+            GenerarCodigoReserva();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
+        // Activamos el boton de guardar
         btn_p_guardar.setEnabled(true);
-        
         // Desactivamos el boton Editar mientras estamos en modo NUEVO
-        
         btn_p_editar.setEnabled(false);
-        
          // Desactivamos el boton Eliminar mientras estamos en modo NUEVO
-        
         btn_p_eliminar.setEnabled(false);        
        
         
         // Limpia los Jtext:
-        
         txt_venta_busca_cedula.setText("");
         txt_venta_nombre.setText("");
         txt_venta_apellido.setText("");
@@ -698,6 +696,8 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                             ventaCosto + "," +
                             ventaDescuento + "," +
                             ventaTotal);
+                    
+                    JOptionPane.showMessageDialog(null, "Boleto modificado Correctamente."); 
                 }else{
             // Si no encuentra cambios, el array temporal será el mismo que el original
                     tempArray.add(linea);
@@ -718,7 +718,11 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                     pr.println(str);
                 }
                 pr.close();
-                metodos.listaBoleto();
+                
+                //Actualizamos la tabla y volvemos a leer los datos del archivo modificado
+                mdlTablaBoletos = new DefaultTableModel();
+                table_ventas_boletos.setModel(metodos.listaBoleto());
+                
             } catch (Exception e) {
             }
         } catch (Exception e) {
