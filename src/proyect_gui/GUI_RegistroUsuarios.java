@@ -1,5 +1,6 @@
 package proyect_gui;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,6 +12,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -31,9 +34,12 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     Vector vCabeceras = new Vector();
     Vector v = new Vector();
     
-    public GUI_RegistroUsuarios() {
+    public GUI_RegistroUsuarios() throws FileNotFoundException {
         
         initComponents();
+        GenerarCodigoUsuario();
+        txt_u_id.setEditable(false);
+        txt_u_id.setBackground(Color.yellow);
         vCabeceras.addElement("ID");
         vCabeceras.addElement("NOMBRE");
         vCabeceras.addElement("APELLIDO");
@@ -43,6 +49,48 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         table_usuario.setModel(mdlTablaU);
         table_usuario.setModel(metodos.listaUsuario());
 
+    }
+    
+    // Este metodo genera en forma automatica un Id diferente y consecuitivo para cada venta de boleto.
+    // Cada Id nuevo generado sera el numero siguiente al ultimo Id generado en la venta anterior.
+    // Los ID son únicos, irrepetibles y no pueden ser editados. Son los identificadores de cada venta
+    public final void GenerarCodigoUsuario() throws FileNotFoundException{
+
+        txt_u_id.setText("1");
+        String ultimoCodigo="0";
+        int nuevoCodigo=0;
+        
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+           try {
+            archivo = new File(".\\usuario.txt");
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+            
+           Object [] tableLines = br.lines().toArray();
+         // Recorro mediante un Array todo el archivo usuario.txt y verifico la posicion [0] para ver el codigo de venta de cada pasaje
+               for (int i = 0; i < tableLines.length; i++) {
+                   String line = tableLines[i].toString().trim();
+                   String [] dataRow = line.split(",");
+                   ultimoCodigo = (dataRow[0]);
+                   }
+                // Si ya existen ventas, el código de la próxima venta será el útltimo código + 1
+                    nuevoCodigo = Integer.parseInt(ultimoCodigo);
+                    txt_u_id.setText(String.valueOf(nuevoCodigo+1));
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          } catch (FileNotFoundException e) {
+        }
     }
     
 
@@ -77,6 +125,7 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        table_usuario.setBackground(new java.awt.Color(255, 255, 153));
         table_usuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -96,7 +145,8 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         jScrollPane1.setViewportView(table_usuario);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setText("INGRESO DE USUARIOS:");
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/usuario.png"))); // NOI18N
+        jLabel6.setText("INGRESO DE USUARIOS");
 
         jLabel5.setText("Id Usuario :");
 
@@ -115,7 +165,7 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5)
@@ -347,12 +397,16 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         table_usuario.setModel(metodos.listaUsuario());
         
          // Limpia los Jtext:
-        
-        txt_u_id.setText("");
         txt_u_nombre.setText("");
         txt_u_apellido.setText("");
         txt_u_password.setText("");
         txt_u_user.setText("");
+        
+        try {
+            GenerarCodigoUsuario();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_u_guardarActionPerformed
 
     private void btn_u_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_salirActionPerformed
@@ -364,7 +418,13 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
     private void btn_u_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_nuevoActionPerformed
        
-        
+        //Generamos un nuevo codigo de usuario unico
+        try {
+            GenerarCodigoUsuario();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
        // Activamos el boton de guardar
         
         btn_u_guardar.setEnabled(true);
@@ -378,8 +438,6 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         btn_u_eliminar.setEnabled(false);
 
        // Limpia los Jtext:
-        
-        txt_u_id.setText("");
         txt_u_nombre.setText("");
         txt_u_apellido.setText("");
         txt_u_password.setText("");
@@ -402,8 +460,6 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         metodos.EliminarUsuario(IdUsuario, Nombre, Apellido, Usuario, Password);
         
         // limipiamos los text
-        
-        txt_u_id.setText("");
         txt_u_nombre.setText("");
         txt_u_apellido.setText("");
         txt_u_password.setText("");
@@ -418,14 +474,6 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     private void btn_u_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_editarActionPerformed
        
          // Primero validamos cada una de la sentradas
-
-                    if (txt_u_id.getText().length() == 0) {
-
-                        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un número de ID");
-                        txt_u_id.requestFocus();
-                        return;
-                    }
-                    
                       if (txt_u_nombre.getText().length() == 0) {
 
                         JOptionPane.showMessageDialog(rootPane, "Debe ingresar un nombre");
@@ -454,34 +502,24 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
                         return;
                     }
 
-        mdlTablaU = new DefaultTableModel();
-        
-        int id_u = Integer.parseInt(txt_u_id.getText());
+        String id = txt_u_id.getText();
         String nombre_u = txt_u_nombre.getText();
         String apellido_u = txt_u_apellido.getText();
         String user_u = txt_u_user.getText();
         String password_u = txt_u_password.getText();
+
+        metodos.EditarUsuario(id, nombre_u, apellido_u, user_u, password_u);
         
-        usuario.setId_usuario(id_u);
-        usuario.setNombre_usuario(nombre_u);
-        usuario.setApellido_usuario(apellido_u);
-        usuario.setUsarname(user_u);
-        usuario.setPassword(password_u);
-        
-        metodos.guardarUsuario(usuario);
-        metodos.guardarArchivoUsuario(usuario);
-        
+        mdlTablaU = new DefaultTableModel();
         table_usuario.setModel(metodos.listaUsuario());
         
          // Limpia los Jtext:
-        
-        txt_u_id.setText("");
+       
         txt_u_nombre.setText("");
         txt_u_apellido.setText("");
         txt_u_password.setText("");
         txt_u_user.setText("");
-        
-        
+
     }//GEN-LAST:event_btn_u_editarActionPerformed
 
     private void table_usuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_usuarioMouseClicked
@@ -544,7 +582,11 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUI_RegistroUsuarios().setVisible(true);
+                try {
+                    new GUI_RegistroUsuarios().setVisible(true);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(GUI_RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -100,14 +100,71 @@ public class MetodoPasajero {
         return vPrincipal;
     }
     
-    public void EditaPasajero(){
-    
-        //FALTA
+   public void EditarPasajero(String Id, String Nombre, String Apellido, String Cedula, String Edad, String Tipo){
+
+        String id = Id;
+        String nombre = Nombre;
+        String apellido = Apellido;
+        String cedula = Cedula;
+        String edad = Edad;
+        String tipo = Tipo;
+
+        ArrayList<String> tempArray = new ArrayList<>();
+        
+        try {
+            try (FileReader fr = new FileReader(".\\pasajero.txt"))
+            {
+                Scanner reader = new Scanner(fr);
+                String linea;
+                String [] lineaArray;
+                
+                while((linea=reader.nextLine())!=null){
+                    
+            // Se toma el ID para lograr validar dado que al hacer clicik 
+            // ese Empleado será el que entienda el sistema que debe actualizar
+            
+                lineaArray = linea.split(",");
+                if(lineaArray[0].equals(id)){
+                    
+           // Recorro y agrego en la fila que el sistema entiende que existe el ID
+                    tempArray.add(
+                            
+                            id + "," +
+                            nombre + "," +
+                            apellido + "," +
+                            cedula + "," +
+                            edad + "," +
+                            tipo);
+                    
+                    JOptionPane.showMessageDialog(null, "Pasajero modificado correctamente."); 
+                }else{
+            // Si no encuentra cambios, el array temporal será el mismo que el original
+                    tempArray.add(linea);
+                }
+            }
+                fr.close();
+                
+              } catch (Exception e) {
+            }
+          } catch (Exception e) {
+        }
+        // Aqui se guardan los datos del array temporal, ya modificados, en el array original
+        try {
+            try(PrintWriter pr = new PrintWriter(".\\pasajero.txt")) 
+            {
+                tempArray.forEach((str) -> {
+                    pr.println(str);
+                });
+                pr.close();
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+      }   
     }
     
-    public void EliminarPasajero(int Id, String Nombre, String Apellido, String Cedula, String Edad, String Tipo){
+    public void EliminarPasajero(String Id, String Nombre, String Apellido, String Cedula, String Edad, String Tipo){
     
-        int id = Id;
+        String id = Id;
         String nombre = Nombre;
         String apellido = Apellido;
         String cedula = Cedula;
@@ -128,7 +185,7 @@ public class MetodoPasajero {
                 while((linea=reader.nextLine())!=null){
             
                 lineaArray = linea.split(",");
-                if(lineaArray[3].equals(cedula)){
+                if(lineaArray[0].equals(id)){
                 
                 // Se toma la CEDULA, que siempre estarán el la posición [3] hacer la modificacion dado
                 // y el sistema sólo borra la linea seleccionada.

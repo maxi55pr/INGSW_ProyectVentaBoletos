@@ -1,5 +1,6 @@
 package proyect_gui;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -239,7 +240,12 @@ public class GUI_Principal extends javax.swing.JFrame {
 
     private void menu_registroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_registroUsuarioActionPerformed
         // TODO add your handling code here:
-        GUI_RegistroUsuarios b = new GUI_RegistroUsuarios();
+        GUI_RegistroUsuarios b = null;
+        try {
+            b = new GUI_RegistroUsuarios();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         b.setVisible(true);
         dispose();
         
@@ -247,7 +253,12 @@ public class GUI_Principal extends javax.swing.JFrame {
 
     private void registroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroUsuarioActionPerformed
         // TODO add your handling code here:
-        GUI_RegistroUsuarios b = new GUI_RegistroUsuarios();
+        GUI_RegistroUsuarios b = null;
+        try {
+            b = new GUI_RegistroUsuarios();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         b.setVisible(true);
         dispose();
     }//GEN-LAST:event_registroUsuarioActionPerformed

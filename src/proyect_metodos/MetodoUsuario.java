@@ -2,8 +2,6 @@ package proyect_metodos;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,12 +10,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Usuario;
-import proyect_gui.GUI_RegistroUsuarios;
 
 public class MetodoUsuario {
     
@@ -102,11 +97,65 @@ public class MetodoUsuario {
         return v1;
     }
     
-      public void EditarUsuario() {
-           
-        //FALTA
+     public void EditarUsuario(String Id, String Nombre, String Apellido, String Usuario, String Password){
+
+        String id = Id;
+        String nombre = Nombre;
+        String apellido = Apellido;
+        String usuario = Usuario;
+        String password = Password;
+
+        ArrayList<String> tempArray = new ArrayList<>();
+        
+        try {
+            try (FileReader fr = new FileReader(".\\usuario.txt"))
+            {
+                Scanner reader = new Scanner(fr);
+                String linea;
+                String [] lineaArray;
+                
+                while((linea=reader.nextLine())!=null){
+                    
+            // Se toma el ID para lograr validar dado que al hacer clicik 
+            // ese Empleado será el que entienda el sistema que debe actualizar
+            
+                lineaArray = linea.split(",");
+                if(lineaArray[0].equals(id)){
+                    
+           // Recorro y agrego en la fila que el sistema entiende que existe el ID
+                    tempArray.add(
+                            
+                            id + "," +
+                            nombre + "," +
+                            apellido + "," +
+                            usuario + "," +
+                            password);
+                    
+                    JOptionPane.showMessageDialog(null, "Usuario modificado Correctamente."); 
+                }else{
+            // Si no encuentra cambios, el array temporal será el mismo que el original
+                    tempArray.add(linea);
+                }
+            }
+                fr.close();
+                
+              } catch (Exception e) {
+            }
+          } catch (Exception e) {
+        }
+        // Aqui se guardan los datos del array temporal, ya modificados, en el array original
+        try {
+            try(PrintWriter pr = new PrintWriter(".\\usuario.txt")) 
+            {
+                tempArray.forEach((str) -> {
+                    pr.println(str);
+                });
+                pr.close();
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+      }   
     }
-    
     
     public void EliminarUsuario(String Id, String Nombre, String Apellido, String Usuario, String Password) {
 
