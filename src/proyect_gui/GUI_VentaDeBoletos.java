@@ -646,7 +646,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         // Boton editar boletos de compra en tabla:
         
         //Confirmamos si deseamos eliminar o no, por seguridad
-        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el BOLETO del sistema?");
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea EDITAR el BOLETO del sistema?");
         if(opcion == JOptionPane.YES_OPTION){  
         
         String IdBoleto = txt_IdCompra.getText();
