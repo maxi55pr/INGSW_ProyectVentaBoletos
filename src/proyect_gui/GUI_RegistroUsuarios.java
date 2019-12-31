@@ -2,24 +2,17 @@ package proyect_gui;
 
 import java.awt.Color;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Usuario;
 import proyect_metodos.MetodoUsuario;
-import proyect_metodos.MetodoBoleto;
 
 public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     
@@ -113,9 +106,6 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         txt_u_password = new javax.swing.JTextField();
         txt_u_id = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        txt_u_id_busca = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btn_u_nuevo = new javax.swing.JButton();
         btn_u_guardar = new javax.swing.JButton();
@@ -212,33 +202,15 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel7.setText("BUSQUEDA Y EDITAR DE  USUARIOS:");
-
-        jLabel8.setText("Id Usuario :");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(txt_u_id_busca, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addContainerGap(109, Short.MAX_VALUE))
+            .addGap(0, 319, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt_u_id_busca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+            .addGap(0, 25, Short.MAX_VALUE)
         );
 
         btn_u_nuevo.setText("Nuevo");
@@ -331,7 +303,8 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -418,6 +391,11 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
     private void btn_u_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_nuevoActionPerformed
        
+        txt_u_nombre.setEditable(true);
+        txt_u_apellido.setEditable(true);
+        txt_u_password.setEditable(true);
+        txt_u_user.setEditable(true);
+        
         //Generamos un nuevo codigo de usuario unico
         try {
             GenerarCodigoUsuario();
@@ -467,6 +445,12 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
 
         // volvemos a leer los datos de la tabla
         table_usuario.setModel(metodos.listaUsuario());
+
+            try {
+                GenerarCodigoUsuario();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(GUI_RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
          
         }
     }//GEN-LAST:event_btn_u_eliminarActionPerformed
@@ -603,8 +587,6 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -612,7 +594,6 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
     private javax.swing.JTable table_usuario;
     private javax.swing.JTextField txt_u_apellido;
     private javax.swing.JTextField txt_u_id;
-    private javax.swing.JTextField txt_u_id_busca;
     private javax.swing.JTextField txt_u_nombre;
     private javax.swing.JTextField txt_u_password;
     private javax.swing.JTextField txt_u_user;

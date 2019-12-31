@@ -1,5 +1,10 @@
 package proyect_gui;
 
+import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +25,8 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
     public GUI_RegistroRutas() throws IOException {
         initComponents();
         
+        GenerarCodigoRuta();
+        
         vCabeceras.addElement("ID");
         vCabeceras.addElement("RUTA");
         vCabeceras.addElement("ORIGEN");
@@ -31,7 +38,53 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         table_rutas.setModel(mdlTablaR);
         table_rutas.setModel(metodos.listaRutas());
         
+        txt_r_id.setEditable(false);
+        txt_r_id.setBackground(Color.yellow);
+        
     }
+    
+     // Este metodo genera en forma automatica un Id diferente y consecuitivo para cada venta de boleto.
+    // Cada Id nuevo generado sera el numero siguiente al ultimo Id generado en la venta anterior.
+    // Los ID son únicos, irrepetibles y no pueden ser editados. Son los identificadores de cada venta
+    public final void GenerarCodigoRuta() throws FileNotFoundException{
+
+        txt_r_id.setText("1");
+        String ultimoCodigo="0";
+        int nuevoCodigo=0;
+        
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+           try {
+            archivo = new File(".\\ruta.txt");
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+            
+           Object [] tableLines = br.lines().toArray();
+         // Recorro mediante un Array todo el archivo usuario.txt y verifico la posicion [0] para ver el codigo de venta de cada pasaje
+               for (int i = 0; i < tableLines.length; i++) {
+                   String line = tableLines[i].toString().trim();
+                   String [] dataRow = line.split(",");
+                   ultimoCodigo = (dataRow[0]);
+                   }
+                // Si ya existen ventas, el código de la próxima venta será el útltimo código + 1
+                    nuevoCodigo = Integer.parseInt(ultimoCodigo);
+                    txt_r_id.setText(String.valueOf(nuevoCodigo+1));
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          } catch (FileNotFoundException e) {
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -278,15 +331,14 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
                         .addComponent(btn_r_nuevo)
                         .addGap(35, 35, 35)
                         .addComponent(btn_r_guardar)
-                        .addGap(34, 34, 34)
-                        .addComponent(btn_r_eliminar)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_r_actializar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(btn_r_actializar)
-                        .addGap(35, 35, 35)
+                        .addComponent(btn_r_eliminar)
+                        .addGap(43, 43, 43)
                         .addComponent(btn_r_salir)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -386,8 +438,14 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_r_salirActionPerformed
 
     private void btn_r_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_nuevoActionPerformed
+        
+        try {
+            GenerarCodigoRuta();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         // Limpia los Jtext:
-        txt_r_id.setText("");
         txt_r_nombre.setText("");
         txt_r_origen.setText("");
         txt_r_destino.setText("");
@@ -415,8 +473,6 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         metodos.EliminarRuta(Id, Costo, Ruta, Origen, Destino, Fecha, Hora);
         
         // limipiamos los text
-        
-        txt_r_id.setText("");
         txt_r_costo.setText("");
         txt_r_nombre.setText("");
         txt_r_origen.setText("");
@@ -451,11 +507,10 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         String Fecha = txt_r_fecha.getText();
         
          //Pasamos al metodo los valores de las variables para procesar en el metodo
-        metodos.EliminarRuta(Id, Ruta, Origen, Destino, Costo, Hora, Fecha);
+        metodos.EditarRutas(Id, Ruta, Origen, Destino, Costo, Hora, Fecha);
         
          // limipiamos los text
-        
-        txt_r_id.setText("");
+      
         txt_r_nombre.setText("");
         txt_r_origen.setText("");
         txt_r_destino.setText("");

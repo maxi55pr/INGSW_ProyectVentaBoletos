@@ -102,9 +102,69 @@ public class MetodoRutas {
         return vPrincipal;
     }
     
-    public void EditarRutas() {
+    public void EditarRutas(String Id, String Ruta, String Costo, String Origen, String Destino, String Fecha, String Hora) {
            
-        //FALTA
+         String id = Id;
+        String ruta = Ruta;
+        String costo = Costo;
+        String origen = Origen;
+        String destino = Destino;
+        String fecha = Fecha;
+        String hora = Hora;
+
+        ArrayList<String> tempArray = new ArrayList<>();
+        
+        try {
+            try (FileReader fr = new FileReader(".\\ruta.txt"))
+            {
+                Scanner reader = new Scanner(fr);
+                String linea;
+                String [] lineaArray;
+                
+                while((linea=reader.nextLine())!=null){
+                    
+            // Se toma el ID para lograr validar dado que al hacer clicik 
+            // ese Empleado será el que entienda el sistema que debe actualizar
+            
+                lineaArray = linea.split(",");
+                if(lineaArray[0].equals(id)){
+                    
+           // Recorro y agrego en la fila que el sistema entiende que existe el ID
+                    tempArray.add(
+                            
+                            id + "," +
+                            ruta + "," +
+                            costo + "," +
+                            origen + "," +
+                            destino + "," +
+                            fecha + "," +
+                            hora);
+                    
+                    JOptionPane.showMessageDialog(null, "RUTA modificada correctamente."); 
+                    
+                }else{
+            // Si no encuentra cambios, el array temporal será el mismo que el original
+                    tempArray.add(linea);
+                }
+            }
+                fr.close();
+                
+              } catch (Exception e) {
+            }
+          } catch (Exception e) {
+        }
+        // Aqui se guardan los datos del array temporal, ya modificados, en el array original
+        try {
+            try(PrintWriter pr = new PrintWriter(".\\ruta.txt")) 
+            {
+                tempArray.forEach((str) -> {
+                    pr.println(str);
+                });
+                pr.close();
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+      }   
     }
     
     
