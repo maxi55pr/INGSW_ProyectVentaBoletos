@@ -32,6 +32,12 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
         cj_pass = new javax.swing.JPasswordField();
         cj_usuario = new javax.swing.JTextField();
         btn_entrar = new javax.swing.JButton();
+        btn_entrar1 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 255));
@@ -64,54 +70,98 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
         });
 
         btn_entrar.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        btn_entrar.setText("Entrar");
+        btn_entrar.setText("Salir");
         btn_entrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_entrarActionPerformed(evt);
             }
         });
 
+        btn_entrar1.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        btn_entrar1.setText("Entrar");
+        btn_entrar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_entrar1ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/usuario.png"))); // NOI18N
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/password.png"))); // NOI18N
+
+        jLabel6.setText("Tarea 2 - Maximiliano Ariel Frias Vozzi");
+
+        jLabel7.setText("Profesor: Ing. Marco Patricio Abad Espinoza");
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Universidad_Técnica_Particular_de_Loja.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btn_entrar)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel2))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cj_pass)
-                                .addComponent(cj_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addGap(72, 72, 72)
+                        .addComponent(btn_entrar1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cj_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cj_pass, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
-                .addGap(32, 32, 32)
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(26, 26, 26))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel5))
+                            .addComponent(jLabel8)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cj_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(cj_pass, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cj_usuario)
-                        .addGap(18, 18, 18)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(cj_pass, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btn_entrar, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                .addContainerGap())
+                        .addGap(184, 184, 184)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_entrar1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24))))
         );
 
         pack();
@@ -168,91 +218,13 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
 
     private void btn_entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entrarActionPerformed
         
-         //Comprobamos si las credenciales de usuario y password estan correctas contral el archivo usuario.txt
-        
-        String Usuario = cj_usuario.getText().trim();
-        String Password = new String(cj_pass.getPassword());
-
-           try {
-            
-            FileReader fr = new FileReader(".\\usuario.txt");
-            BufferedReader br = new BufferedReader(fr);
-
-           Object [] tablas = br.lines().toArray();
-           
-           // Recorremos mediante un for el archivo usuario.txt para ver cada datos y validar
-               for (int i = 0; i < tablas.length; i++) 
-               
-              {
-                   String line = tablas[i].toString().trim();
-                   String [] datosFilas = line.split(",");
-               
-            // En la posicion 3 del array esta el usuario y en la pos 4 el password
-                   if(datosFilas[3].equals(Usuario) && datosFilas[4].equals(Password) )
-              {
-            // Si enncuetra un Usuario existente y coinciden las credenciales, da acceso a las ventas.
-                   GUI_Principal formulario = new GUI_Principal();
-                   formulario.setVisible(true);
-            // cambiamos el valor del control para indicar que el usuario fue encontrado
-                   control = true;
-                   this.dispose();
-               }
-              } // fin bucle for
-               
-            // Si control sigue en estado FALSE, termina el bucle e indica que el usuario no se encuentra
-                if(control == false){
-                          JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecta. Intente nuevamente.");
-                          
-                          cj_usuario.setText("");
-                          cj_pass.setText("");
-               } 
-               
-            try {
-                fr.close();
-            } catch (IOException ex) {
-                Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                br.close();
-            } catch (IOException ex) {
-                Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-          } catch (FileNotFoundException e) {
-              
-          } catch (IOException ex) {
-            Logger.getLogger(GUIi_AccesoSistema.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-      /**  
-        String usuario = cj_usuario.getText().trim();
-        String contraseña = new String(cj_pass.getPassword());
-
-        if( usuario.equalsIgnoreCase(user) && contraseña.equalsIgnoreCase(pass) )
-        {
-            GUI_Principal b = new GUI_Principal();
-            b.setVisible(true);
-            dispose();
-        }
-        else if( usuario.isEmpty() && contraseña.isEmpty() )
-        {
-            JOptionPane.showMessageDialog(null, "Ingrese Usuario y Contraseña");
-        }
-        else if( usuario != user && contraseña != pass )
-        {
-            JOptionPane.showMessageDialog(null, "Usuario y Contraseña Incorrectos", "Error Al Ingresar", JOptionPane.ERROR_MESSAGE);
-        }
-        else if( usuario != user )
-        {
-            JOptionPane.showMessageDialog(null, "Usuario Incorrecto", "Usuario No Existe", JOptionPane.ERROR_MESSAGE);
-        }
-        else if( contraseña != pass )
-        {
-            JOptionPane.showMessageDialog(null, "Contraseña Incorrecta", "Contraseña Mal Escrita", JOptionPane.ERROR_MESSAGE);
-        }
-        */
+         this.dispose();
 
     }//GEN-LAST:event_btn_entrarActionPerformed
+
+    private void btn_entrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entrar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_entrar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -292,10 +264,16 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_entrar;
+    private javax.swing.JButton btn_entrar1;
     private javax.swing.JPasswordField cj_pass;
     private javax.swing.JTextField cj_usuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     // End of variables declaration//GEN-END:variables
 }
