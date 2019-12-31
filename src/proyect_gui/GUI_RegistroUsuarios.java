@@ -461,13 +461,16 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         String apellido_u = txt_u_apellido.getText();
         String user_u = txt_u_user.getText();
         String password_u = txt_u_password.getText();
+        
         usuario.setId_usuario(id_u);
         usuario.setNombre_usuario(nombre_u);
         usuario.setApellido_usuario(apellido_u);
         usuario.setUsarname(user_u);
         usuario.setPassword(password_u);
+        
         metodos.guardarUsuario(usuario);
         metodos.guardarArchivoUsuario(usuario);
+        
         table_usuario.setModel(metodos.listaUsuario());
         
          // Limpia los Jtext:

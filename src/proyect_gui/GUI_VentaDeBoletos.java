@@ -132,6 +132,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
                 mdlTablaBoletos.addRow(datosFilas);
                    }
                }
+               
               fr.close();
               br.close();
              } catch (FileNotFoundException e) {
@@ -644,94 +645,50 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     private void btn_p_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_editarActionPerformed
         // Boton editar boletos de compra en tabla:
         
-         // Mediante variables y lectura de arreglos, tomamos los valores
-        // de los TextField los ingresamos en el archivo TXT en la posicion 
-        // que la logica siguiente entiende que es la correcta y actualiza el txt en el momento.
+        //Confirmamos si deseamos eliminar o no, por seguridad
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el BOLETO del sistema?");
+        if(opcion == JOptionPane.YES_OPTION){  
         
-        //  Este algoritmo utilza un array temporal para escribir los datos
-            String IdCompra = txt_IdCompra.getText();
-            String Nombre = txt_venta_nombre.getText();
-            String Apellido = txt_venta_apellido.getText();
-            int Cedula = Integer.parseInt(txt_venta_cedula.getText());
-            int Edad = Integer.parseInt(txt_venta_edad.getText());
-            String Categoria = txt_venta_tipoPasajero.getText();
-            String Ruta = txt_busca_ruta.getText();
-            String ventaFecha = txt_venta_fecha.getText();
-            String ventaHora = txt_venta_hora.getText();
-            int ventaCantidadBoleto = Integer.parseInt(txt_venta_numboleto.getText());
-            Double ventaCosto = Double.parseDouble(txt_venta_costo.getText());
-            Double ventaDescuento = Double.parseDouble(txt_venta_descuento.getText());
-            Double ventaTotal = Double.parseDouble(txt_venta_total.getText());
-
-        ArrayList<String> tempArray = new ArrayList<>();
+        String IdBoleto = txt_IdCompra.getText();
+        String nombre = txt_venta_nombre.getText();
+        String apellido = txt_venta_apellido.getText();
+        String venta_cedula = txt_venta_cedula.getText();
+        String edad = txt_venta_edad.getText();
+        String tipo = txt_venta_tipoPasajero.getText();
+        String rutaBoleto = txt_busca_ruta.getText();
+        String fecha = txt_venta_fecha.getText();
+        String hora = txt_venta_hora.getText();
+        String cantidadBoletos = txt_venta_numboleto.getText();
+        String costoBoleto = txt_venta_costo.getText();
+        String descuento = txt_venta_descuento.getText();
+        String total = txt_venta_total.getText();
         
-        try {
-            try (FileReader fr = new FileReader(".\\boletos.txt"))
-            {
-                Scanner reader = new Scanner(fr);
-                String linea;
-                String [] lineaArray;
-                
-                while((linea=reader.nextLine())!=null){
-                    
-            // Se toma el ID para lograr validar dado que al hacer clicik 
-            // ese Empleado será el que entienda el sistema que debe actualizar
-            
-                lineaArray = linea.split(",");
-                if(lineaArray[0].equals(IdCompra)){
-                    
-           // Recorro y agrego en la fila que el sistema entiende que existe el ID
-                    tempArray.add(
-                            
-                            IdCompra + "," +
-                            Nombre + "," +
-                            Apellido + "," +
-                            Cedula + "," +
-                            Edad + "," +
-                            Categoria+ "," +
-                            Ruta + "," +
-                            ventaFecha + "," +
-                            ventaHora + "," +
-                            ventaCantidadBoleto + "," +
-                            ventaCosto + "," +
-                            ventaDescuento + "," +
-                            ventaTotal);
-                    
-                    JOptionPane.showMessageDialog(null, "Boleto modificado Correctamente."); 
-                }else{
-            // Si no encuentra cambios, el array temporal será el mismo que el original
-                    tempArray.add(linea);
-                }
-            }
-                fr.close();
+        //Pasamos al metodo los valores de las variables para procesar en el metodo
+        metodos.EditarBoleto(IdBoleto, nombre, apellido, venta_cedula, edad, tipo, rutaBoleto, fecha, hora, cantidadBoletos, costoBoleto, descuento, total);
+        
+        // limipiamos los text
+        txt_venta_busca_cedula.setText("");
+        txt_venta_nombre.setText("");
+        txt_venta_apellido.setText("");
+        txt_venta_cedula.setText("");
+        txt_venta_edad.setText("");
+        txt_venta_tipoPasajero.setText("");
+        txt_busca_ruta.setText("");
+        txt_venta_costo.setText("");
+        txt_venta_fecha.setText("");
+        txt_venta_hora.setText("");
+        txt_venta_numboleto.setText("");
+        txt_venta_descuento.setText("");
+        txt_venta_total.setText("");
+        txt_buscarBoleto.setText("");
 
-              } catch (Exception e) {
-            }
-          } catch (Exception e) {
-        }
-        // Aqui se guardan los datos del array temporal, ya modificados, en el array original
-        try {
-            try(PrintWriter pr = new PrintWriter(".\\boletos.txt"))
-                
-            {
-                for(String str:tempArray) {
-                    pr.println(str);
-                }
-                pr.close();
-                
-                //Actualizamos la tabla y volvemos a leer los datos del archivo modificado
-                mdlTablaBoletos = new DefaultTableModel();
+            try {
+                // volvemos a leer los datos de la tabla
                 table_ventas_boletos.setModel(metodos.listaBoleto());
-                
-            } catch (Exception e) {
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception e) {
-        }
- 
-       
-        
-
-      
+        }        
     }//GEN-LAST:event_btn_p_editarActionPerformed
 
     private void btn_buscarr_pasajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarr_pasajeroActionPerformed
@@ -997,6 +954,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     private void btn_buscarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarBoletoActionPerformed
 
         //Limpiamos los Jtext
+        
         txt_venta_busca_cedula.setText("");
         txt_venta_nombre.setText("");
         txt_venta_apellido.setText("");
@@ -1025,7 +983,51 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_buscarBoletoActionPerformed
 
     private void btn_p_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_eliminarActionPerformed
-        // TODO add your handling code here:
+        
+         //Confirmamos si deseamos eliminar o no, por seguridad
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el BOLETO del sistema?");
+        if(opcion == JOptionPane.YES_OPTION){  
+        
+        String IdBoleto = txt_IdCompra.getText();
+        String nombre = txt_venta_nombre.getText();
+        String apellido = txt_venta_apellido.getText();
+        String venta_cedula = txt_venta_cedula.getText();
+        String edad = txt_venta_edad.getText();
+        String tipo = txt_venta_tipoPasajero.getText();
+        String rutaBoleto = txt_busca_ruta.getText();
+        String fecha = txt_venta_fecha.getText();
+        String hora = txt_venta_hora.getText();
+        String cantidadBoletos = txt_venta_numboleto.getText();
+        String costoBoleto = txt_venta_costo.getText();
+        String descuento = txt_venta_descuento.getText();
+        String total = txt_venta_total.getText();
+        
+        //Pasamos al metodo los valores de las variables para procesar en el metodo
+        metodos.EliminarBoleto(IdBoleto, nombre, apellido, venta_cedula, edad, tipo, rutaBoleto, fecha, hora, cantidadBoletos, costoBoleto, descuento, total);
+        
+        // limipiamos los text
+        txt_venta_busca_cedula.setText("");
+        txt_venta_nombre.setText("");
+        txt_venta_apellido.setText("");
+        txt_venta_cedula.setText("");
+        txt_venta_edad.setText("");
+        txt_venta_tipoPasajero.setText("");
+        txt_busca_ruta.setText("");
+        txt_venta_costo.setText("");
+        txt_venta_fecha.setText("");
+        txt_venta_hora.setText("");
+        txt_venta_numboleto.setText("");
+        txt_venta_descuento.setText("");
+        txt_venta_total.setText("");
+        txt_buscarBoleto.setText("");
+
+            try {
+                // volvemos a leer los datos de la tabla
+                table_ventas_boletos.setModel(metodos.listaBoleto());
+            } catch (IOException ex) {
+                Logger.getLogger(GUI_VentaDeBoletos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
     }//GEN-LAST:event_btn_p_eliminarActionPerformed
 
     private void table_ventas_boletosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_ventas_boletosMouseEntered

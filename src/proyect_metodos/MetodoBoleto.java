@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import javax.swing.JOptionPane;
@@ -23,6 +25,8 @@ public class MetodoBoleto {
 
     public static String busqueda;
     GUI_VentaDeBoletos ventaBoletos;
+    // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
+    private final String ruta = System.getProperties().getProperty("user.dir");
     
     public void guardarArchivoBoleto(Pasajero pasajero, Rutas ruta, Boleto boleto){
         
@@ -94,4 +98,149 @@ public class MetodoBoleto {
         return mdlTablaP;
     }
     
+    public void EditarBoleto(String Id, String Nombre, String Apellido, String Cedula, String Edad, String Tipo, String Ruta, String Fecha, String Hora, String Cantidad, String Costo, String Descuento, String Total){
+
+        String IdBoleto = Id;
+        String nombre = Nombre;
+        String apellido = Apellido;
+        String venta_cedula = Cedula;
+        String edad = Edad;
+        String tipo = Tipo;
+        String rutaBoleto = Ruta;
+        String fecha = Fecha;
+        String hora = Hora;
+        String cantidadBoletos = Cantidad;
+        String costoBoleto = Costo;
+        String descuento = Descuento;
+        String total = Total;
+        
+        ArrayList<String> tempArray = new ArrayList<>();
+        
+        try {
+            try (FileReader fr = new FileReader(".\\boletos.txt"))
+            {
+                Scanner reader = new Scanner(fr);
+                String linea;
+                String [] lineaArray;
+                
+                while((linea=reader.nextLine())!=null){
+                    
+            // Se toma el ID para lograr validar dado que al hacer clicik 
+            // ese Empleado será el que entienda el sistema que debe actualizar
+            
+                lineaArray = linea.split(",");
+                if(lineaArray[0].equals(IdBoleto)){
+                    
+           // Recorro y agrego en la fila que el sistema entiende que existe el ID
+                    tempArray.add(
+                            
+                            IdBoleto + "," +
+                            nombre + "," +
+                            apellido + "," +
+                            venta_cedula + "," +
+                            edad + "," +
+                            tipo+ "," +
+                            rutaBoleto + "," +
+                            fecha + "," +
+                            hora + "," +
+                            cantidadBoletos + "," +
+                            costoBoleto + "," +
+                            descuento + "," +
+                            total);
+                    
+                    JOptionPane.showMessageDialog(null, "Boleto modificado Correctamente."); 
+                }else{
+            // Si no encuentra cambios, el array temporal será el mismo que el original
+                    tempArray.add(linea);
+                }
+            }
+                fr.close();
+                
+              } catch (Exception e) {
+            }
+          } catch (Exception e) {
+        }
+        // Aqui se guardan los datos del array temporal, ya modificados, en el array original
+        try {
+            try(PrintWriter pr = new PrintWriter(".\\boletos.txt")) 
+            {
+                tempArray.forEach((str) -> {
+                    pr.println(str);
+                });
+                pr.close();
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+      }   
+    }
+    
+     public void EliminarBoleto(String Id, String Nombre, String Apellido, String Cedula, String Edad, String Tipo, String Ruta, String Fecha, String Hora, String Cantidad, String Costo, String Descuento, String Total){
+ 
+        String id = Id;
+        String nombre = Nombre;
+        String apellido = Apellido;
+        String cedula = Cedula;
+        String edad = Edad;
+        String tipo = Tipo;
+        String rutaBoleto = Ruta;
+        String fecha = Fecha;
+        String hora = Hora;
+        String cantidad = Cantidad;
+        String costo = Costo;
+        String descuento = Descuento;
+        String total = Total;
+
+        ArrayList<String> tempArray = new ArrayList<>();
+        
+        try {
+            try (FileReader fr = new FileReader(ruta+".\\boletos.txt"))
+            {
+                Scanner reader = new Scanner(fr);
+                String linea;
+                String [] lineaArray;
+        // Si al recorrer el arreglo, encuentra la cedula del seleccionado al hacer click
+        // se borra toda la linea que contiene esa cedula único  
+                while((linea=reader.nextLine())!=null){
+                lineaArray = linea.split(",");
+                if(lineaArray[0].equals(id)){
+                
+                // Se toma el ID, que siempre estarán el la posición [0] hacer la modificacion dado
+                // y el sistema sólo borra la linea seleccionada.
+                    tempArray.remove(
+                            id + "," +
+                            nombre + "," +
+                            apellido + "," +
+                            cedula + "," +
+                            edad + "," +
+                            tipo+ "," +
+                            rutaBoleto + "," +
+                            fecha + "," +
+                            hora + "," +
+                            cantidad + "," +
+                            costo + "," +
+                            descuento + "," +
+                            total);
+                }else{
+                    tempArray.add(linea);
+                }
+            }
+                fr.close();
+  
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+        }
+        try {
+            try(PrintWriter pr = new PrintWriter(ruta+".\\boletos.txt"))
+            {
+               tempArray.forEach((str) -> {
+                    pr.println(str);
+                });
+                pr.close();
+
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+       }
+     }
 }
