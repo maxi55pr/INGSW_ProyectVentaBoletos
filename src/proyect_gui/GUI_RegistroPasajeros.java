@@ -307,7 +307,13 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
     }
     
     private void btn_p_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_guardarActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+
+            GenerarCodigoPasajero();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
             // Primero validamos cada una de la entradas
 
