@@ -2,7 +2,6 @@ package proyect_metodos;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -17,21 +16,20 @@ import javax.swing.table.DefaultTableModel;
 import proyect_clases.Boleto;
 import proyect_clases.Pasajero;
 import proyect_clases.Rutas;
-import proyect_clases.Usuario;
-import proyect_gui.GUI_Principal;
 import proyect_gui.GUI_VentaDeBoletos;
 
 public class MetodoBoleto {
 
     public static String busqueda;
     GUI_VentaDeBoletos ventaBoletos;
+    
     // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
     private final String ruta = System.getProperties().getProperty("user.dir");
     
-    public void guardarArchivoBoleto(Pasajero pasajero, Rutas ruta, Boleto boleto){
+    public void guardarArchivoBoleto(Pasajero pasajero, Rutas rutaBoleto, Boleto boleto){
         
       try {
-            FileWriter fw = new FileWriter (".\\boletos.txt", true);
+            FileWriter fw = new FileWriter (ruta+"\\src\\proyect_persistencia\\boletos.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             
@@ -44,7 +42,7 @@ public class MetodoBoleto {
             pw.print(","+pasajero.getEdad_pasajero());
             pw.print(","+pasajero.getTipo_pasajero());
             //ruta
-            pw.print(","+ruta.getNombre_Ruta());
+            pw.print(","+rutaBoleto.getNombre_Ruta());
             //boleto
             pw.print(","+boleto.getFecha_boleto());
             pw.print(","+boleto.getHora_boleto());
@@ -80,7 +78,7 @@ public class MetodoBoleto {
         DefaultTableModel mdlTablaP = new DefaultTableModel(cabeceras,0);
         try {
      
-            FileReader fr = new FileReader(".\\boletos.txt");
+            FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\boletos.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
 
@@ -117,7 +115,7 @@ public class MetodoBoleto {
         ArrayList<String> tempArray = new ArrayList<>();
         
         try {
-            try (FileReader fr = new FileReader(".\\boletos.txt"))
+            try (FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\boletos.txt"))
             {
                 Scanner reader = new Scanner(fr);
                 String linea;
@@ -162,7 +160,7 @@ public class MetodoBoleto {
         }
         // Aqui se guardan los datos del array temporal, ya modificados, en el array original
         try {
-            try(PrintWriter pr = new PrintWriter(".\\boletos.txt")) 
+            try(PrintWriter pr = new PrintWriter(ruta+"\\src\\proyect_persistencia\\boletos.txt")) 
             {
                 tempArray.forEach((str) -> {
                     pr.println(str);
@@ -193,7 +191,7 @@ public class MetodoBoleto {
         ArrayList<String> tempArray = new ArrayList<>();
         
         try {
-            try (FileReader fr = new FileReader(ruta+".\\boletos.txt"))
+            try (FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\boletos.txt"))
             {
                 Scanner reader = new Scanner(fr);
                 String linea;
@@ -231,7 +229,7 @@ public class MetodoBoleto {
         } catch (Exception e) {
         }
         try {
-            try(PrintWriter pr = new PrintWriter(ruta+".\\boletos.txt"))
+            try(PrintWriter pr = new PrintWriter(ruta+"\\src\\proyect_persistencia\\boletos.txt"))
             {
                tempArray.forEach((str) -> {
                     pr.println(str);

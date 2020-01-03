@@ -21,7 +21,7 @@ public class MetodoPasajero {
     public void guardarArchivoPasajero(Pasajero pasajero){
         
         try {
-            FileWriter fw = new FileWriter (".\\pasajero.txt", true);
+            FileWriter fw = new FileWriter (ruta+"\\src\\proyect_persistencia\\pasajero.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             pw.print(pasajero.getId_pasajero());
@@ -53,7 +53,7 @@ public class MetodoPasajero {
         DefaultTableModel mdlTablaP = new DefaultTableModel(cabeceras,0);
         try {
      
-            FileReader fr = new FileReader(".\\pasajero.txt");
+            FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\pasajero.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
 
@@ -74,7 +74,7 @@ public class MetodoPasajero {
   
     public Vector BuscarPasajero(String cedulaP){
         try {
-            FileReader fr = new FileReader(".\\pasajero.txt");
+            FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\pasajero.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
@@ -110,7 +110,7 @@ public class MetodoPasajero {
         ArrayList<String> tempArray = new ArrayList<>();
         
         try {
-            try (FileReader fr = new FileReader(".\\pasajero.txt"))
+            try (FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\pasajero.txt"))
             {
                 Scanner reader = new Scanner(fr);
                 String linea;
@@ -149,7 +149,7 @@ public class MetodoPasajero {
         }
         // Aqui se guardan los datos del array temporal, ya modificados, en el array original
         try {
-            try(PrintWriter pr = new PrintWriter(".\\pasajero.txt")) 
+            try(PrintWriter pr = new PrintWriter(ruta+"\\src\\proyect_persistencia\\pasajero.txt")) 
             {
                 tempArray.forEach((str) -> {
                     pr.println(str);
@@ -173,7 +173,7 @@ public class MetodoPasajero {
         ArrayList<String> tempArray = new ArrayList<>();
         
         try {
-            try (FileReader fr = new FileReader(ruta+"//pasajero.txt"))
+            try (FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\pasajero.txt"))
             {
                 Scanner reader = new Scanner(fr);
                 String linea;
@@ -208,7 +208,7 @@ public class MetodoPasajero {
         } catch (Exception e) {
         }
         try {
-            try(PrintWriter pr = new PrintWriter(ruta+"//pasajero.txt"))
+            try(PrintWriter pr = new PrintWriter(ruta+"\\src\\proyect_persistencia\\pasajero.txt"))
                 
             {
                 tempArray.forEach((str) -> {

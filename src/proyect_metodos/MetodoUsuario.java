@@ -28,9 +28,10 @@ public class MetodoUsuario {
 
     public void guardarArchivoUsuario(Usuario usuario){
         try {
-            FileWriter fw = new FileWriter (".\\Usuario.txt", true);
+            FileWriter fw = new FileWriter (ruta+"\\src\\proyect_persistencia\\usuario.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
+            
             pw.print(usuario.getId_usuario());
             pw.print(","+usuario.getNombre_usuario());
             pw.print(","+usuario.getApellido_usuario());
@@ -56,7 +57,7 @@ public class MetodoUsuario {
         //Crear vector con nombre apellido pasajero cedula edad
         DefaultTableModel mdlTablaU = new DefaultTableModel(cabeceras,0);
         try {
-            FileReader fr = new FileReader(".\\usuario.txt");
+            FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\usuario.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
@@ -75,7 +76,7 @@ public class MetodoUsuario {
    
     public Vector BuscarUsuario(String unIdUser){
         try {
-            FileReader fr = new FileReader(".\\usuario.txt");
+            FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\usuario.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
@@ -108,7 +109,7 @@ public class MetodoUsuario {
         ArrayList<String> tempArray = new ArrayList<>();
         
         try {
-            try (FileReader fr = new FileReader(".\\usuario.txt"))
+            try (FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\usuario.txt"))
             {
                 Scanner reader = new Scanner(fr);
                 String linea;
@@ -145,7 +146,7 @@ public class MetodoUsuario {
         }
         // Aqui se guardan los datos del array temporal, ya modificados, en el array original
         try {
-            try(PrintWriter pr = new PrintWriter(".\\usuario.txt")) 
+            try(PrintWriter pr = new PrintWriter(ruta+"\\src\\proyect_persistencia\\usuario.txt")) 
             {
                 tempArray.forEach((str) -> {
                     pr.println(str);
@@ -168,7 +169,7 @@ public class MetodoUsuario {
         ArrayList<String> tempArray = new ArrayList<>();
         
         try {
-            try (FileReader fr = new FileReader(ruta+"//usuario.txt"))
+            try (FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\usuario.txt"))
             {
                 Scanner reader = new Scanner(fr);
                 String linea;
@@ -201,7 +202,7 @@ public class MetodoUsuario {
         } catch (Exception e) {
         }
         try {
-            try(PrintWriter pr = new PrintWriter(ruta+"//usuario.txt"))
+            try(PrintWriter pr = new PrintWriter(ruta+"\\src\\proyect_persistencia\\usuario.txt"))
                 
             {
                 for(String str:tempArray) {

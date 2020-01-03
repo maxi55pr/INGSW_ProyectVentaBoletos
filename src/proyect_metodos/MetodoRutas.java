@@ -13,13 +13,12 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import proyect_clases.Boleto;
 import proyect_clases.Rutas;
 
 public class MetodoRutas {
  
     // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
-    private final String rutaArchivo = System.getProperties().getProperty("user.dir");
+    private final String ruta = System.getProperties().getProperty("user.dir");
     
     Vector vPrincipal = new Vector();
 
@@ -28,22 +27,18 @@ public class MetodoRutas {
         vPrincipal.addElement(unaRuta);
     }
     //guardar archivo txt
-    public void guardarArchivoRutas(Rutas ruta){
-        try {
-            FileWriter fw = new FileWriter (".\\ruta.txt", true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-            pw.print(ruta.getId_Ruta());
-            pw.print(","+ruta.getNombre_Ruta());
-            pw.print(","+ruta.getOrigen_Ruta());
-            pw.print(","+ruta.getDestino_Ruta());
-            pw.print(","+ruta.getCosto_Ruta());
-            pw.print(","+ruta.getHora_Ruta());
-            pw.println(","+ruta.getFecha_Ruta());
-            pw.close();
-        } catch (IOException e){
-            JOptionPane.showMessageDialog(null, e);
-        }
+    public void guardarArchivoRutas(Rutas Unaruta) throws IOException{
+        FileWriter fw = new FileWriter (ruta+"\\src\\proyect_persistencia\\ruta.txt", true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        PrintWriter pw = new PrintWriter(bw);
+        pw.print(Unaruta.getId_Ruta());
+        pw.print(","+Unaruta.getNombre_Ruta());
+        pw.print(","+Unaruta.getOrigen_Ruta());
+        pw.print(","+Unaruta.getDestino_Ruta());
+        pw.print(","+Unaruta.getCosto_Ruta());
+        pw.print(","+Unaruta.getHora_Ruta());
+        pw.println(","+Unaruta.getFecha_Ruta());
+        pw.close();
     }
     //mostrar los datos en el jtable
     
@@ -60,7 +55,7 @@ public class MetodoRutas {
         //Crear vector con nombre apellido pasajero cedula edad
         DefaultTableModel mdlTablaR = new DefaultTableModel(cabeceras,0);
         try {
-            FileReader fr = new FileReader(".\\ruta.txt");
+            FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\ruta.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
@@ -80,7 +75,7 @@ public class MetodoRutas {
    
     public Vector BuscarRuta(String unaRuta){
         try {
-            FileReader fr = new FileReader(".\\ruta.txt");
+            FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\ruta.txt");
             BufferedReader br = new BufferedReader(fr);
             String d;
             while ((d=br.readLine())!=null){
@@ -105,7 +100,7 @@ public class MetodoRutas {
     public void EditarRutas(String Id, String Ruta, String Costo, String Origen, String Destino, String Fecha, String Hora) {
            
          String id = Id;
-        String ruta = Ruta;
+        String Unaruta = Ruta;
         String costo = Costo;
         String origen = Origen;
         String destino = Destino;
@@ -115,7 +110,7 @@ public class MetodoRutas {
         ArrayList<String> tempArray = new ArrayList<>();
         
         try {
-            try (FileReader fr = new FileReader(".\\ruta.txt"))
+            try (FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\ruta.txt"))
             {
                 Scanner reader = new Scanner(fr);
                 String linea;
@@ -133,7 +128,7 @@ public class MetodoRutas {
                     tempArray.add(
                             
                             id + "," +
-                            ruta + "," +
+                            Unaruta + "," +
                             costo + "," +
                             origen + "," +
                             destino + "," +
@@ -155,7 +150,7 @@ public class MetodoRutas {
         }
         // Aqui se guardan los datos del array temporal, ya modificados, en el array original
         try {
-            try(PrintWriter pr = new PrintWriter(".\\ruta.txt")) 
+            try(PrintWriter pr = new PrintWriter(ruta+"\\src\\proyect_persistencia\\ruta.txt")) 
             {
                 tempArray.forEach((str) -> {
                     pr.println(str);
@@ -171,7 +166,7 @@ public class MetodoRutas {
     public void EliminarRuta(String Id, String Ruta,String Origen, String Destino, String Costo, String Hora,String Fecha) {
            
         String id = Id;
-        String ruta = Ruta;
+        String Unaruta = Ruta;
         String origen = Origen;
         String destino = Destino;
         String costo = Costo;
@@ -181,7 +176,7 @@ public class MetodoRutas {
         ArrayList<String> tempArray = new ArrayList<>();
         
         try {
-            try (FileReader fr = new FileReader(rutaArchivo+"//ruta.txt"))
+            try (FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\ruta.txt"))
             {
                 Scanner reader = new Scanner(fr);
                 String linea;
@@ -199,7 +194,7 @@ public class MetodoRutas {
                     tempArray.remove(
  
                             id + "," +
-                            ruta + "," +
+                            Unaruta + "," +
                             origen + "," +
                             destino + "," +
                             costo + "," +
@@ -216,7 +211,7 @@ public class MetodoRutas {
         } catch (Exception e) {
         }
         try {
-            try(PrintWriter pr = new PrintWriter(rutaArchivo+"//ruta.txt"))
+            try(PrintWriter pr = new PrintWriter(ruta+"\\src\\proyect_persistencia\\ruta.txt"))
                 
             {
                 for(String str:tempArray) {
