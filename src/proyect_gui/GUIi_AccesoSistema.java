@@ -1,8 +1,6 @@
 package proyect_gui;
 
-import java.awt.BorderLayout;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,8 +10,8 @@ import javax.swing.JOptionPane;
 
 public class GUIi_AccesoSistema extends javax.swing.JFrame {
     
-  //   public static String user = "admin";
-  //    public static String pass = "1234";
+  // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
+    private final String ruta = System.getProperties().getProperty("user.dir");
     
     // Variable de control para controlar el acceso al sistema
     boolean control = false;
@@ -168,39 +166,7 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cj_passKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cj_passKeyTyped
-        // TODO add your handling code here:
-/*
-        int c = evt.getKeyChar();
-        if( c==10 )
-        {
-            String usuario = cj_usuario.getText().trim();
-            String contraseña = new String(cj_pass.getPassword());
-
-            if( usuario.equalsIgnoreCase(user) && contraseña.equalsIgnoreCase(pass) )
-            {
-                GUI_Principal b = new GUI_Principal();
-                b.setVisible(true);
-                dispose();
-            }
-            else if( usuario.isEmpty() && contraseña.isEmpty() )
-            {
-                JOptionPane.showMessageDialog(null, "Ingrese Usuario y Contraseña");
-            }
-            else if( usuario != user && contraseña != pass )
-            {
-                JOptionPane.showMessageDialog(null, "Usuario y Contraseña Incorrectos", "Error Al Ingresar", JOptionPane.ERROR_MESSAGE);
-            }
-            else if( usuario != user )
-            {
-                JOptionPane.showMessageDialog(null, "Usuario Incorrecto", "Usuario No Existe", JOptionPane.ERROR_MESSAGE);
-            }
-            else if( contraseña != pass )
-            {
-                JOptionPane.showMessageDialog(null, "Contraseña Incorrecta", "Contraseña Mal Escrita", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        
-        */
+ 
     }//GEN-LAST:event_cj_passKeyTyped
 
     private void cj_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cj_usuarioActionPerformed
@@ -231,7 +197,7 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
 
            try {
             
-            FileReader fr = new FileReader(".\\usuario.txt");
+            FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\usuario.txt");
             BufferedReader br = new BufferedReader(fr);
 
            Object [] tablas = br.lines().toArray();

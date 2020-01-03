@@ -58,7 +58,7 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         BufferedReader br = null;
         
            try {
-            archivo = new File(".\\usuario.txt");
+            archivo = new File(ruta+"\\src\\proyect_persistencia\\usuario.txt");
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             
@@ -453,6 +453,9 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
             }
          
         }
+        
+        btn_u_editar.setEnabled(false);
+        btn_u_guardar.setEnabled(true);
     }//GEN-LAST:event_btn_u_eliminarActionPerformed
 
     private void btn_u_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_u_editarActionPerformed

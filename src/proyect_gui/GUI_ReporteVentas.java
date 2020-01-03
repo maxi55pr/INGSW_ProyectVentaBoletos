@@ -6,9 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -104,7 +101,7 @@ public class GUI_ReporteVentas extends javax.swing.JFrame {
         BufferedReader br = null;
         
            try {
-            archivo = new File(".\\boletos.txt");
+            archivo = new File(ruta+"\\src\\proyect_persistencia\\boletos.txt");
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             
@@ -147,7 +144,7 @@ public class GUI_ReporteVentas extends javax.swing.JFrame {
         table_ventas_boletos.setModel(mdlTablaBoletos);
 
            try {
-            archivo = new File(".\\boletos.txt");
+            archivo = new File(ruta+"\\src\\proyect_persistencia\\boletos.txt");
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
            Object [] tablas = br.lines().toArray();

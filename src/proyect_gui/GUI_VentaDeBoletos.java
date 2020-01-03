@@ -73,7 +73,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         BufferedReader br = null;
         
            try {
-            archivo = new File(".\\boletos.txt");
+            archivo = new File(ruta+"\\src\\proyect_persistencia\\boletos.txt");
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             
@@ -116,7 +116,7 @@ public class GUI_VentaDeBoletos extends javax.swing.JFrame {
         table_ventas_boletos.setModel(mdlTablaBoletos);
 
            try {
-            archivo = new File(".\\boletos.txt");
+            archivo = new File(ruta+"\\src\\proyect_persistencia\\boletos.txt");
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
            Object [] tablas = br.lines().toArray();

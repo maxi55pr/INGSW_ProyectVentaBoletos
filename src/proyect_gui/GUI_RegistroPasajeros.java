@@ -1,14 +1,10 @@
 package proyect_gui;
 
 import java.awt.Color;
-import java.awt.Component;
-import static java.awt.SystemColor.control;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -20,6 +16,9 @@ import proyect_clases.Pasajero;
 
 public class GUI_RegistroPasajeros extends javax.swing.JFrame {
 
+     // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
+    private final String ruta = System.getProperties().getProperty("user.dir");
+    
     Pasajero pasajero = new Pasajero();
     MetodoPasajero metodos = new MetodoPasajero();
     DefaultTableModel mdlTablaP;
@@ -58,7 +57,7 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         BufferedReader br = null;
         
            try {
-            archivo = new File(".\\pasajero.txt");
+            archivo = new File(ruta+"\\src\\proyect_persistencia\\pasajero.txt");
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             

@@ -1,6 +1,5 @@
 package proyect_clases;
 
-import proyect_gui.GUI_Principal;
 import proyect_gui.GUIi_AccesoSistema;
 
 

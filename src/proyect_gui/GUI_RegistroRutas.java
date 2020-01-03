@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -57,7 +56,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         BufferedReader br = null;
         
            try {
-            archivo = new File(".\\ruta.txt");
+            archivo = new File(ruta+"\\src\\proyect_persistencia\\ruta.txt");
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             
@@ -100,7 +99,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         table_rutas.setModel(mdlTablaR);
 
            try {
-            archivo = new File(".\\ruta.txt");
+            archivo = new File(ruta+"\\src\\proyect_persistencia\\ruta.txt");
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
            Object [] tablas = br.lines().toArray();
@@ -477,7 +476,11 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         ruta.setHora_Ruta(hora_r);
         ruta.setFecha_Ruta(fecha_r);
         metodos.guardarRutas(ruta);
-        metodos.guardarArchivoRutas(ruta);
+        try {
+            metodos.guardarArchivoRutas(ruta);
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             table_rutas.setModel(metodos.listaRutas());
         } catch (IOException ex) {
