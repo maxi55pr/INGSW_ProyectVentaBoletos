@@ -506,7 +506,30 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         txt_u_apellido.setText("");
         txt_u_password.setText("");
         txt_u_user.setText("");
-
+        
+        // Colocamos el programa para guardar un nuevo usuario luego de cada modificacion
+        
+        txt_u_nombre.setEditable(true);
+        txt_u_apellido.setEditable(true);
+        txt_u_password.setEditable(true);
+        txt_u_user.setEditable(true);
+        
+        //Generamos un nuevo codigo de usuario unico
+        
+        try {
+            GenerarCodigoUsuario();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+       // Activamos el boton de guardar
+        btn_u_guardar.setEnabled(true);
+        
+        // Desactivamos el boton Editar mientras estamos en modo NUEVO
+        btn_u_editar.setEnabled(false);
+        
+         // Desactivamos el boton Eliminar mientras estamos en modo NUEVO
+        btn_u_eliminar.setEnabled(false);
     }//GEN-LAST:event_btn_u_editarActionPerformed
 
     private void table_usuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_usuarioMouseClicked
@@ -535,6 +558,11 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         txt_u_apellido.setText(table_usuario.getValueAt(fila, 2).toString());
         txt_u_user.setText(table_usuario.getValueAt(fila, 3).toString());
         txt_u_password.setText(table_usuario.getValueAt(fila, 4).toString());
+        
+         
+    // Colocamos el programa para guardar un nuevo usuario siempre despues de guardar un cambio
+    
+    
     
     }//GEN-LAST:event_table_usuarioMouseClicked
 

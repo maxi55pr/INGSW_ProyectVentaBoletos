@@ -184,7 +184,7 @@ public class GUIi_AccesoSistema extends javax.swing.JFrame {
 
     private void btn_entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entrarActionPerformed
         
-         this.dispose();
+         System.exit(0);
 
     }//GEN-LAST:event_btn_entrarActionPerformed
 
