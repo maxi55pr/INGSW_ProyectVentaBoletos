@@ -16,15 +16,25 @@ import proyect_metodos.MetodoRutas;
 
 public class GUI_RegistroRutas extends javax.swing.JFrame {
 
-    Rutas ruta = new Rutas();
+     // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
+    private final String ruta = System.getProperties().getProperty("user.dir");
+    
+    Rutas unaRuta = new Rutas();
     MetodoRutas metodos = new MetodoRutas();
     DefaultTableModel mdlTablaR;
     Vector vCabeceras = new Vector();
     
     public GUI_RegistroRutas() throws IOException {
-        initComponents();
         
+        initComponents();
         GenerarCodigoRuta();
+        
+        btn_r_actializar.setEnabled(false);
+        btn_r_guardar.setEnabled(true);
+        btn_r_eliminar.setEnabled(false);
+        
+        txt_r_id.setEditable(false);
+        txt_r_id.setBackground(Color.yellow);
         
         vCabeceras.addElement("ID");
         vCabeceras.addElement("RUTA");
@@ -33,13 +43,10 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         vCabeceras.addElement("COSTO");
         vCabeceras.addElement("HORA");
         vCabeceras.addElement("FECHA");
+        
         mdlTablaR = new DefaultTableModel(vCabeceras,0);
         table_rutas.setModel(mdlTablaR);
         table_rutas.setModel(metodos.listaRutas());
-        
-        txt_r_id.setEditable(false);
-        txt_r_id.setBackground(Color.yellow);
-        
     }
     
      // Este metodo genera en forma automatica un Id diferente y consecuitivo para cada venta de boleto.
@@ -159,6 +166,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         setTitle("Modulo De Rutas");
         setBackground(new java.awt.Color(204, 204, 204));
 
+        table_rutas.setBackground(new java.awt.Color(204, 255, 204));
         table_rutas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -300,9 +308,8 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txt_r_buscar, javax.swing.GroupLayout.Alignment.LEADING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(btn_r_listar)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addComponent(btn_r_listar))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,37 +359,38 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btn_r_guardar, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                    .addComponent(btn_r_eliminar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_r_actializar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_r_salir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_r_nuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 34, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_r_actializar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(btn_r_guardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_r_nuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(140, 140, 140)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_r_eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(btn_r_salir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(52, 52, 52))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
+                        .addGap(62, 62, 62)
                         .addComponent(btn_r_nuevo)
-                        .addGap(35, 35, 35)
+                        .addGap(27, 27, 27)
                         .addComponent(btn_r_guardar)
-                        .addGap(26, 26, 26)
+                        .addGap(33, 33, 33)
                         .addComponent(btn_r_actializar))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -392,7 +400,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_r_eliminar)
-                        .addGap(32, 32, 32)
+                        .addGap(34, 34, 34)
                         .addComponent(btn_r_salir)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -461,6 +469,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         mdlTablaR = new DefaultTableModel();
 
         int id_r = Integer.parseInt(txt_r_id.getText());
+        
         String nombre_r = txt_r_nombre.getText();
         String origen_r = txt_r_origen.getText();
         String destino_r = txt_r_destino.getText();
@@ -468,16 +477,16 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         String hora_r = txt_r_hora.getText();
         String fecha_r = txt_r_fecha.getText();
         
-        ruta.setId_Ruta(id_r);
-        ruta.setNombre_Ruta(nombre_r);
-        ruta.setOrigen_Ruta(origen_r);
-        ruta.setDestino_Ruta(destino_r);
-        ruta.setCosto_Ruta(costo_r);
-        ruta.setHora_Ruta(hora_r);
-        ruta.setFecha_Ruta(fecha_r);
-        metodos.guardarRutas(ruta);
+        unaRuta.setId_Ruta(id_r);
+        unaRuta.setNombre_Ruta(nombre_r);
+        unaRuta.setOrigen_Ruta(origen_r);
+        unaRuta.setDestino_Ruta(destino_r);
+        unaRuta.setCosto_Ruta(costo_r);
+        unaRuta.setHora_Ruta(hora_r);
+        unaRuta.setFecha_Ruta(fecha_r);
+        metodos.guardarRutas(unaRuta);
         try {
-            metodos.guardarArchivoRutas(ruta);
+            metodos.guardarArchivoRutas(unaRuta);
         } catch (IOException ex) {
             Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -486,6 +495,22 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+          // Limpia los Jtext:
+        txt_r_nombre.setText("");
+        txt_r_origen.setText("");
+        txt_r_destino.setText("");
+        txt_r_costo.setText("");
+        txt_r_hora.setText("");
+        txt_r_fecha.setText("");
+        
+        // Colocamos el programa para guardar una nueva ruta, luego de registrar una ruta
+          try {
+            GenerarCodigoRuta();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btn_r_guardarActionPerformed
 
     private void btn_r_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_salirActionPerformed
@@ -497,19 +522,25 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
 
     private void btn_r_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_nuevoActionPerformed
         
-        try {
-            GenerarCodigoRuta();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // Limpia los Jtext:
+        btn_r_actializar.setEnabled(false);
+        btn_r_guardar.setEnabled(true);
+        btn_r_eliminar.setEnabled(false);
+        
+          // Limpia los Jtext:
         txt_r_nombre.setText("");
         txt_r_origen.setText("");
         txt_r_destino.setText("");
         txt_r_costo.setText("");
         txt_r_hora.setText("");
         txt_r_fecha.setText("");
+        
+        try {
+            GenerarCodigoRuta();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+      
     }//GEN-LAST:event_btn_r_nuevoActionPerformed
 
     private void btn_r_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_eliminarActionPerformed
@@ -544,6 +575,13 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+        // Colocamos el programa para guardar una nueva ruta, luego de registrar una ruta
+          try {
+            GenerarCodigoRuta();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }   
         
         
@@ -582,12 +620,28 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
             }
+        
+        // Colocamos el programa para guardar una nueva ruta, luego de registrar una ruta
+          try {
+            GenerarCodigoRuta();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
+        }
           
+        btn_r_nuevo.setEnabled(true);
+        btn_r_guardar.setEnabled(true);
+        btn_r_actializar.setEnabled(false);
     }//GEN-LAST:event_btn_r_actializarActionPerformed
    }
+    
     private void table_rutasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_rutasMouseClicked
+ 
+
+        btn_r_eliminar.setEnabled(true);
+        btn_r_guardar.setEnabled(false);
+        btn_r_actializar.setEnabled(true);
+        btn_r_actializar.setText("Guardar Cambios");
         
-        // TODO add your handling code here:
         
         int fila = table_rutas.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
 

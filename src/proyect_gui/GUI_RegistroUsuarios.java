@@ -31,17 +31,20 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         
         initComponents();
         GenerarCodigoUsuario();
+        
         txt_u_id.setEditable(false);
         txt_u_id.setBackground(Color.yellow);
+        
         vCabeceras.addElement("ID");
         vCabeceras.addElement("NOMBRE");
         vCabeceras.addElement("APELLIDO");
         vCabeceras.addElement("USERNAME");
         vCabeceras.addElement("CLAVE");
+        
         mdlTablaU = new DefaultTableModel(vCabeceras,0);
         table_usuario.setModel(mdlTablaU);
         table_usuario.setModel(metodos.listaUsuario());
-
+        
     }
     
     // Este metodo genera en forma automatica un Id diferente y consecuitivo para cada venta de boleto.
@@ -537,33 +540,21 @@ public class GUI_RegistroUsuarios extends javax.swing.JFrame {
         // Desactivamos el boton de guardar para habilitar solo la opcion EDITAR
         
         btn_u_guardar.setEnabled(false);
-        
         // Activamos el boton de eliminar 
-        
         btn_u_eliminar.setEnabled(true);
-        
         // Activamos el boton de guardar cambios 
-        
         btn_u_editar.setEnabled(true);
-        
         // Cambiamos el valor del boton Editar a texto "Guardar Cambios" para aceptar todo cambio en la tabla
-        
         btn_u_editar.setText("Guardar cambios");
-         
         // guardamos en fila el valor que hacemos click en la fila seleccionada
         
-        int fila = table_usuario.rowAtPoint(evt.getPoint()); 
+         int fila = table_usuario.rowAtPoint(evt.getPoint()); 
         txt_u_id.setText(table_usuario.getValueAt(fila, 0).toString());
         txt_u_nombre.setText(table_usuario.getValueAt(fila, 1).toString());
         txt_u_apellido.setText(table_usuario.getValueAt(fila, 2).toString());
         txt_u_user.setText(table_usuario.getValueAt(fila, 3).toString());
         txt_u_password.setText(table_usuario.getValueAt(fila, 4).toString());
-        
-         
-    // Colocamos el programa para guardar un nuevo usuario siempre despues de guardar un cambio
-    
-    
-    
+
     }//GEN-LAST:event_table_usuarioMouseClicked
 
     /**

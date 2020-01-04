@@ -27,17 +27,17 @@ public class MetodoRutas {
         vPrincipal.addElement(unaRuta);
     }
     //guardar archivo txt
-    public void guardarArchivoRutas(Rutas Unaruta) throws IOException{
+    public void guardarArchivoRutas(Rutas guardarRuta) throws IOException{
         FileWriter fw = new FileWriter (ruta+"\\src\\proyect_persistencia\\ruta.txt", true);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter pw = new PrintWriter(bw);
-        pw.print(Unaruta.getId_Ruta());
-        pw.print(","+Unaruta.getNombre_Ruta());
-        pw.print(","+Unaruta.getOrigen_Ruta());
-        pw.print(","+Unaruta.getDestino_Ruta());
-        pw.print(","+Unaruta.getCosto_Ruta());
-        pw.print(","+Unaruta.getHora_Ruta());
-        pw.println(","+Unaruta.getFecha_Ruta());
+        pw.print(guardarRuta.getId_Ruta());
+        pw.print(","+guardarRuta.getNombre_Ruta());
+        pw.print(","+guardarRuta.getOrigen_Ruta());
+        pw.print(","+guardarRuta.getDestino_Ruta());
+        pw.print(","+guardarRuta.getCosto_Ruta());
+        pw.print(","+guardarRuta.getHora_Ruta());
+        pw.println(","+guardarRuta.getFecha_Ruta());
         pw.close();
     }
     //mostrar los datos en el jtable
@@ -73,34 +73,33 @@ public class MetodoRutas {
        
     }
    
-    public Vector BuscarRuta(String unaRuta){
+    public Vector BuscarRuta(String buscarRuta){
         try {
-            FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\ruta.txt");
-            BufferedReader br = new BufferedReader(fr);
-            String d;
-            while ((d=br.readLine())!=null){
-                StringTokenizer dato = new StringTokenizer (d,",");
-                Vector x = new Vector();
-                while (dato.hasMoreTokens()){
-                    x.addElement(dato.nextToken());
+            try (FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\ruta.txt"); 
+                    BufferedReader br = new BufferedReader(fr)) {
+                String d;
+                while ((d=br.readLine())!=null){
+                    StringTokenizer dato = new StringTokenizer (d,",");
+                    Vector x = new Vector();
+                    while (dato.hasMoreTokens()){
+                        x.addElement(dato.nextToken());
                     }
-                        String a = x.elementAt(1).toString();
-                        if(a.equals(unaRuta)){
-                            vPrincipal=x;
-                            System.out.println(vPrincipal);     
-                }
-            }br.close();
-            fr.close();
+                    String a = x.elementAt(1).toString();
+                    if(a.equals(buscarRuta)){
+                        vPrincipal=x;
+                        System.out.println(vPrincipal);
+                    }
+                }            }
         }catch (IOException e){
         JOptionPane.showMessageDialog(null, e);
         }       
         return vPrincipal;
     }
     
-    public void EditarRutas(String Id, String Ruta, String Costo, String Origen, String Destino, String Fecha, String Hora) {
+    public void EditarRutas(String IdEditar, String EditarRuta, String Costo, String Origen, String Destino, String Fecha, String Hora) {
            
-         String id = Id;
-        String Unaruta = Ruta;
+        String idEditar = IdEditar;
+        String editarRuta = EditarRuta;
         String costo = Costo;
         String origen = Origen;
         String destino = Destino;
@@ -122,13 +121,13 @@ public class MetodoRutas {
             // ese Empleado será el que entienda el sistema que debe actualizar
             
                 lineaArray = linea.split(",");
-                if(lineaArray[0].equals(id)){
+                if(lineaArray[0].equals(idEditar)){
                     
            // Recorro y agrego en la fila que el sistema entiende que existe el ID
                     tempArray.add(
                             
-                            id + "," +
-                            Unaruta + "," +
+                            idEditar + "," +
+                            editarRuta + "," +
                             costo + "," +
                             origen + "," +
                             destino + "," +
@@ -163,9 +162,9 @@ public class MetodoRutas {
     }
     
     
-    public void EliminarRuta(String Id, String Ruta,String Origen, String Destino, String Costo, String Hora,String Fecha) {
+    public void EliminarRuta(String IdEliminar, String Ruta,String Origen, String Destino, String Costo, String Hora,String Fecha) {
            
-        String id = Id;
+        String idEliminar = IdEliminar;
         String Unaruta = Ruta;
         String origen = Origen;
         String destino = Destino;
@@ -187,13 +186,13 @@ public class MetodoRutas {
                 while((linea=reader.nextLine())!=null){
             
                 lineaArray = linea.split(",");
-                if(lineaArray[0].equals(id)){
+                if(lineaArray[0].equals(idEliminar)){
                 
                 // Se toma la CEDULA, que siempre estarán el la posición [3] hacer la modificacion dado
                 // y el sistema sólo borra la linea seleccionada.
                     tempArray.remove(
  
-                            id + "," +
+                            idEliminar + "," +
                             Unaruta + "," +
                             origen + "," +
                             destino + "," +
