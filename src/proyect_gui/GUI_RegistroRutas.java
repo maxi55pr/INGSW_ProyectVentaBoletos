@@ -1,6 +1,7 @@
 package proyect_gui;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -212,6 +213,12 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ruta.png"))); // NOI18N
         jLabel6.setText("DATOS DE LA RUTA:");
+
+        txt_r_costo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_r_costoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -679,6 +686,23 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
             Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_r_listarActionPerformed
+
+    private void txt_r_costoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_r_costoKeyTyped
+        
+             int k=(int)evt.getKeyChar();
+        if (k >= 97 && k <= 122 || k>=65 && k<=90){
+        evt.setKeyChar((char)KeyEvent.VK_CLEAR);
+        JOptionPane.showMessageDialog(null,"¡No puede ingresar letras!","Solo se adminten números para COSTOS",JOptionPane.ERROR_MESSAGE);
+        }
+        if(k==241 || k==209){
+        evt.setKeyChar((char)KeyEvent.VK_CLEAR);
+        JOptionPane.showMessageDialog(null,"¡No puede ingresar letras!","Solo se adminten números para COSTOS",JOptionPane.ERROR_MESSAGE);
+        }
+        if(k==10){
+        txt_r_costo.transferFocus();
+        }
+        
+    }//GEN-LAST:event_txt_r_costoKeyTyped
 
     /**
      * @param args the command line arguments

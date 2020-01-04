@@ -1,6 +1,7 @@
 package proyect_gui;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,6 +31,9 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
          GenerarCodigoPasajero();
         txt_p_id.setEditable(false);
         txt_p_id.setBackground(Color.yellow);
+        
+        btn_p_actualizar.setEnabled(false);
+        btn_p_eliminar.setEnabled(false);
         
         vCabeceras.addElement("ID");
         vCabeceras.addElement("NOMBRE");
@@ -105,7 +109,7 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         btn_p_salir = new javax.swing.JButton();
         btn_p_nuevo = new javax.swing.JButton();
         btn_p_eliminar = new javax.swing.JButton();
-        btn_p_actializar = new javax.swing.JButton();
+        btn_p_actualizar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         txt_p_id = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -122,6 +126,19 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
 
         jLabel5.setText("Tipo Pasajero");
 
+        txt_p_cedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_p_cedulaKeyTyped(evt);
+            }
+        });
+
+        txt_p_edad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_p_edadKeyTyped(evt);
+            }
+        });
+
+        table_pasajero.setBackground(new java.awt.Color(204, 255, 255));
         table_pasajero.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -168,10 +185,10 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
             }
         });
 
-        btn_p_actializar.setText("Actualizar");
-        btn_p_actializar.addActionListener(new java.awt.event.ActionListener() {
+        btn_p_actualizar.setText("Actualizar");
+        btn_p_actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_p_actializarActionPerformed(evt);
+                btn_p_actualizarActionPerformed(evt);
             }
         });
 
@@ -186,56 +203,52 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(btn_p_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(btn_p_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_p_id, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_p_cedula, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_p_pasajero, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_p_id, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_p_cedula, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_p_pasajero, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(31, 31, 31)
+                                .addComponent(txt_p_edad))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(txt_p_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel2))
+                                .addComponent(txt_p_nombre))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btn_p_actializar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txt_p_edad, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_p_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txt_p_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btn_p_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btn_p_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_p_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(btn_p_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(txt_p_apellido)
+                .addGap(47, 47, 47))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btn_p_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_p_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(31, 31, 31)
+                            .addComponent(jLabel6))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -252,22 +265,21 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
                     .addComponent(txt_p_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_p_edad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txt_p_cedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_p_cedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_p_edad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txt_p_pasajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_p_guardar)
                     .addComponent(btn_p_salir)
                     .addComponent(btn_p_nuevo)
-                    .addComponent(btn_p_actializar)
+                    .addComponent(btn_p_actualizar)
                     .addComponent(btn_p_eliminar))
                 .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -375,6 +387,12 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        try {
+            GenerarCodigoPasajero();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_p_guardarActionPerformed
 
     private void btn_p_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_salirActionPerformed
@@ -408,20 +426,32 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         txt_p_pasajero.setText("");
         txt_p_cedula.setText("");
         txt_p_edad.setText("");
-        
+
+
             try {
                 // volvemos a leer los datos de la tabla
                 table_pasajero.setModel(metodos.listaPasajero());
             } catch (IOException ex) {
                 Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }   
+        }
+        
+        btn_p_guardar.setEnabled(true);
+        btn_p_actualizar.setEnabled(false);
+        btn_p_eliminar.setEnabled(false);
+
+        try {
+            GenerarCodigoPasajero();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_p_eliminarActionPerformed
    
     private void btn_p_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_nuevoActionPerformed
         
         btn_p_guardar.setEnabled(true);
-        btn_p_actializar.setEnabled(false);
+        btn_p_actualizar.setEnabled(false);
+        btn_p_eliminar.setEnabled(false);
         
         
         //nuevo codigo de pasajero se genera
@@ -438,8 +468,10 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         txt_p_edad.setText("");
     }//GEN-LAST:event_btn_p_nuevoActionPerformed
 
-    private void btn_p_actializarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_actializarActionPerformed
+    private void btn_p_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_actualizarActionPerformed
        
+        btn_p_eliminar.setEnabled(false);
+
          // Primero validamos cada una de la sentradas
 
                     
@@ -506,14 +538,26 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         txt_p_cedula.setText("");
         txt_p_edad.setText("");
         txt_p_pasajero.setText("");
+        
+        btn_p_guardar.setEnabled(true);
+        btn_p_actualizar.setEnabled(false);
+        btn_p_eliminar.setEnabled(false);
 
-    }//GEN-LAST:event_btn_p_actializarActionPerformed
+        try {
+            GenerarCodigoPasajero();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI_RegistroPasajeros.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btn_p_actualizarActionPerformed
 
     private void table_pasajeroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_pasajeroMouseClicked
         // TODO add your handling code here:
         
        btn_p_guardar.setEnabled(false);
-       btn_p_actializar.setText("Guardar Cambios");
+       btn_p_actualizar.setEnabled(true);
+       btn_p_actualizar.setText("Guardar Cambios");
+       btn_p_eliminar.setEnabled(true);
         
         int fila = table_pasajero.rowAtPoint(evt.getPoint()); // guardamos en fila el valor que hacemos click en la fila seleccionada
         
@@ -525,9 +569,43 @@ public class GUI_RegistroPasajeros extends javax.swing.JFrame {
         txt_p_pasajero.setText(table_pasajero.getValueAt(fila, 5).toString());
 
     }//GEN-LAST:event_table_pasajeroMouseClicked
+
+    private void txt_p_cedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_p_cedulaKeyTyped
+        
+        int k=(int)evt.getKeyChar();
+        if (k >= 97 && k <= 122 || k>=65 && k<=90){
+        evt.setKeyChar((char)KeyEvent.VK_CLEAR);
+        JOptionPane.showMessageDialog(null,"¡No puede ingresar letras!","Solo se adminten números para cédula",JOptionPane.ERROR_MESSAGE);
+        }
+        if(k==241 || k==209){
+        evt.setKeyChar((char)KeyEvent.VK_CLEAR);
+        JOptionPane.showMessageDialog(null,"¡No puede ingresar letras!","Solo se adminten números para cédula",JOptionPane.ERROR_MESSAGE);
+        }
+        if(k==10){
+        txt_p_cedula.transferFocus();
+        }
+        
+    }//GEN-LAST:event_txt_p_cedulaKeyTyped
+
+    private void txt_p_edadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_p_edadKeyTyped
+        
+             int k=(int)evt.getKeyChar();
+        if (k >= 97 && k <= 122 || k>=65 && k<=90){
+        evt.setKeyChar((char)KeyEvent.VK_CLEAR);
+        JOptionPane.showMessageDialog(null,"¡No puede ingresar letras!","Solo se adminten números para la EDAD",JOptionPane.ERROR_MESSAGE);
+        }
+        if(k==241 || k==209){
+        evt.setKeyChar((char)KeyEvent.VK_CLEAR);
+        JOptionPane.showMessageDialog(null,"¡No puede ingresar letras!","Solo se adminten números para la EDAD",JOptionPane.ERROR_MESSAGE);
+        }
+        if(k==10){
+        txt_p_edad.transferFocus();
+        }
+        
+    }//GEN-LAST:event_txt_p_edadKeyTyped
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_p_actializar;
+    private javax.swing.JButton btn_p_actualizar;
     private javax.swing.JButton btn_p_eliminar;
     private javax.swing.JButton btn_p_guardar;
     private javax.swing.JButton btn_p_nuevo;

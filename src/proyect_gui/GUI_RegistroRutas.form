@@ -264,6 +264,9 @@
         <Component class="javax.swing.JTextField" name="txt_r_hora">
         </Component>
         <Component class="javax.swing.JTextField" name="txt_r_costo">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_r_costoKeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
