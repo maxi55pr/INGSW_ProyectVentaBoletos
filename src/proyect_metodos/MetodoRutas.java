@@ -18,7 +18,6 @@ import proyect_clases.Rutas;
 import proyect_gui.GUI_RegistroRutas;
 import static proyect_gui.GUI_RegistroRutas.mdlTablaR;
 import static proyect_gui.GUI_RegistroRutas.table_rutas;
-import static proyect_gui.GUI_RegistroRutas.vCabeceras;
 
 public class MetodoRutas {
  
