@@ -142,9 +142,8 @@ public class GUI_ReportePasajeros extends javax.swing.JFrame {
     }
     
     private void btn_p_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_p_salirActionPerformed
-        // TODO add your handling code here:
-        GUI_Principal b = new GUI_Principal();
-        b.setVisible(true);
+      
+   
         dispose();
     }//GEN-LAST:event_btn_p_salirActionPerformed
    
