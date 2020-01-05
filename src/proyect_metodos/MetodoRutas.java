@@ -2,6 +2,7 @@ package proyect_metodos;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,6 +15,10 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyect_clases.Rutas;
+import proyect_gui.GUI_RegistroRutas;
+import static proyect_gui.GUI_RegistroRutas.mdlTablaR;
+import static proyect_gui.GUI_RegistroRutas.table_rutas;
+import static proyect_gui.GUI_RegistroRutas.vCabeceras;
 
 public class MetodoRutas {
  
@@ -72,28 +77,51 @@ public class MetodoRutas {
         return mdlTablaR;
        
     }
-   
-    public Vector BuscarRuta(String buscarRuta){
-        try {
-            try (FileReader fr = new FileReader(ruta+"\\src\\proyect_persistencia\\ruta.txt"); 
-                    BufferedReader br = new BufferedReader(fr)) {
-                String d;
-                while ((d=br.readLine())!=null){
-                    StringTokenizer dato = new StringTokenizer (d,",");
-                    Vector x = new Vector();
-                    while (dato.hasMoreTokens()){
-                        x.addElement(dato.nextToken());
-                    }
-                    String a = x.elementAt(1).toString();
-                    if(a.equals(buscarRuta)){
-                        vPrincipal=x;
-                        System.out.println(vPrincipal);
-                    }
-                }            }
-        }catch (IOException e){
-        JOptionPane.showMessageDialog(null, e);
-        }       
-        return vPrincipal;
+    
+    // Este metodo utiliza EL NOMBRE DE LA RUTA
+    public DefaultTableModel BuscarUnaRuta (String buscar) throws IOException{
+        
+        Vector cabeceras = new Vector();
+        cabeceras.addElement("ID");
+        cabeceras.addElement("RUTA");
+        cabeceras.addElement("ORIGEN");
+        cabeceras.addElement("DESTINO");
+        cabeceras.addElement("COSTO");
+        cabeceras.addElement("HORA");
+        cabeceras.addElement("FECHA");
+
+        if(buscar.length() == 00){
+            JOptionPane.showMessageDialog(null, "Debe ingresar un RUTA del tipo CUE-QUI para su búsqueda.");
+        }else{
+            
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+        GUI_RegistroRutas.mdlTablaR = new DefaultTableModel(cabeceras,0);
+        table_rutas.setModel(mdlTablaR);
+
+           try {
+            archivo = new File(ruta+"\\src\\proyect_persistencia\\ruta.txt");
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+           Object [] tablas = br.lines().toArray();
+           
+               for (int i = 0; i < tablas.length; i++) {
+                   String line = tablas[i].toString().trim();
+                   String [] datosFilas = line.split(",");
+                   if(datosFilas[1].equalsIgnoreCase(buscar))
+                   {
+                mdlTablaR.addRow(datosFilas);
+                   }
+               }
+              fr.close();
+              br.close();
+             } catch (FileNotFoundException e) {
+                 JOptionPane.showMessageDialog(null, "Error. Intente nuevamente"); 
+           }
+         }
+        return null;
     }
     
     public void EditarRutas(String IdEditar, String EditarRuta, String Costo, String Origen, String Destino, String Fecha, String Hora) {

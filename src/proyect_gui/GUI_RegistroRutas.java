@@ -22,8 +22,8 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
     
     Rutas unaRuta = new Rutas();
     MetodoRutas metodos = new MetodoRutas();
-    DefaultTableModel mdlTablaR;
-    Vector vCabeceras = new Vector();
+    public static DefaultTableModel mdlTablaR;
+    public static Vector vCabeceras = new Vector();
     
     public GUI_RegistroRutas() throws IOException {
         
@@ -92,42 +92,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
         }
     }
     
-    // Este metodo utiliza EL NOMBRE DE LA RUTA
-    public DefaultTableModel BuscarRuta (String buscar) throws IOException{
 
-        if(buscar.length() == 00){
-            JOptionPane.showMessageDialog(null, "Debe ingresar un RUTA del tipo CUE-QUI para su búsqueda.");
-        }else{
-            
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-        
-        mdlTablaR = new DefaultTableModel(vCabeceras,0);
-        table_rutas.setModel(mdlTablaR);
-
-           try {
-            archivo = new File(ruta+"\\src\\proyect_persistencia\\ruta.txt");
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
-           Object [] tablas = br.lines().toArray();
-           
-               for (int i = 0; i < tablas.length; i++) {
-                   String line = tablas[i].toString().trim();
-                   String [] datosFilas = line.split(",");
-                   if(datosFilas[1].equalsIgnoreCase(buscar))
-                   {
-                mdlTablaR.addRow(datosFilas);
-                   }
-               }
-              fr.close();
-              br.close();
-             } catch (FileNotFoundException e) {
-                 JOptionPane.showMessageDialog(null, "Error. Intente nuevamente"); 
-           }
-         }
-        return null;
-    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -669,12 +634,10 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
     private void btn_r_guardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_r_guardar1ActionPerformed
 
         String busqueda = txt_r_buscar.getText();
-        try {   
-            BuscarRuta(busqueda);
-        } catch (IOException e) {
-           JOptionPane.showMessageDialog(null, "No existe ninguna RUTA con el nombre ingresado. Intente con otro número.");
-           txt_r_buscar.setText("");
-           txt_r_buscar.requestFocus();
+        try {
+            metodos.BuscarUnaRuta(busqueda);
+        } catch (IOException ex) {
+            Logger.getLogger(GUI_RegistroRutas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_r_guardar1ActionPerformed
 
@@ -767,7 +730,7 @@ public class GUI_RegistroRutas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable table_rutas;
+    public static javax.swing.JTable table_rutas;
     private javax.swing.JTextField txt_r_buscar;
     private javax.swing.JTextField txt_r_costo;
     private javax.swing.JTextField txt_r_destino;

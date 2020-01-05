@@ -2,6 +2,7 @@ package proyect_metodos;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -17,11 +18,14 @@ import proyect_clases.Boleto;
 import proyect_clases.Pasajero;
 import proyect_clases.Rutas;
 import proyect_gui.GUI_VentaDeBoletos;
+import static proyect_gui.GUI_VentaDeBoletos.mdlTablaBoletos;
 
 public class MetodoBoleto {
 
     public static String busqueda;
     GUI_VentaDeBoletos ventaBoletos;
+    
+    Vector vPrincipal = new Vector();
     
     // Se declara esta variable final que obtendra siempre la ruta de los archivos dentro del directorio del programa
     private final String ruta = System.getProperties().getProperty("user.dir");
@@ -31,26 +35,28 @@ public class MetodoBoleto {
       try {
             FileWriter fw = new FileWriter (ruta+"\\src\\proyect_persistencia\\boletos.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-            
-            //Id boleto
-            pw.print(boleto.getId_boleto());
-            //pasajero
-            pw.print(","+pasajero.getNombre_pasajero());
-            pw.print(","+pasajero.getApellido_pasajero());
-            pw.print(","+pasajero.getCedula_pasajero());
-            pw.print(","+pasajero.getEdad_pasajero());
-            pw.print(","+pasajero.getTipo_pasajero());
-            //ruta
-            pw.print(","+rutaBoleto.getNombre_Ruta());
-            //boleto
-            pw.print(","+boleto.getFecha_boleto());
-            pw.print(","+boleto.getHora_boleto());
-            pw.print(","+boleto.getNumero_boleto());
-            pw.print(","+boleto.getCosto_boleto());
-            pw.print(","+boleto.getDescuento());
-            pw.println(","+boleto.getCosto_total());
-            pw.close();
+          //Id boleto
+          try (PrintWriter pw = new PrintWriter(bw)) {
+              //Id boleto
+              pw.print(boleto.getId_boleto());
+              //pasajero
+              pw.print(","+pasajero.getNombre_pasajero());
+              pw.print(","+pasajero.getApellido_pasajero());
+              pw.print(","+pasajero.getCedula_pasajero());
+              pw.print(","+pasajero.getEdad_pasajero());
+              pw.print(","+pasajero.getTipo_pasajero());
+              //ruta
+              pw.print(","+rutaBoleto.getNombre_Ruta());
+              pw.print(","+rutaBoleto.getOrigen_Ruta());
+              pw.print(","+rutaBoleto.getDestino_Ruta());
+              //boleto
+              pw.print(","+boleto.getFecha_boleto());
+              pw.print(","+boleto.getHora_boleto());
+              pw.print(","+boleto.getNumero_boleto());
+              pw.print(","+boleto.getCosto_boleto());
+              pw.print(","+boleto.getDescuento());
+              pw.println(","+boleto.getCosto_total());
+          }
         } catch (IOException e){
             JOptionPane.showMessageDialog(null, e);
         } 
@@ -67,6 +73,8 @@ public class MetodoBoleto {
         cabeceras.addElement("EDAD");
         cabeceras.addElement("CATEGORIA");
         cabeceras.addElement("RUTA");
+        cabeceras.addElement("ORIGEN");
+        cabeceras.addElement("DESTINO");
         cabeceras.addElement("FECHA");
         cabeceras.addElement("HORA");
         cabeceras.addElement("CANTIDAD");
@@ -95,8 +103,65 @@ public class MetodoBoleto {
         }
         return mdlTablaP;
     }
+
+     // Este metodo utiliza la CEDULA
+    public DefaultTableModel BuscarBoleto (String buscar) throws IOException{
+        
+        Vector cabeceras = new Vector();
+        
+        cabeceras.addElement("ID BOLETO");
+        cabeceras.addElement("NOMBRE");
+        cabeceras.addElement("APELLIDO");
+        cabeceras.addElement("CEDULA");
+        cabeceras.addElement("EDAD");
+        cabeceras.addElement("CATEGORIA");
+        cabeceras.addElement("RUTA");
+        cabeceras.addElement("ORIGEN");
+        cabeceras.addElement("DESTINO");
+        cabeceras.addElement("FECHA");
+        cabeceras.addElement("HORA");
+        cabeceras.addElement("CANTIDAD");
+        cabeceras.addElement("COSTO");
+        cabeceras.addElement("DESCUENTO");
+        cabeceras.addElement("TOTAL");
+
+        if(buscar.length() == 00){
+            JOptionPane.showMessageDialog(null, "Debe ingresar una CEDULA de Pasajero para su búsqueda.");
+        }else{
+            
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+        GUI_VentaDeBoletos.mdlTablaBoletos = new DefaultTableModel(cabeceras,0);
+        GUI_VentaDeBoletos.table_ventas_boletos.setModel(mdlTablaBoletos);
+
+           try {
+            archivo = new File(ruta+"\\src\\proyect_persistencia\\boletos.txt");
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+           Object [] tablas = br.lines().toArray();
+           
+               for (int i = 0; i < tablas.length; i++) {
+                   String line = tablas[i].toString().trim();
+                   String [] datosFilas = line.split(",");
+                   if(datosFilas[3].equalsIgnoreCase(buscar))
+                   {
+                mdlTablaBoletos.addRow(datosFilas);
+                   }
+                   
+               }
+               
+              fr.close();
+              br.close();
+             } catch (FileNotFoundException e) {
+                 JOptionPane.showMessageDialog(null, "Error. Intente nuevamente"); 
+           }
+         }
+        return null;
+    }
     
-    public void EditarBoleto(String Id, String Nombre, String Apellido, String Cedula, String Edad, String Tipo, String Ruta, String Fecha, String Hora, String Cantidad, String Costo, String Descuento, String Total){
+    public void EditarBoleto(String Id, String Nombre, String Apellido, String Cedula, String Edad, String Tipo, String Ruta, String Origen, String Destino, String Fecha, String Hora, String Cantidad, String Costo, String Descuento, String Total){
 
         String IdBoleto = Id;
         String nombre = Nombre;
@@ -105,6 +170,8 @@ public class MetodoBoleto {
         String edad = Edad;
         String tipo = Tipo;
         String rutaBoleto = Ruta;
+        String origen = Origen;
+        String destino = Destino;
         String fecha = Fecha;
         String hora = Hora;
         String cantidadBoletos = Cantidad;
@@ -139,6 +206,8 @@ public class MetodoBoleto {
                             edad + "," +
                             tipo+ "," +
                             rutaBoleto + "," +
+                            origen + "," +
+                            destino + "," +
                             fecha + "," +
                             hora + "," +
                             cantidadBoletos + "," +
@@ -172,7 +241,7 @@ public class MetodoBoleto {
       }   
     }
     
-     public void EliminarBoleto(String Id, String Nombre, String Apellido, String Cedula, String Edad, String Tipo, String Ruta, String Fecha, String Hora, String Cantidad, String Costo, String Descuento, String Total){
+     public void EliminarBoleto(String Id, String Nombre, String Apellido, String Cedula, String Edad, String Tipo, String Ruta, String Origen, String Destino, String Fecha, String Hora, String Cantidad, String Costo, String Descuento, String Total){
  
         String id = Id;
         String nombre = Nombre;
@@ -181,6 +250,8 @@ public class MetodoBoleto {
         String edad = Edad;
         String tipo = Tipo;
         String rutaBoleto = Ruta;
+        String origen = Origen;
+        String destino = Destino;
         String fecha = Fecha;
         String hora = Hora;
         String cantidad = Cantidad;
@@ -212,6 +283,8 @@ public class MetodoBoleto {
                             edad + "," +
                             tipo+ "," +
                             rutaBoleto + "," +
+                            origen + "," +
+                            destino + "," +
                             fecha + "," +
                             hora + "," +
                             cantidad + "," +
